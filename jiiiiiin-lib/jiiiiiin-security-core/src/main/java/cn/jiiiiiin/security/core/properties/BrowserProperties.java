@@ -51,6 +51,11 @@ public class BrowserProperties {
     private String signOutUrl = SecurityConstants.DEFAULT_SIGN_OUT_PAGE_URL;
 
     /**
+     * 成功登出之后重定向的页面
+     */
+    private String signOutSuccessUrl = this.signInUrl;
+
+    /**
      * 权限校验失败时候显示的页面
      */
     private String errorPage = "/403.html";
@@ -66,9 +71,5 @@ public class BrowserProperties {
      */
     private String proxyUri = "http://jiiiiiin-server-manager:9090/";
 
-    /**
-     * 成功登出之后访问的页面
-     */
-    private String signOutSuccessUrl = this.signInUrl;
 
 }

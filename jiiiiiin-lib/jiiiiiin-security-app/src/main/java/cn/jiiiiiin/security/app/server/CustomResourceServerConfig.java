@@ -10,6 +10,7 @@ import cn.jiiiiiin.security.core.config.component.SmsCodeAuthenticationSecurityC
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
 import cn.jiiiiiin.security.core.social.SocialConfig;
 import cn.jiiiiiin.security.core.validate.code.ValidateCodeSecurityConfig;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -34,31 +35,25 @@ import org.springframework.social.security.SpringSocialConfigurer;
  */
 @Configuration
 @EnableResourceServer
+@AllArgsConstructor
 public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter implements ApplicationContextAware {
 
-    @Autowired
-    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+    private final SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
-    @Autowired
-    private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
+    private final OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
 
-    @Autowired
-    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+    private final ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
     /**
      * @see SocialConfig#socialSecurityConfig() 注入social配置到ss
      */
-    @Autowired
-    private SpringSocialConfigurer socialSecurityConfig;
+    private final SpringSocialConfigurer socialSecurityConfig;
 
-    @Autowired
-    private FormAuthenticationConfig formAuthenticationConfig;
+    private final FormAuthenticationConfig formAuthenticationConfig;
 
-    @Autowired
-    private SecurityProperties securityProperties;
+    private final SecurityProperties securityProperties;
 
-    @Autowired
-    private AuthorizeConfigManager authorizeConfigManager;
+    private final AuthorizeConfigManager authorizeConfigManager;
 
     private ApplicationContext applicationContext;
 

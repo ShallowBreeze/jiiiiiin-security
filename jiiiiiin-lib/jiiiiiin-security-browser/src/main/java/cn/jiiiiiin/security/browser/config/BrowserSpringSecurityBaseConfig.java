@@ -3,16 +3,11 @@ package cn.jiiiiiin.security.browser.config;
 import cn.jiiiiiin.security.core.authentication.FormAuthenticationConfig;
 import cn.jiiiiiin.security.core.authorize.AuthorizeConfigManager;
 import cn.jiiiiiin.security.core.config.component.SmsCodeAuthenticationSecurityConfig;
-import cn.jiiiiiin.security.core.dict.SecurityConstants;
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
 import cn.jiiiiiin.security.core.social.SocialConfig;
 import cn.jiiiiiin.security.core.validate.code.ValidateCodeSecurityConfig;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -123,12 +118,12 @@ public class BrowserSpringSecurityBaseConfig extends WebSecurityConfigurerAdapte
                 .and()
                 .logout()
                 // 定义退出登录发送的接口名称，默认为`/logout`
-                .logoutUrl(SecurityConstants.DEFAULT_SIGN_OUT_PAGE_URL)
+                .logoutUrl(securityProperties.getBrowser().getSignOutUrl())
                 // 退出登录之后的处理类，将会接收到退出登录的请求，可以在这里做响应的业务处理，配置之后`logoutSuccessUrl`配置会失效
                 .logoutSuccessHandler(logoutSuccessHandler)
                 // 退出登录之后重定向的页面
                 // .logoutSuccessUrl("/signOut.html")
-                // 配置退出之后，删除浏览器cookie中的对应字段，这里是删除会话id
+                // 配置退出登录之后，删除浏览器cookie中的对应字段，这里是删除会话id
                 .deleteCookies("JSESSIONID")
                 .and()
                 .exceptionHandling()

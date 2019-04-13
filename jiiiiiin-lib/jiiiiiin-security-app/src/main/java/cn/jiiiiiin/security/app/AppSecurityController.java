@@ -8,6 +8,7 @@ import cn.jiiiiiin.security.core.dict.SecurityConstants;
 import cn.jiiiiiin.security.core.social.SocialConfig;
 import cn.jiiiiiin.security.core.social.SocialController;
 import cn.jiiiiiin.security.core.social.support.SocialUserInfo;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.social.connect.Connection;
@@ -24,13 +25,12 @@ import javax.servlet.http.HttpServletRequest;
  * @author jiiiiiin
  */
 @RestController
+@AllArgsConstructor
 public class AppSecurityController extends SocialController {
 
-    @Autowired
-    private ProviderSignInUtils providerSignInUtils;
+    private final ProviderSignInUtils providerSignInUtils;
 
-    @Autowired
-    private AppSingUpUtils appSingUpUtils;
+    private final AppSingUpUtils appSingUpUtils;
 
     /**
      * 需要注册时跳到这里，返回401（需要进行用户认证）和用户信息给前端

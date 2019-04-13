@@ -197,7 +197,7 @@ public class CustomAuthorizationServerConfig extends AuthorizationServerConfigur
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         // clients.jdbc() 如果要实现qq那样提供授权信息给第三方最好使用这种模式，而下面的模式主要是针对`token`客户端登录的
         val builder = clients.inMemory();
-        securityProperties.getOauth2().getClients().stream()
+        securityProperties.getOauth2().getClients()
                 .forEach(client -> {
                     // 指定支持的第三方应用信息
                     builder

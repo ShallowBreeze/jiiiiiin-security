@@ -166,6 +166,7 @@ mybatis-plus:
     #开启MyBatis的二级缓存
     cache-enabled: true
 
+
 # 自定义配置
 jiiiiiin:
   security:
@@ -206,3 +207,8 @@ management:
   endpoint:
     health:
       show-details: ALWAYS
+security:
+  oauth2:
+    client:
+      client-id: pweb
+      client-secret: pweb
