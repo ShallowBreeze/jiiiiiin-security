@@ -6,6 +6,7 @@ package cn.jiiiiiin.security.core.validate.code.impl;
 import cn.jiiiiiin.security.core.validate.code.*;
 import cn.jiiiiiin.security.core.validate.code.entity.ValidateCode;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +71,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      * @param validateCode
      */
     private void save(ServletWebRequest request, C validateCode) {
-        final ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
+        val code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
         //  因为使用 token 模式进行认证是没有 session 的，故之前将  验证码存储在 session 中的做法就并不可行，故思路就会改成上面的方式：
         //
         //  1.在请求验证码的时候，传递一个`deviceId`标识客户端

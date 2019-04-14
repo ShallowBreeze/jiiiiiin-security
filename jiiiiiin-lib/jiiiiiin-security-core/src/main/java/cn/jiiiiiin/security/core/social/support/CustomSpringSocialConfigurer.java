@@ -12,7 +12,7 @@ import org.springframework.social.security.SpringSocialConfigurer;
 /**
  * 继承默认的社交登录配置，加入自定义的后处理逻辑
  * <p>
- * 修改{@link SocialAuthenticationFilter#DEFAULT_FILTER_PROCESSES_URL}这个的默认配置
+ * 修改{@link SocialAuthenticationFilter} `DEFAULT_FILTER_PROCESSES_URL` 这个的默认配置
  *
  * @author zhailiang
  */
@@ -36,7 +36,7 @@ public class CustomSpringSocialConfigurer extends SpringSocialConfigurer {
     /**
      * 该方法将会在{@link SpringSocialConfigurer#configure}实例化{@link SocialAuthenticationFilter}的时候被调用，可以用来进行SocialAuthenticationFilter的定制化
      * <p>
-     * 默认 {@link SocialAuthenticationFilter}处理的接口是以 {@link SocialAuthenticationFilter#DEFAULT_FILTER_PROCESSES_URL}开通的，下面为了自定义这个属性，
+     * 默认 {@link SocialAuthenticationFilter}处理的接口是以 {@link SocialAuthenticationFilter}  `DEFAULT_FILTER_PROCESSES_URL` 开通的，下面为了自定义这个属性，
      * 我们需要实现当前方法，进行定制，可能有这种需求
      *
      * @param object {@link SocialAuthenticationFilter}对象

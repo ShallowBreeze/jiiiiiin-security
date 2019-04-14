@@ -170,6 +170,10 @@ mybatis-plus:
 # 自定义配置
 jiiiiiin:
   security:
+    oauth2:
+      tokenStore:
+        # jwt
+        redis
     # https://github.com/jojozhai/security
     social:
       filterProcessesUrl: /qqLogin

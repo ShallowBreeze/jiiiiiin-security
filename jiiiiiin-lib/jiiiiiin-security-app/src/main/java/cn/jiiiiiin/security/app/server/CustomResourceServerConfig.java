@@ -76,7 +76,11 @@ public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter 
                 .apply(openIdAuthenticationSecurityConfig)
                 .and()
                 // 临时关闭防护
-                .csrf().disable();
+                .csrf().disable()
+                // iframe 设置，以便swagger-ui页面能嵌入前端显示
+                // https://stackoverflow.com/questions/28647136/how-to-disable-x-frame-options-response-header-in-spring-security
+                .headers().frameOptions().disable();
+
 
         // 对请求进行授权，这个方法下面的都是授权的配置
         authorizeConfigManager.config(http.authorizeRequests());

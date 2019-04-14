@@ -5,8 +5,8 @@ package cn.jiiiiiin.security.app.component.authentication.social;
 
 import cn.jiiiiiin.security.app.AppSecretException;
 import cn.jiiiiiin.security.core.dict.SecurityConstants;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionData;
@@ -25,16 +25,14 @@ import java.util.concurrent.TimeUnit;
  * @see org.springframework.social.connect.web.ProviderSignInUtils#doPostSignUp(String, RequestAttributes) 和这个类的作用一直，spring默认实现提供的是将 {@link ConnectionData}存储在session
  */
 @Component
+@AllArgsConstructor
 public class AppSingUpUtils {
 
-    @Autowired
-    private RedisTemplate<Object, Object> redisTemplate;
+    private final RedisTemplate<Object, Object> redisTemplate;
 
-    @Autowired
-    private UsersConnectionRepository usersConnectionRepository;
+    private final UsersConnectionRepository usersConnectionRepository;
 
-    @Autowired
-    private ConnectionFactoryLocator connectionFactoryLocator;
+    private final ConnectionFactoryLocator connectionFactoryLocator;
 
     /**
      * 缓存社交网站用户信息到redis
@@ -51,6 +49,8 @@ public class AppSingUpUtils {
     /**
      * 将缓存的社交网站用户信息与系统注册用户信息绑定
      *
+     * 及完成了（新注册）系统用户和social社交用户的绑定
+     *
      * @param request
      * @param userId 业务系统的用户id
      * @see org.springframework.social.connect.web.ProviderSignInUtils#doPostSignUp(String, RequestAttributes) 和这个类的作用一直，spring默认实现提供的是将 {@link ConnectionData}存储在session
@@ -61,6 +61,7 @@ public class AppSingUpUtils {
             throw new AppSecretException("无法找到缓存的用户社交账号信息");
         }
         ConnectionData connectionData = (ConnectionData) redisTemplate.opsForValue().get(key);
+        assert connectionData != null;
         Connection<?> connection = connectionFactoryLocator.getConnectionFactory(connectionData.getProviderId())
                 .createConnection(connectionData);
         // 将数据存储到`UserConnection`表中

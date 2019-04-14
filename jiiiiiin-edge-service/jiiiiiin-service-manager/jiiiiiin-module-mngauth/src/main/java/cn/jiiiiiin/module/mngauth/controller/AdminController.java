@@ -22,6 +22,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -107,8 +108,12 @@ public class AdminController extends BaseController {
     @ApiOperation(value = "登录用户自身记录查询", httpMethod = "GET")
     @JsonView(View.DetailView.class)
     @GetMapping("/me")
-    public AdminDto me(@AuthenticationPrincipal UserDetails user) {
-        return (AdminDto) new AdminDto().setUsername(user.getUsername());
+//    public AdminDto me(@AuthenticationPrincipal UserDetails user) {
+    // 使用app模块 jwt生成的就不是一个可以被注入的`@AuthenticationPrincipal`
+    public AdminDto me(Authentication authentication) {
+//        return (AdminDto) new AdminDto().setUsername(user.getUsername());
+        // TODO 待测试
+        return (AdminDto) new AdminDto().setUsername(authentication.getPrincipal().toString());
     }
 
     @ApiOperation(value = "用户记录查询", httpMethod = "GET")

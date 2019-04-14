@@ -25,6 +25,7 @@ import java.util.List;
 /**
  * 认证服务器配置
  * <p>
+ *     https://coding.imooc.com/lesson/134.html#mid=7236
  * <p>
  * ![](https://ws4.sinaimg.cn/large/0069RVTdgy1fuqnerfq5uj30w10g3q4o.jpg)
  * <p>
@@ -141,12 +142,13 @@ public class CustomAuthorizationServerConfig extends AuthorizationServerConfigur
      * 定义token增强器来自定义token的生成策略，覆盖{@link org.springframework.security.oauth2.provider.token.DefaultTokenServices}默认的UUID生成策略
      *
      * @see org.springframework.security.oauth2.provider.token.DefaultTokenServices#createAccessToken(OAuth2Authentication)
+     * @see org.springframework.security.oauth2.provider.endpoint.TokenEndpoint
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         // 当继承了`AuthorizationServerConfigurerAdapter`之后就需要自己配置下面的认证组件
         endpoints
-                // 1.设置token生成器
+                // 1.设置token存储器
                 .tokenStore(tokenStore)
                 // 2.支持用户名密码模式必须，授权默认中的用户名密码模式需要直接将认证凭证（用户名密码传递给授权服务器），授权服务器需要配置authenticationManager，去对这个用户进行身份认证
                 .authenticationManager(authenticationManager)
@@ -167,6 +169,7 @@ public class CustomAuthorizationServerConfig extends AuthorizationServerConfigur
                     .accessTokenConverter(jwtAccessTokenConverter);
         }
     }
+
 //
 //    /**
 //     * tokenKey的访问权限表达式配置

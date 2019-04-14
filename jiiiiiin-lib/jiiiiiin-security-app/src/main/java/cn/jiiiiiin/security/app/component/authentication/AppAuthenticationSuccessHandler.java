@@ -4,6 +4,7 @@
 package cn.jiiiiiin.security.app.component.authentication;
 
 import cn.jiiiiiin.security.core.dict.CommonConstants;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
@@ -54,6 +55,16 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
 	private AuthorizationServerTokenServices authorizationServerTokenServices;
 
 
+    /**
+     * 1.参考{@link BasicAuthorizationFilter} 获取clientID
+     * 2.创建 clientDetails
+     * 3.创建 tokenRequest
+     * @param request
+     * @param response
+     * @param authentication
+     * @throws IOException
+     * @throws ServletException
+     */
     @SuppressWarnings("unchecked")
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -61,7 +72,7 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
 
         log.debug("身份认证（登录 Token）成功");
 
-        // 解析client id
+        // 1.解析client id
         String header = request.getHeader("Authorization");
 
         if (header == null || !header.startsWith("Basic ")) {
@@ -74,7 +85,7 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
         String clientId = tokens[0];
         String clientSecret = tokens[1];
 
-        // 创建 clientDetails
+        // 2.创建 clientDetails
         final ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
 
         if (clientDetails == null) {
@@ -83,15 +94,17 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
             throw new UnapprovedClientAuthenticationException("clientSecret不匹配:" + clientId);
         }
 
-        // 创建 tokenRequest
+        // 3.创建 tokenRequest
         // 不同的oauth模式需要传递的参数不一致
         // params1为空，因为不需要再去创建`authentication`
         // scope不需要进行校验，因为是提供自身使用
         // grantType标识为自定义的
         final TokenRequest tokenRequest = new TokenRequest(MapUtils.EMPTY_MAP, clientId, clientDetails.getScope(), "custom");
 
+        // 4.创建 oAuth2Request
         final OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
 
+        // 4.创建 oAuth2Authentication
         final OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
 
         final OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
@@ -101,7 +114,7 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
 
     private void respJson(HttpServletResponse response, OAuth2AccessToken token) throws IOException {
         response.setContentType(CommonConstants.CONTENT_TYPE_JSON);
-        response.getWriter().write(objectMapper.writeValueAsString(token));
+        response.getWriter().write(objectMapper.writeValueAsString(R.ok(token)));
     }
 
     /**
@@ -124,6 +137,7 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
 
         String token = new String(decoded, "UTF-8");
 
+        // 格式：Basic client用户名:client密码
         int delim = token.indexOf(":");
 
         if (delim == -1) {

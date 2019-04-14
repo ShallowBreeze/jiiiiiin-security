@@ -4,6 +4,9 @@
 package cn.jiiiiiin.security.app.component.authentication.social.openid;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.val;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -21,6 +24,8 @@ import java.util.Set;
  * @author zhailiang
  * @author jiiiiiin
  */
+@Getter
+@Setter
 public class OpenIdAuthenticationProvider implements AuthenticationProvider {
 
     private SocialUserDetailsService userDetailsService;
@@ -30,12 +35,6 @@ public class OpenIdAuthenticationProvider implements AuthenticationProvider {
      */
     private UsersConnectionRepository usersConnectionRepository;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.security.authentication.AuthenticationProvider#
-     * authenticate(org.springframework.security.core.Authentication)
-     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
@@ -52,7 +51,7 @@ public class OpenIdAuthenticationProvider implements AuthenticationProvider {
             throw new InternalAuthenticationServiceException("无法获取用户信息");
         }
 
-        String userId = userIds.iterator().next();
+        val userId = userIds.iterator().next();
 
         // 读取业务系统用户记录
         UserDetails user = userDetailsService.loadUserByUserId(userId);
@@ -62,38 +61,16 @@ public class OpenIdAuthenticationProvider implements AuthenticationProvider {
         }
 
         // 创建通过认证的authentication token，标识登录成功
-        OpenIdAuthenticationToken authenticationResult = new OpenIdAuthenticationToken(user, user.getAuthorities());
+        val authenticationResult = new OpenIdAuthenticationToken(user, user.getAuthorities());
 
         authenticationResult.setDetails(authenticationToken.getDetails());
 
         return authenticationResult;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.security.authentication.AuthenticationProvider#
-     * supports(java.lang.Class)
-     */
     @Override
     public boolean supports(Class<?> authentication) {
         return OpenIdAuthenticationToken.class.isAssignableFrom(authentication);
-    }
-
-    public SocialUserDetailsService getUserDetailsService() {
-        return userDetailsService;
-    }
-
-    public void setUserDetailsService(SocialUserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
-    public UsersConnectionRepository getUsersConnectionRepository() {
-        return usersConnectionRepository;
-    }
-
-    public void setUsersConnectionRepository(UsersConnectionRepository usersConnectionRepository) {
-        this.usersConnectionRepository = usersConnectionRepository;
     }
 
 }

@@ -11,6 +11,7 @@ import cn.jiiiiiin.module.common.mapper.mngauth.AdminMapper;
 import cn.jiiiiiin.module.common.mapper.mngauth.InterfaceMapper;
 import cn.jiiiiiin.module.common.mapper.mngauth.ResourceMapper;
 import cn.jiiiiiin.module.mngauth.service.IAdminService;
+import cn.jiiiiiin.security.app.component.authentication.social.AppSingUpUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -54,6 +55,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private final PasswordEncoder passwordEncoder;
 
     private final ProviderSignInUtils providerSignInUtils;
+
+    private final AppSingUpUtils appSingUpUtils;
 
     @Override
     public Admin signInByUsername(@NonNull String username, ChannelEnum channel) {
@@ -189,6 +192,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         // 不管是注册用户还是绑定用户，都会拿到一个用户唯一标识。
         String userId = admin.getUsername();
         // 插入关联数据，针对social的UserConnection表
-        providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+//        providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+        // 针对app
+        appSingUpUtils.doPostSignUp(new ServletWebRequest(request), userId);
     }
 }

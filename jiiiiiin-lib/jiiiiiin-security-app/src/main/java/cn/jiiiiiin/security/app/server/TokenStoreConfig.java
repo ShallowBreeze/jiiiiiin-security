@@ -4,6 +4,7 @@
 package cn.jiiiiiin.security.app.server;
 
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
+import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -36,13 +37,13 @@ public class TokenStoreConfig {
      */
     @Configuration
     @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "tokenStore", havingValue = "redis")
+    @AllArgsConstructor
     public static class RedisConfig {
 
         /**
          * 链接工厂
          */
-        @Autowired
-        private RedisConnectionFactory redisConnectionFactory;
+        private final RedisConnectionFactory redisConnectionFactory;
 
         /**
          * @return
@@ -61,10 +62,10 @@ public class TokenStoreConfig {
      */
     @Configuration
     @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "tokenStore", havingValue = "jwt", matchIfMissing = true)
+    @AllArgsConstructor
     public static class JwtConfig {
 
-        @Autowired
-        private SecurityProperties securityProperties;
+        private final SecurityProperties securityProperties;
 
         /**
          * @return

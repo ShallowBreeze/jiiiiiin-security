@@ -42,6 +42,11 @@
             <artifactId>jiiiiiin-module-common</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.jiiiiiin.security</groupId>
+            <artifactId>jiiiiiin-security-app</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
