@@ -9,10 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.codec.Base64;
@@ -21,15 +18,12 @@ import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAut
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * APP环境下认证成功处理器
@@ -56,7 +50,7 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
 
 
     /**
-     * 1.参考{@link BasicAuthorizationFilter} 获取clientID
+     * 1.参考{@link org.springframework.security.web.authentication.www.BasicAuthenticationFilter} 获取clientID
      * 2.创建 clientDetails
      * 3.创建 tokenRequest
      * @param request
@@ -127,7 +121,7 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
      */
     private String[] extractAndDecodeHeader(String header, HttpServletRequest request) throws IOException {
 
-        byte[] base64Token = header.substring(6).getBytes("UTF-8");
+        byte[] base64Token = header.substring(6).getBytes(StandardCharsets.UTF_8);
         byte[] decoded;
         try {
             decoded = Base64.decode(base64Token);
@@ -135,7 +129,7 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
             throw new BadCredentialsException("Failed to decode basic authentication token");
         }
 
-        String token = new String(decoded, "UTF-8");
+        String token = new String(decoded, StandardCharsets.UTF_8);
 
         // 格式：Basic client用户名:client密码
         int delim = token.indexOf(":");

@@ -113,7 +113,8 @@ public class AdminController extends BaseController {
     public AdminDto me(Authentication authentication) {
 //        return (AdminDto) new AdminDto().setUsername(user.getUsername());
         // TODO 待测试
-        return (AdminDto) new AdminDto().setUsername(authentication.getPrincipal().toString());
+        MngUserDetails mngUserDetails = (MngUserDetails) authentication.getPrincipal();
+        return mngUserDetails.getAdmin();
     }
 
     @ApiOperation(value = "用户记录查询", httpMethod = "GET")

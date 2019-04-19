@@ -22,9 +22,12 @@ public class MngAuthAuthorizeConfigProvider implements AuthorizeConfigProvider {
                 .antMatchers(
                         "/js/**", "/css/**", "/img/**", "/images/**", "/fonts/**", "/**/favicon.ico",
                         // Druid监控的配置
-                        "/", "/druid", "/druid/*", "/druid/**",
+                        "/",
+                        "/index",
+                        "/druid", "/druid/*", "/druid/**",
                         // Spring Boot Admin监控配置
                         "/actuator/**",
+//                        "/oauth/**",
                         "/testZuul",
                         // 用户注册需要放开
                         "/admin/regist"

@@ -5,6 +5,8 @@ package cn.jiiiiiin.security.core.config.component;
 
 import cn.jiiiiiin.security.core.authentication.mobile.SmsCodeAuthenticationFilter;
 import cn.jiiiiiin.security.core.authentication.mobile.SmsCodeAuthenticationProvider;
+import lombok.AllArgsConstructor;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -31,27 +33,21 @@ import java.util.UUID;
  * @author jiiiiiin
  */
 @Component
+@AllArgsConstructor
 public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
-    @Autowired
-    private AuthenticationFailureHandler authenticationFailureHandler;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    @Autowired
-    private PersistentTokenRepository persistentTokenRepository;
+    private final PersistentTokenRepository persistentTokenRepository;
 
-    /* (non-Javadoc)
-     * @see org.springframework.security.config.annotation.SecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.SecurityBuilder)
-     */
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
+        val smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
         // 注入认证管理器
         smsCodeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
         // 注入认证成功处理器
@@ -63,7 +59,7 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
         smsCodeAuthenticationFilter.setRememberMeServices(new PersistentTokenBasedRememberMeServices(key, userDetailsService, persistentTokenRepository));
 
         // 配置支持认证的provider
-        SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
+        val smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
         // 配置provider所需的user details service
         smsCodeAuthenticationProvider.setUserDetailsService(userDetailsService);
         http

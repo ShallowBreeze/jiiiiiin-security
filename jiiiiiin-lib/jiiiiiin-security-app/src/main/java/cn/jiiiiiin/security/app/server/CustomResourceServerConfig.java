@@ -3,6 +3,7 @@
  */
 package cn.jiiiiiin.security.app.server;
 
+import cn.jiiiiiin.security.app.component.authentication.AppOAuth2WebSecurityExpressionHandler;
 import cn.jiiiiiin.security.app.component.authentication.social.openid.OpenIdAuthenticationSecurityConfig;
 import cn.jiiiiiin.security.core.authentication.FormAuthenticationConfig;
 import cn.jiiiiiin.security.core.authorize.AuthorizeConfigManager;
@@ -55,7 +56,11 @@ public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter 
 
     private final AuthorizeConfigManager authorizeConfigManager;
 
+    private final AppOAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler;
+
     private ApplicationContext applicationContext;
+
+
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -81,7 +86,6 @@ public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter 
                 // https://stackoverflow.com/questions/28647136/how-to-disable-x-frame-options-response-header-in-spring-security
                 .headers().frameOptions().disable();
 
-
         // 对请求进行授权，这个方法下面的都是授权的配置
         authorizeConfigManager.config(http.authorizeRequests());
     }
@@ -102,16 +106,17 @@ public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter 
      */
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.expressionHandler(oAuth2WebSecurityExpressionHandler(applicationContext));
+        // 使用`.access("@rbacService.hasPermission(request, authentication)");`需要添加以下这行配置
+        resources.expressionHandler(oAuth2WebSecurityExpressionHandler);
     }
 
-    @Bean
-    public OAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler(ApplicationContext applicationContext) {
-        OAuth2WebSecurityExpressionHandler expressionHandler = new OAuth2WebSecurityExpressionHandler();
-        expressionHandler.setApplicationContext(applicationContext);
-        return expressionHandler;
-    }
-
+//    @Bean
+//    public OAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler(ApplicationContext applicationContext) {
+//        OAuth2WebSecurityExpressionHandler expressionHandler = new OAuth2WebSecurityExpressionHandler();
+//        expressionHandler.setApplicationContext(applicationContext);
+//        return expressionHandler;
+//    }
+//
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;

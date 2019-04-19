@@ -85,6 +85,20 @@
         </if>
     </select>
 
+    <select id="signInByUsernameOrPhoneNumb" resultMap="selectByUsernameResultMap">
+        select
+        admin.*,
+        role.*,
+        role.id role_id
+        from mng_admin as admin
+        left join mng_role_admin mra on admin.id = mra.user_id
+        left join mng_role role on mra.role_id = role.id
+        where admin.username = #{usernameOrPhoneNumb} or admin.phone = #{usernameOrPhoneNumb}
+        <if test="channel != null">
+            and admin.channel = #{channel}
+        </if>
+    </select>
+
     <select id="selectPageAdminDto" resultType="cn.jiiiiiin.module.common.dto.mngauth.AdminDto">
         select
         <include refid="Comm_Column_List"/>,
@@ -129,5 +143,6 @@
         left join mng_role role on mra.role_id = role.id
         where a.id = #{id}
     </select>
+
 
 </mapper>

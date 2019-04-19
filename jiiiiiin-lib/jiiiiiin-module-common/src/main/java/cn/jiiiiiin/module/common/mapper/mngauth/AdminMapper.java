@@ -31,7 +31,9 @@ public interface AdminMapper extends BaseMapper<Admin> {
      * @param username
      * @return
      */
-    Admin selectByUsername(@Param("username") String username,  @Param("channel") ChannelEnum channel);
+    Admin selectByUsername(@Param("username") String username, @Param("channel") ChannelEnum channel);
+
+    Admin signInByUsernameOrPhoneNumb(@Param("usernameOrPhoneNumb") String usernameOrPhoneNumb, @Param("channel") ChannelEnum channel);
 
     /**
      * 清空admin对应的role记录
@@ -53,7 +55,9 @@ public interface AdminMapper extends BaseMapper<Admin> {
 
     int deleteRelationRoleAdminRecords(@Param("idList") Collection<? extends Serializable> idList);
 
-    IPage<AdminDto> selectPageAdminDto(Page<AdminDto> page,  @Param("channel") ChannelEnum channel,  @Param("adminDto") AdminDto adminDto);
+    IPage<AdminDto> selectPageAdminDto(Page<AdminDto> page, @Param("channel") ChannelEnum channel, @Param("adminDto") AdminDto adminDto);
 
     AdminDto selectRoleRecordsById(Long id);
+
+
 }

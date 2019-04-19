@@ -32,9 +32,9 @@ apollo:
 server:
   port: 9090
   # 测试微信、qq授权登录时候启用
-#  port: 80
+  #  port: 80
   servlet:
-#    context-path: /mng
+    #    context-path: /mng
     session:
       timeout: 60
 #eureka:
@@ -49,11 +49,15 @@ server:
 #      springboot:
 #        mapper: debug
 spring:
-#  application:
-#    # 指定发布的微服务名（以后调用时，只需该名称即可访问该服务）
-#    name: jiiiiiin-server-manager
-#  profiles:
-#    active: dev
+  oauth2:
+    resource:
+      # https://my.oschina.net/buwei/blog/910028
+      filter-order: 3
+  #  application:
+  #    # 指定发布的微服务名（以后调用时，只需该名称即可访问该服务）
+  #    name: jiiiiiin-server-manager
+  #  profiles:
+  #    active: dev
   jackson:
     default-property-inclusion: non_null
   thymeleaf:
@@ -66,11 +70,11 @@ spring:
   session:
     store-type: redis
   # https://segmentfault.com/a/1190000013269653
-#  cache:
-#    # 缓存的技术类型
-#    ehcache:
-#      config: 'classpath:def-ehcache-config.xml'
-#    type: ehcache
+  #  cache:
+  #    # 缓存的技术类型
+  #    ehcache:
+  #      config: 'classpath:def-ehcache-config.xml'
+  #    type: ehcache
   redis:
     # 配置redis链接地址
     host: jiiiiiin-redis
@@ -82,7 +86,7 @@ spring:
         # 连接池最大连接数（使用负值表示没有限制）
         max-active: 8
         # 连接池最大阻塞等待时间（使用负值表示没有限制）
-#        max-wait: -1
+        #        max-wait: -1
         # 连接池中的最大空闲连接
         max-idle: 8
         # 连接池中的最小空闲连接
@@ -155,7 +159,7 @@ mybatis-plus:
   typeEnumsPackage: cn.jiiiiiin.module.common.enums.*
   global-config:
     db-config:
-        id-type: id_worker
+      id-type: id_worker
     #刷新mapper 调试神器
     refresh: true
     sql-parser-cache: false
@@ -166,6 +170,14 @@ mybatis-plus:
     #开启MyBatis的二级缓存
     cache-enabled: true
 
+security:
+  oauth2:
+    client:
+      client-id: pweb
+      client-secret: pweb
+      # https://stackoverflow.com/questions/39756748/spring-oauth-authorization-server-requires-scope
+      scope: all
+      grant-type: password
 
 # 自定义配置
 jiiiiiin:
@@ -174,6 +186,9 @@ jiiiiiin:
       tokenStore:
         # jwt
         redis
+      clients:
+        - clientId: pweb
+          clientSecret: pweb
     # https://github.com/jojozhai/security
     social:
       filterProcessesUrl: /qqLogin
@@ -211,8 +226,5 @@ management:
   endpoint:
     health:
       show-details: ALWAYS
-security:
-  oauth2:
-    client:
-      client-id: pweb
-      client-secret: pweb
+      # 无效
+

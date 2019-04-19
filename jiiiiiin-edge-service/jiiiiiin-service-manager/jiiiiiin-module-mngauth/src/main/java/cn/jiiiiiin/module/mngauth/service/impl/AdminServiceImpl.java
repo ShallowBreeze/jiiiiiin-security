@@ -22,6 +22,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Service;
@@ -54,13 +55,26 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * browser 模块下使用
+     */
     private final ProviderSignInUtils providerSignInUtils;
 
+    /**
+     * app 模块下使用
+     */
     private final AppSingUpUtils appSingUpUtils;
 
     @Override
     public Admin signInByUsername(@NonNull String username, ChannelEnum channel) {
         val res = adminMapper.selectByUsername(username, channel);
+        return handlerSignUser(username, channel, res);
+    }
+
+    private Admin handlerSignUser(@NonNull String username, ChannelEnum channel, Admin res) {
+        if (res == null) {
+            throw new UsernameNotFoundException(String.format("找不到%s对应的登录用户信息", username));
+        }
         if (res.getRoles().stream().anyMatch(p -> p.getId().equals(Role.ROLE_ADMIN_ID))) {
             // 系统管理员拥有所有访问控制权限和菜单资源
             val adminRole = res.getRoles().stream().filter(p -> p.getId().equals(Role.ROLE_ADMIN_ID)).findFirst().get();
@@ -77,6 +91,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             });
         }
         return res;
+    }
+
+    @Override
+    public Admin signInByUsernameOrPhoneNumb(String username, ChannelEnum channel) {
+        val res = adminMapper.signInByUsernameOrPhoneNumb(username, channel);
+        return handlerSignUser(username, channel, res);
     }
 
     @Transactional(rollbackFor = Exception.class)
