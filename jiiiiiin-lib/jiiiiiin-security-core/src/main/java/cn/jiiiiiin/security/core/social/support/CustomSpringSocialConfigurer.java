@@ -49,6 +49,7 @@ public class CustomSpringSocialConfigurer extends SpringSocialConfigurer {
         filter.setFilterProcessesUrl(filterProcessesUrl);
         if (socialAuthenticationFilterPostProcessor != null) {
             // 处理获取到第三方用户信息之后的处理
+            // 提供App社交登录 提供 access_token https://coding.imooc.com/lesson/134.html#mid=7234
             socialAuthenticationFilterPostProcessor.process(filter);
         }
         return (T) filter;

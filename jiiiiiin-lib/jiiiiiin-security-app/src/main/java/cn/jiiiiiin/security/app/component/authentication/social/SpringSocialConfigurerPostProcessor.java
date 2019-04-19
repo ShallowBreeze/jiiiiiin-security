@@ -2,6 +2,7 @@ package cn.jiiiiiin.security.app.component.authentication.social;
 
 import cn.jiiiiiin.security.core.dict.SecurityConstants;
 import cn.jiiiiiin.security.core.social.SocialConfig;
+import cn.jiiiiiin.security.core.social.controller.SocialSecurityController;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -33,7 +34,7 @@ public class SpringSocialConfigurerPostProcessor implements BeanPostProcessor {
      * @param beanName
      * @return
      * @throws BeansException
-     * @see cn.jiiiiiin.security.app.AppSecurityController#getSocialUserInfo(HttpServletRequest)
+     * @see SocialSecurityController#getSocialUserInfo(HttpServletRequest)
      */
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
@@ -42,7 +43,7 @@ public class SpringSocialConfigurerPostProcessor implements BeanPostProcessor {
             // 实现`CustomSpringSocialConfigurer`
             SpringSocialConfigurer springSocialConfigurer = (SpringSocialConfigurer) bean;
             // 覆盖默认的针对浏览器的处理接口
-            // @see cn.jiiiiiin.security.app.AppSecurityController#getSocialUserInfo(HttpServletRequest)
+            // @see cn.jiiiiiin.security.core.social.controller.AppSecurityController#getSocialUserInfo(HttpServletRequest)
             springSocialConfigurer.signupUrl(SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL);
             return springSocialConfigurer;
         }

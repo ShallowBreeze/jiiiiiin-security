@@ -21,7 +21,7 @@ public class AppSocialAuthenticationFilterPostProcessor implements SocialAuthent
     @Override
     public void process(SocialAuthenticationFilter socialAuthenticationFilter) {
         // 修改spring social的默认授权后处理
-        // 用于在社交登录之后下发oauth2 token
+        // 用于在社交登录之后下发访问令牌
         socialAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
     }
 }

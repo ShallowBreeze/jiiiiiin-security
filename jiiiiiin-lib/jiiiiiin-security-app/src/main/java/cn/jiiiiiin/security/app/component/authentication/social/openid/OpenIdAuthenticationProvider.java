@@ -54,7 +54,8 @@ public class OpenIdAuthenticationProvider implements AuthenticationProvider {
         val userId = userIds.iterator().next();
 
         // 读取业务系统用户记录
-        UserDetails user = userDetailsService.loadUserByUserId(userId);
+        // 这里的userId对应的是业务系统的`username`
+        val user = userDetailsService.loadUserByUserId(userId);
 
         if (user == null) {
             throw new InternalAuthenticationServiceException("无法获取用户信息");

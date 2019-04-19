@@ -11,7 +11,7 @@ import cn.jiiiiiin.module.common.mapper.mngauth.AdminMapper;
 import cn.jiiiiiin.module.common.mapper.mngauth.InterfaceMapper;
 import cn.jiiiiiin.module.common.mapper.mngauth.ResourceMapper;
 import cn.jiiiiiin.module.mngauth.service.IAdminService;
-import cn.jiiiiiin.security.app.component.authentication.social.AppSingUpUtils;
+import cn.jiiiiiin.security.core.social.controller.SocialCommSingUpUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -63,7 +63,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     /**
      * app 模块下使用
      */
-    private final AppSingUpUtils appSingUpUtils;
+    private final SocialCommSingUpUtils socialCommSingUpUtils;
 
     @Override
     public Admin signInByUsername(@NonNull String username, ChannelEnum channel) {
@@ -126,7 +126,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
     /**
-     * 前端将添加和修改的用户管理角色ids存储在{@link AdminDto#roleIds}中，
+     * 前端将添加和修改的用户管理角色ids存储在 中，
      * 需要进行转换以便{@link AdminServiceImpl#saveRelationRoleRecords(Admin)}可以完成管理记录
      *
      * @param admin
@@ -214,6 +214,6 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         // 插入关联数据，针对social的UserConnection表
 //        providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
         // 针对app
-        appSingUpUtils.doPostSignUp(new ServletWebRequest(request), userId);
+        socialCommSingUpUtils.doPostSignUp(new ServletWebRequest(request), userId);
     }
 }
