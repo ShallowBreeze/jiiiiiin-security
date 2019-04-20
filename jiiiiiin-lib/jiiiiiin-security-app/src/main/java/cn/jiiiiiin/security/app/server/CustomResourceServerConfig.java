@@ -18,12 +18,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
 import org.springframework.social.security.SpringSocialConfigurer;
+
+import static cn.jiiiiiin.security.app.server.CustomAuthorizationServerConfig.SERVER_RESOURCE_ID;
 
 /**
  * 资源服务器配置
@@ -37,7 +40,7 @@ import org.springframework.social.security.SpringSocialConfigurer;
 @Configuration
 @EnableResourceServer
 @AllArgsConstructor
-public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter implements ApplicationContextAware {
+public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private final SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
@@ -52,15 +55,9 @@ public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter 
 
     private final FormAuthenticationConfig formAuthenticationConfig;
 
-    private final SecurityProperties securityProperties;
-
     private final AuthorizeConfigManager authorizeConfigManager;
 
     private final AppOAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler;
-
-    private ApplicationContext applicationContext;
-
-
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -68,6 +65,8 @@ public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter 
         formAuthenticationConfig.configure(http);
 
         http
+                .authorizeRequests().antMatchers("/oauth/*").permitAll()
+                .and()
                 // 添加自定义验证码过滤器，校验session中的图形验证码
                 .apply(validateCodeSecurityConfig)
                 .and()
@@ -107,18 +106,9 @@ public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         // 使用`.access("@rbacService.hasPermission(request, authentication)");`需要添加以下这行配置
-        resources.expressionHandler(oAuth2WebSecurityExpressionHandler);
+        resources
+                .resourceId(SERVER_RESOURCE_ID)
+                .expressionHandler(oAuth2WebSecurityExpressionHandler);
     }
 
-//    @Bean
-//    public OAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler(ApplicationContext applicationContext) {
-//        OAuth2WebSecurityExpressionHandler expressionHandler = new OAuth2WebSecurityExpressionHandler();
-//        expressionHandler.setApplicationContext(applicationContext);
-//        return expressionHandler;
-//    }
-//
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 }

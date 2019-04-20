@@ -27,30 +27,30 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
  */
 @Configuration
 public class TokenStoreConfig {
-//
-//    /**
-//     * 透明令牌生成器
-//     *
-//     * 使用redis存储token的配置，只有在imooc.security.oauth2.tokenStore配置为redis时生效
-//     *
-//     * @author zhailiang
-//     */
-//    @Configuration
-//    @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "tokenStore", havingValue = "redis")
-//    @AllArgsConstructor
-//    public static class RedisConfig {
-//
-//        /**
-//         * 链接工厂
-//         */
-//        private final RedisConnectionFactory redisConnectionFactory;
-//
-//        @Bean
-//        public TokenStore redisTokenStore() {
-//            return new RedisTokenStore(redisConnectionFactory);
-//        }
-//
-//    }
+
+    /**
+     * 透明令牌生成器
+     *
+     * 使用redis存储token的配置，只有在imooc.security.oauth2.tokenStore配置为redis时生效
+     *
+     * @author zhailiang
+     */
+    @Configuration
+    @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "tokenStore", havingValue = "redis")
+    @AllArgsConstructor
+    public static class RedisConfig {
+
+        /**
+         * 链接工厂
+         */
+        private final RedisConnectionFactory redisConnectionFactory;
+
+        @Bean
+        public TokenStore redisTokenStore() {
+            return new RedisTokenStore(redisConnectionFactory);
+        }
+
+    }
 //
 //    /**
 //     * 使用jwt时的配置，默认生效

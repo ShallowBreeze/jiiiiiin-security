@@ -170,15 +170,18 @@ mybatis-plus:
     #开启MyBatis的二级缓存
     cache-enabled: true
 
-security:
-  oauth2:
-    client:
-      client-id: pweb
-      client-secret: pweb
-      # https://stackoverflow.com/questions/39756748/spring-oauth-authorization-server-requires-scope
-      scope: all
-      grant-type: password
+#security:
+#  oauth2:
+#    client:
+#      client-id: pweb
+#      client-secret: pweb
+#      # https://stackoverflow.com/questions/39756748/spring-oauth-authorization-server-requires-scope
+#      scope: all
+#      grant-type: password
 
+#security:
+#  basic:
+#    enabled: false
 # 自定义配置
 jiiiiiin:
   security:
