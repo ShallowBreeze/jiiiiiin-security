@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(Integer.MIN_VALUE)
 @AllArgsConstructor
-public class CustomAuthorizeConfigProvider implements AuthorizeConfigProvider {
+public class OriginAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
     private final SecurityProperties securityProperties;
 

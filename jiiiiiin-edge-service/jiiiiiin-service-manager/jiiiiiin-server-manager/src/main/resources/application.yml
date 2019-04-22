@@ -187,8 +187,8 @@ jiiiiiin:
   security:
     oauth2:
       tokenStore:
-        # jwt
-        redis
+        jwt
+        # redis
       clients:
         - clientId: pweb
           clientSecret: pweb

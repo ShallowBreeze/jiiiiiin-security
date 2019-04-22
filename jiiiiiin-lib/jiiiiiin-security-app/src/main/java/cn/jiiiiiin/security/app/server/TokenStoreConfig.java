@@ -6,12 +6,14 @@ package cn.jiiiiiin.security.app.server;
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
 import lombok.AllArgsConstructor;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -51,54 +53,63 @@ public class TokenStoreConfig {
         }
 
     }
-//
-//    /**
-//     * 使用jwt时的配置，默认生效
-//     *
-//     * @author zhailiang
-//     */
-//    @Configuration
-//    @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "tokenStore", havingValue = "jwt", matchIfMissing = true)
-//    @AllArgsConstructor
-//    public static class JwtConfig {
-//
-//        private final SecurityProperties securityProperties;
-//
-//        /**
-//         * @return
-//         * @see TokenStore 处理token的存储
-//         */
-//        @Bean
-//        public TokenStore jwtTokenStore() {
-//            return new JwtTokenStore(jwtAccessTokenConverter());
-//        }
-//
-//        /**
-//         * @return
-//         * @see JwtAccessTokenConverter 处理token的生成
-//         */
-//        @Bean
-//        public JwtAccessTokenConverter jwtAccessTokenConverter() {
-//            val converter = new JwtAccessTokenConverter();
-//            // 指定密签秘钥
-//            converter.setSigningKey(securityProperties.getOauth2().getJwtSigningKey());
-//            return converter;
-//        }
-//
-//        /**
-//         * 用于扩展和解析JWT的信息
-//         * <p>
-//         * 业务系统可以自行配置自己的{@link TokenEnhancer}
-//         *
-//         * @return
-//         */
-//        @Bean
-//        @ConditionalOnBean(TokenEnhancer.class)
-//        public TokenEnhancer jwtTokenEnhancer() {
-//            return new TokenJwtEnhancer();
-//        }
-//
-//    }
+
+    /**
+     * 使用jwt时的配置，默认生效
+     *
+     * @author zhailiang
+     */
+    @Configuration
+    @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "tokenStore", havingValue = "jwt", matchIfMissing = true)
+    @AllArgsConstructor
+    public static class JwtConfig {
+
+        private final SecurityProperties securityProperties;
+
+        private final UserDetailsService userDetailsService;
+
+        /**
+         * @return
+         * @see TokenStore 处理token的存储
+         */
+        @Bean
+        public TokenStore jwtTokenStore() {
+            return new JwtTokenStore(jwtAccessTokenConverter());
+        }
+
+        /**
+         * @return
+         * @see JwtAccessTokenConverter 处理token的生成
+         */
+        @Bean
+        public JwtAccessTokenConverter jwtAccessTokenConverter() {
+            // https://coding.imooc.com/learn/questiondetail/113508.html
+            // 解决`hasPermission`表达式如果`principal`是一个字符串问题
+            final DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
+            final DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter();
+            defaultUserAuthenticationConverter.setUserDetailsService(userDetailsService);
+            defaultAccessTokenConverter.setUserTokenConverter(defaultUserAuthenticationConverter);
+            val converter = new JwtAccessTokenConverter();
+            converter.setAccessTokenConverter(defaultAccessTokenConverter);
+            // 指定密签秘钥
+            converter.setSigningKey(securityProperties.getOauth2().getJwtSigningKey());
+            return converter;
+        }
+
+        /**
+         * 用于扩展和解析JWT的信息
+         * <p>
+         * 业务系统可以自行配置自己的{@link TokenEnhancer}
+         *
+         * @return
+         */
+        @Bean
+        @ConditionalOnBean(TokenEnhancer.class)
+        public TokenEnhancer jwtTokenEnhancer() {
+            return new CustomJwtTokenEnhancer();
+        }
+
+    }
 
 
 }

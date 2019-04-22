@@ -110,7 +110,7 @@ public class AdminController extends BaseController {
     @GetMapping("/me")
 //    public AdminDto me(@AuthenticationPrincipal UserDetails user) {
     // 使用app模块 jwt生成的就不是一个可以被注入的`@AuthenticationPrincipal`
-    public AdminDto me(Authentication authentication) {
+    public AdminDto me(Authentication authentication, HttpServletRequest request) {
 //        return (AdminDto) new AdminDto().setUsername(user.getUsername());
         // TODO 待测试
         MngUserDetails mngUserDetails = (MngUserDetails) authentication.getPrincipal();

@@ -65,8 +65,6 @@ public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter 
         formAuthenticationConfig.configure(http);
 
         http
-                .authorizeRequests().antMatchers("/oauth/*").permitAll()
-                .and()
                 // 添加自定义验证码过滤器，校验session中的图形验证码
                 .apply(validateCodeSecurityConfig)
                 .and()
@@ -107,7 +105,7 @@ public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter 
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         // 使用`.access("@rbacService.hasPermission(request, authentication)");`需要添加以下这行配置
         resources
-                .resourceId(SERVER_RESOURCE_ID)
+//                .resourceId(SERVER_RESOURCE_ID)
                 .expressionHandler(oAuth2WebSecurityExpressionHandler);
     }
 

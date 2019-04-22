@@ -48,16 +48,13 @@ import java.util.List;
  */
 @Component
 @AllArgsConstructor
-public class CustomAuthorizeConfigManager implements AuthorizeConfigManager {
+public class AuthorizeConfigManagerImpl implements AuthorizeConfigManager {
 
     /**
      * 收集自定义授权配置组件
      */
     private final List<AuthorizeConfigProvider> authorizeConfigProviders;
 
-    /* (non-Javadoc)
-     * @see com.imooc.security.core.authorize.AuthorizeConfigManager#config(org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer.ExpressionInterceptUrlRegistry)
-     */
     @Override
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         boolean existAnyRequestConfig = false;

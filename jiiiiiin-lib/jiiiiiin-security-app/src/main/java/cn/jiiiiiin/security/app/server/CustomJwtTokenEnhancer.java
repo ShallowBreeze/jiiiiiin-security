@@ -20,7 +20,7 @@ import java.util.Map;
  * @author zhailiang
  * @author jiiiiiin
  */
-public class TokenJwtEnhancer implements TokenEnhancer {
+public class CustomJwtTokenEnhancer implements TokenEnhancer {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
