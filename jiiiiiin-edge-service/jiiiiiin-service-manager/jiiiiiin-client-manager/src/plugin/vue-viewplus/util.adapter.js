@@ -6,5 +6,6 @@
  * @returns {*}
  */
 export const handlerVueNavigationUrlKey = function(fullPath) {
+  // TODO aaa
   return fullPath.replace(/\?VNK=[\w]*/, '')
 }
