@@ -2,7 +2,6 @@ package cn.jiiiiiin.security.app.component.authentication.social.impl;
 
 import cn.jiiiiiin.security.core.social.support.SocialAuthenticationFilterPostProcessor;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.stereotype.Component;

@@ -53,7 +53,7 @@ public class AdminController extends BaseController {
 
     private final IAdminService adminService;
 
-    private final SimpleGrantedAuthority adminSimpleGrantedAuthority;
+    private final SimpleGrantedAuthority simpleGrantedAuthority;
 
     @ApiOperation(value = "第三方授权登录注册/绑定用户", notes = "关联的角色记录，必须传递到{@link AdminDto#roleIds}字段中", httpMethod = "POST")
     @PostMapping("regist")
@@ -150,7 +150,7 @@ public class AdminController extends BaseController {
     @PutMapping("pwd")
     @JsonView(View.SecurityView.class)
     public AdminDto updatePwd(@RequestBody @Validated({BaseEntity.IDGroup.class, Groups.Security.class}) AdminDto admin, @AuthenticationPrincipal UserDetails user) {
-        if (user.getAuthorities().stream().anyMatch(p -> p.equals(adminSimpleGrantedAuthority))) {
+        if (user.getAuthorities().stream().anyMatch(p -> p.equals(simpleGrantedAuthority))) {
             adminService.updatePwd(admin);
         }
         return admin;

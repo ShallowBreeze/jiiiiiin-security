@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.enums.ApiErrorCode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -24,17 +25,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  */
 @RestControllerAdvice(basePackages = "cn.jiiiiiin")
 @Slf4j
+@AllArgsConstructor
 public class CommonResponseDataAdvice implements ResponseBodyAdvice<Object> {
 
-    /**
-     * @param methodParameter
-     * @param aClass
-     * @return
-     */
+    private final ObjectMapper objectMapper;
+
     @Override
     public boolean supports(MethodParameter methodParameter,
                             Class<? extends HttpMessageConverter<?>> aClass) {
-
         if (methodParameter.getDeclaringClass().isAnnotationPresent(IgnoreResponseAdvice.class)) {
             return false;
         }
@@ -42,7 +40,6 @@ public class CommonResponseDataAdvice implements ResponseBodyAdvice<Object> {
         if (methodParameter.getMethod().isAnnotationPresent(IgnoreResponseAdvice.class)) {
             return false;
         }
-
         return true;
     }
 
@@ -54,21 +51,19 @@ public class CommonResponseDataAdvice implements ResponseBodyAdvice<Object> {
                                   ServerHttpRequest serverHttpRequest,
                                   ServerHttpResponse serverHttpResponse) {
 
-        R<Object> response = new R<>();
-        response.setCode(ApiErrorCode.SUCCESS.getCode());
+        R<Object> response = null;
         // 解决：`https://my.oschina.net/u/1757225/blog/1543715`
-        // TODO 目前版本的SpringBoot不要在控制器返回String
-//        if (o instanceof String) {
-//            try {
-//                return objectMapper.writeValueAsString(o);
-//            } catch (JsonProcessingException e) {
-//                log.error("转换服务器端响应数据出错", e);
-//            }
-//        }
+        if (o instanceof String) {
+            try {
+                return objectMapper.writeValueAsString(R.ok(o));
+            } catch (JsonProcessingException e) {
+                log.error("转换String类型的服务器端响应数据出错", e);
+            }
+        }
         if (o instanceof R) {
             response = (R<Object>) o;
         } else if (null == o) {
-            return response;
+            response = R.ok("服务端无响应");
         } else {
             response.setData(o);
         }
