@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * `@EnableZuulProxy`：开启zuul网关
- *
- * Spring Cloud内置的Zuul过滤器详解:http://www.itmuch.com/spring-cloud/zuul/zuul-filter-in-spring-cloud/
  * @author jiiiiiin
  */
 @SuppressWarnings("ALL")

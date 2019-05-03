@@ -2,7 +2,6 @@ package cn.jiiiiiin.security.browser.component.authentication;
 
 
 import cn.jiiiiiin.security.core.dict.CommonConstants;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +99,6 @@ public class BrowserAuthenticationSuccessHandler extends SavedRequestAwareAuthen
     protected void respJson(HttpServletResponse response, Authentication authentication) throws IOException {
         response.setContentType(CommonConstants.CONTENT_TYPE_JSON);
         // 将authentication转换成json str输出
-        response.getWriter().write(objectMapper.writeValueAsString(R.ok(authentication)));
+        response.getWriter().write(objectMapper.writeValueAsString(authentication));
     }
 }
