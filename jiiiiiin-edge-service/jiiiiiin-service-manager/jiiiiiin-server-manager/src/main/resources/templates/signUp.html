@@ -40,6 +40,7 @@
         <el-col :span="4">&nbsp;</el-col>
         <el-col :span="16">
             <img :src="headimg" alt="" class="head-img">
+            <br>
             <el-form ref="form" label-width="80px" th:action="@{/admin/regist}" method="post"
                      @keyup.enter="onSubmit">
                 <el-form-item label="用户名" required="true">
@@ -48,6 +49,10 @@
 
                 <el-form-item label="密码" required="true">
                     <el-input name="password" v-model="password" type="password"></el-input>
+                </el-form-item>
+
+                <el-form-item label="deviceId" required="true">
+                    <el-input name="deviceId" v-model="deviceId"></el-input>
                 </el-form-item>
 
                 <!--TODO 添加-->
@@ -87,6 +92,7 @@
         data: function () {
             return {
                 username: 'qq',
+                deviceId: new Date().getTime(),
                 password: 'admin',
                 headimg: ''
             }
@@ -94,7 +100,6 @@
         methods: {
             onSubmit: function (e) {
                 // this.$refs.form.$el.submit();
-                alert(1)
                 this.$vp.post('/admin/regist', {
                     username: this.username,
                     password: this.password,
@@ -102,7 +107,8 @@
                     roleIds: ['1112903286077321218']
                 }, {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        deviceId: this.deviceId
                     }
                 }).then(function (response) {
                     console.log(`token 授权注册完成->`, response)
@@ -117,7 +123,11 @@
             }
         },
         created() {
-            this.$vp.get('/social/userInfo')
+            this.$vp.get(`/social/userInfo`, {
+                headers: {
+                    deviceId: this.deviceId
+                }
+            })
                 .then((response) => {
                     this.username = response.data.data.nickname
                     this.headimg = response.data.data.headimg

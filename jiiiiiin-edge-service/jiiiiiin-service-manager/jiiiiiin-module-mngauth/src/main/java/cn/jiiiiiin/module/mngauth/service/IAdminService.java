@@ -28,10 +28,18 @@ public interface IAdminService extends IService<Admin> {
      * 且区分不同的渠道
      *
      * @param username
-     * @param channel  {@link cn.jiiiiiin.module.common.entity.mngauth.Resource#channel}
+     * @param channel
      * @return
      */
     Admin signInByUsername(@NonNull String username, ChannelEnum channel);
+
+    /**
+     * {@link IAdminService#signInByUsername(String, ChannelEnum)} 外加手机号检索
+     * @param username
+     * @param mng
+     * @return
+     */
+    Admin signInByUsernameOrPhoneNumb(String username, ChannelEnum mng);
 
     /**
      * spring 事务：
@@ -108,4 +116,6 @@ public interface IAdminService extends IService<Admin> {
      * @return
      */
     void regist(AdminDto admin, HttpServletRequest request);
+
+
 }

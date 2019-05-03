@@ -4,13 +4,16 @@
 package cn.jiiiiiin.security.app.server;
 
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
+import lombok.AllArgsConstructor;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -36,17 +39,14 @@ public class TokenStoreConfig {
      */
     @Configuration
     @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "tokenStore", havingValue = "redis")
+    @AllArgsConstructor
     public static class RedisConfig {
 
         /**
          * 链接工厂
          */
-        @Autowired
-        private RedisConnectionFactory redisConnectionFactory;
+        private final RedisConnectionFactory redisConnectionFactory;
 
-        /**
-         * @return
-         */
         @Bean
         public TokenStore redisTokenStore() {
             return new RedisTokenStore(redisConnectionFactory);
@@ -61,10 +61,12 @@ public class TokenStoreConfig {
      */
     @Configuration
     @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "tokenStore", havingValue = "jwt", matchIfMissing = true)
+    @AllArgsConstructor
     public static class JwtConfig {
 
-        @Autowired
-        private SecurityProperties securityProperties;
+        private final SecurityProperties securityProperties;
+
+        private final UserDetailsService userDetailsService;
 
         /**
          * @return
@@ -81,7 +83,14 @@ public class TokenStoreConfig {
          */
         @Bean
         public JwtAccessTokenConverter jwtAccessTokenConverter() {
+            // https://coding.imooc.com/learn/questiondetail/113508.html
+            // 解决`hasPermission`表达式如果`principal`是一个字符串问题
+            final DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
+            final DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter();
+            defaultUserAuthenticationConverter.setUserDetailsService(userDetailsService);
+            defaultAccessTokenConverter.setUserTokenConverter(defaultUserAuthenticationConverter);
             val converter = new JwtAccessTokenConverter();
+            converter.setAccessTokenConverter(defaultAccessTokenConverter);
             // 指定密签秘钥
             converter.setSigningKey(securityProperties.getOauth2().getJwtSigningKey());
             return converter;
@@ -97,7 +106,7 @@ public class TokenStoreConfig {
         @Bean
         @ConditionalOnBean(TokenEnhancer.class)
         public TokenEnhancer jwtTokenEnhancer() {
-            return new TokenJwtEnhancer();
+            return new CustomJwtTokenEnhancer();
         }
 
     }

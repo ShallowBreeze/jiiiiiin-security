@@ -5,13 +5,9 @@ import cn.jiiiiiin.security.core.dict.SecurityConstants;
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -42,22 +38,17 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     /**
      * 系统配置信息
      */
-    @Autowired
-    SecurityProperties securityProperties;
+    private final SecurityProperties securityProperties;
 
     /**
      * 验证码校验失败处理器
      */
-    @Autowired
-    private AuthenticationFailureHandler customAuthenticationFailureHandler;
+    private final AuthenticationFailureHandler customAuthenticationFailureHandler;
 
     /**
      * 系统中的校验码处理器
      */
-    @Autowired
-    private ValidateCodeProcessorHolder validateCodeProcessorHolder;
-
-    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
+    private final ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
     /**
      * 验证请求url与配置的url是否匹配的工具类
@@ -70,6 +61,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      * value: 对应上对应的处理器（图形、短信）
      */
     private Map<String, ValidateCodeType> interceptorUrlsMap = new HashMap<>();
+
+    public ValidateCodeFilter(SecurityProperties securityProperties, AuthenticationFailureHandler customAuthenticationFailureHandler, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
+        this.securityProperties = securityProperties;
+        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
+        this.validateCodeProcessorHolder = validateCodeProcessorHolder;
+    }
 
     /**
      * 初始化要拦截的url配置信息

@@ -5,6 +5,7 @@ package cn.jiiiiiin.security.core.validate.code.sms;
 
 import cn.jiiiiiin.security.core.validate.code.entity.ValidateCode;
 import cn.jiiiiiin.security.core.validate.code.impl.AbstractValidateCodeProcessor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,13 +23,13 @@ import static cn.jiiiiiin.security.core.dict.SecurityConstants.DEFAULT_PARAMETER
  */
 @Component
 @Slf4j
+@AllArgsConstructor
 public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<ValidateCode> {
 
 	/**
 	 * 短信验证码发送器
 	 */
-	@Autowired
-	private SmsCodeSender smsCodeSender;
+	private final SmsCodeSender smsCodeSender;
 
 	@Override
 	protected void send(ServletWebRequest request, ValidateCode validateCode) throws Exception {

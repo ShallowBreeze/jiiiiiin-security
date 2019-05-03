@@ -3,6 +3,7 @@
  */
 package cn.jiiiiiin.security.core.validate.code;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,13 +19,13 @@ import javax.servlet.Filter;
  * @author zhailiang
  */
 @Component("validateCodeSecurityConfig")
+@AllArgsConstructor
 public class ValidateCodeSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
     /**
      * @see ValidateCodeFilter
      */
-    @Autowired
-    private Filter validateCodeFilter;
+    private final Filter validateCodeFilter;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {

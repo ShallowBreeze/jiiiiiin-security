@@ -5,6 +5,7 @@ package cn.jiiiiiin.security.core.authorize;
 
 import cn.jiiiiiin.security.core.dict.SecurityConstants;
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -20,10 +21,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Order(Integer.MIN_VALUE)
-public class CustomAuthorizeConfigProvider implements AuthorizeConfigProvider {
+@AllArgsConstructor
+public class OriginAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
-    @Autowired
-    private SecurityProperties securityProperties;
+    private final SecurityProperties securityProperties;
 
     @Override
     public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {

@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.security.oauth2.config.annotation.builders.ClientDetailsServiceBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

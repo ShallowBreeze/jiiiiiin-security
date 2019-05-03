@@ -4,14 +4,12 @@
 package cn.jiiiiiin.security.app.component.authentication;
 
 import cn.jiiiiiin.security.core.dict.CommonConstants;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.codec.Base64;
@@ -20,15 +18,12 @@ import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAut
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * APP环境下认证成功处理器
@@ -54,6 +49,16 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
 	private AuthorizationServerTokenServices authorizationServerTokenServices;
 
 
+    /**
+     * 1.参考{@link org.springframework.security.web.authentication.www.BasicAuthenticationFilter} 获取clientID
+     * 2.创建 clientDetails
+     * 3.创建 tokenRequest
+     * @param request
+     * @param response
+     * @param authentication
+     * @throws IOException
+     * @throws ServletException
+     */
     @SuppressWarnings("unchecked")
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -61,7 +66,7 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
 
         log.debug("身份认证（登录 Token）成功");
 
-        // 解析client id
+        // 1.解析client id
         String header = request.getHeader("Authorization");
 
         if (header == null || !header.startsWith("Basic ")) {
@@ -74,7 +79,7 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
         String clientId = tokens[0];
         String clientSecret = tokens[1];
 
-        // 创建 clientDetails
+        // 2.创建 clientDetails
         final ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
 
         if (clientDetails == null) {
@@ -83,15 +88,17 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
             throw new UnapprovedClientAuthenticationException("clientSecret不匹配:" + clientId);
         }
 
-        // 创建 tokenRequest
+        // 3.创建 tokenRequest
         // 不同的oauth模式需要传递的参数不一致
         // params1为空，因为不需要再去创建`authentication`
         // scope不需要进行校验，因为是提供自身使用
         // grantType标识为自定义的
         final TokenRequest tokenRequest = new TokenRequest(MapUtils.EMPTY_MAP, clientId, clientDetails.getScope(), "custom");
 
+        // 4.创建 oAuth2Request
         final OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
 
+        // 4.创建 oAuth2Authentication
         final OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
 
         final OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
@@ -101,7 +108,7 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
 
     private void respJson(HttpServletResponse response, OAuth2AccessToken token) throws IOException {
         response.setContentType(CommonConstants.CONTENT_TYPE_JSON);
-        response.getWriter().write(objectMapper.writeValueAsString(token));
+        response.getWriter().write(objectMapper.writeValueAsString(R.ok(token)));
     }
 
     /**
@@ -114,7 +121,7 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
      */
     private String[] extractAndDecodeHeader(String header, HttpServletRequest request) throws IOException {
 
-        byte[] base64Token = header.substring(6).getBytes("UTF-8");
+        byte[] base64Token = header.substring(6).getBytes(StandardCharsets.UTF_8);
         byte[] decoded;
         try {
             decoded = Base64.decode(base64Token);
@@ -122,8 +129,9 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
             throw new BadCredentialsException("Failed to decode basic authentication token");
         }
 
-        String token = new String(decoded, "UTF-8");
+        String token = new String(decoded, StandardCharsets.UTF_8);
 
+        // 格式：Basic client用户名:client密码
         int delim = token.indexOf(":");
 
         if (delim == -1) {

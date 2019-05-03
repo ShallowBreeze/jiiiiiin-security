@@ -4,6 +4,7 @@
 package cn.jiiiiiin.security.core.authentication.mobile;
 
 import cn.jiiiiiin.security.core.dict.SecurityConstants;
+import lombok.val;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -64,7 +65,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         mobile = mobile.trim();
 
         // 实例化认证token
-        SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(mobile);
+        val authRequest = new SmsCodeAuthenticationToken(mobile);
 
         // Allow subclasses to set the "details" property
         // 将请求信息设置到token中

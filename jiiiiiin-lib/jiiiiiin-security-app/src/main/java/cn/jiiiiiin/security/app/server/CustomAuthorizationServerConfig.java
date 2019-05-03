@@ -6,17 +6,21 @@ package cn.jiiiiiin.security.app.server;
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import java.util.ArrayList;
@@ -25,6 +29,7 @@ import java.util.List;
 /**
  * 认证服务器配置
  * <p>
+ *     https://coding.imooc.com/lesson/134.html#mid=7236
  * <p>
  * ![](https://ws4.sinaimg.cn/large/0069RVTdgy1fuqnerfq5uj30w10g3q4o.jpg)
  * <p>
@@ -107,6 +112,11 @@ import java.util.List;
 public class CustomAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     /**
+     * https://stackoverflow.com/questions/29596036/spring-security-oauth2-resource-server-always-returning-invalid-token
+     */
+    static final String SERVER_RESOURCE_ID = "oauth2-server";
+
+    /**
      * 当去做认证的时候使用的`pa`
      */
     @Autowired
@@ -136,17 +146,21 @@ public class CustomAuthorizationServerConfig extends AuthorizationServerConfigur
     @Autowired
     private SecurityProperties securityProperties;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     /**
      * 认证及token配置
      * 定义token增强器来自定义token的生成策略，覆盖{@link org.springframework.security.oauth2.provider.token.DefaultTokenServices}默认的UUID生成策略
      *
      * @see org.springframework.security.oauth2.provider.token.DefaultTokenServices#createAccessToken(OAuth2Authentication)
+     * @see org.springframework.security.oauth2.provider.endpoint.TokenEndpoint
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         // 当继承了`AuthorizationServerConfigurerAdapter`之后就需要自己配置下面的认证组件
         endpoints
-                // 1.设置token生成器
+                // 1.设置token存储器
                 .tokenStore(tokenStore)
                 // 2.支持用户名密码模式必须，授权默认中的用户名密码模式需要直接将认证凭证（用户名密码传递给授权服务器），授权服务器需要配置authenticationManager，去对这个用户进行身份认证
                 .authenticationManager(authenticationManager)
@@ -162,20 +176,33 @@ public class CustomAuthorizationServerConfig extends AuthorizationServerConfigur
             }
             enhancers.add(jwtAccessTokenConverter);
             enhancerChain.setTokenEnhancers(enhancers);
-            endpoints.tokenEnhancer(enhancerChain)
+            endpoints
+                    .tokenEnhancer(enhancerChain)
                     // 3.设置token签名器
                     .accessTokenConverter(jwtAccessTokenConverter);
         }
     }
-//
-//    /**
-//     * tokenKey的访问权限表达式配置
-//     */
-//    @Override
-//    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-//        security.tokenKeyAccess("permitAll()");
-//    }
-//
+
+
+    /**
+     * tokenKey的访问权限表达式配置
+     */
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        // https://stackoverflow.com/questions/40699532/spring-security-with-oauth2-and-jwt-encoded-password-does-not-look-like-bcrypt
+        security
+//                .passwordEncoder(passwordEncoder);
+                // 获取jwt的签名秘钥是否需要授权`isAuthenticated()`
+                // tokenKey就是jwt的签名秘钥，第三方应用在获取到jwt token之后如果需要去验签就需要来服务端
+                // 获取token key，配置`security.oauth2.resource.jet.key-uri`，在访问整个端点的时候需要带上客户端的clientId和clientSecret，因为下面配置成需要认证
+                .tokenKeyAccess("isAuthenticated()")
+                .checkTokenAccess("permitAll()");
+//                .allowFormAuthenticationForClients();
+        //enable client to get the authenticated when using the /oauth/token to get a access token
+        //there is a 401 authentication is required if it doesn't allow form authentication for clients when access /oauth/token
+//        security.allowFormAuthenticationForClients();
+    }
+
 
     /**
      * 客户端配置
@@ -202,16 +229,19 @@ public class CustomAuthorizationServerConfig extends AuthorizationServerConfigur
                     // 指定支持的第三方应用信息
                     builder
                             .withClient(client.getClientId())
-                            .secret(client.getClientSecret())
+                            // https://dzone.com/articles/securing-rest-services-with-oauth2-in-springboot-1
+                            .secret(passwordEncoder.encode(client.getClientSecret()))
+//                            .secret(client.getClientSecret())
                             // 可以直接配置获取授权码和授权token的第三方回调通知地址，如果配置就会用其校验获取授权code、码时候传递的redirect_uri
                             //.redirectUris()
                             // 针对当前第三方应用所支持的授权模式，即http://{{host}}/oauth/token#grant_type
                             // 还可以配置`implicit`简化模式/`client_credentials`客户端模式
                             .authorizedGrantTypes("refresh_token", "authorization_code", "password")
-                            // 配置令牌的过期时间限
+                            // 配置令牌的过期时间限，单位秒
                             .accessTokenValiditySeconds(client.getAccessTokenValidateSeconds())
-                            // 配置refresh token的有效期
+                            // 配置refresh token的有效期，单位秒
                             .refreshTokenValiditySeconds(2592000)
+//                            .resourceIds(SERVER_RESOURCE_ID)
                             // 针对当前第三方应用所支持的权限，即http://{{host}}/oauth/token#scope
                             // 说明应用需要的权限，发送请求的scope参数需要在此范围之内，不传就使用默认（即配置的值）
                             .scopes("all");

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mobile.device.*;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.List;
  * @author jiiiiiin
  */
 @Configuration
-public class SpringMobileConfig extends WebMvcConfigurerAdapter {
+public class SpringMobileConfig implements WebMvcConfigurer {
 
     /**
      * 拦截请求，配置spring mobile支持的渠道解析拦截器

@@ -2,21 +2,19 @@ package cn.jiiiiiin.security.browser.config;
 
 import cn.jiiiiiin.security.core.dict.SecurityConstants;
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author jiiiiiin
  */
 @Configuration
-public class BrowserWebMvcConfig extends WebMvcConfigurerAdapter {
+@AllArgsConstructor
+public class BrowserWebMvcConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private SecurityProperties securityProperties;
+    private final SecurityProperties securityProperties;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {

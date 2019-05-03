@@ -41,7 +41,7 @@ import java.io.IOException;
  */
 @RestController
 @Slf4j
-public class BrowserSecurityController extends SocialController {
+public class BrowserSecurityController {
 
     /**
      * 当框架认为需要进行身份认证，会将请求缓存到requestCache中，这里我们在登录完成之后，从这个对象中拿出框架帮我们缓存的上一个被拦截的请求
@@ -50,17 +50,14 @@ public class BrowserSecurityController extends SocialController {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-    private final ProviderSignInUtils providerSignInUtils;
-
     private final SecurityProperties securityProperties;
 
     private final LiteDeviceResolver liteDeviceResolver;
 
 
     @Autowired
-    public BrowserSecurityController(SecurityProperties securityProperties, ProviderSignInUtils providerSignInUtils, LiteDeviceResolver liteDeviceResolver) {
+    public BrowserSecurityController(SecurityProperties securityProperties, LiteDeviceResolver liteDeviceResolver) {
         this.securityProperties = securityProperties;
-        this.providerSignInUtils = providerSignInUtils;
         this.liteDeviceResolver = liteDeviceResolver;
     }
 
@@ -98,20 +95,6 @@ public class BrowserSecurityController extends SocialController {
         }else {
             return R.failed("访问的服务需要身份认证");
         }
-    }
-
-    /**
-     * 用户第一次社交登录时，会引导用户进行用户注册或绑定，此服务用于在注册或绑定页面获取社交网站用户信息
-     * 端点：`"/social/userInfo"`
-     * @param request
-     * @return
-     */
-    @GetMapping(SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
-    public SocialUserInfo getSocialUserInfo(HttpServletRequest request) {
-        // 从session中获取连接对象，在获取用户信息
-        // @see Connection
-        Connection<?> connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
-        return buildSocialUserInfo(connection);
     }
 
     /**

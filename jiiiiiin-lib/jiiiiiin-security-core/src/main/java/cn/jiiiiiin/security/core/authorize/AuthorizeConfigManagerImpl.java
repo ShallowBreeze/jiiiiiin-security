@@ -3,6 +3,7 @@
  */
 package cn.jiiiiiin.security.core.authorize;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
@@ -46,17 +47,14 @@ import java.util.List;
  * @see HttpSecurity#authorizeRequests()
  */
 @Component
-public class CustomAuthorizeConfigManager implements AuthorizeConfigManager {
+@AllArgsConstructor
+public class AuthorizeConfigManagerImpl implements AuthorizeConfigManager {
 
     /**
      * 收集自定义授权配置组件
      */
-    @Autowired
-    private List<AuthorizeConfigProvider> authorizeConfigProviders;
+    private final List<AuthorizeConfigProvider> authorizeConfigProviders;
 
-    /* (non-Javadoc)
-     * @see com.imooc.security.core.authorize.AuthorizeConfigManager#config(org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer.ExpressionInterceptUrlRegistry)
-     */
     @Override
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         boolean existAnyRequestConfig = false;

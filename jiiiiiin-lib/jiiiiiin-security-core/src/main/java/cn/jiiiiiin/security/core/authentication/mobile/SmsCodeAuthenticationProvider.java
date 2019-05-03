@@ -3,6 +3,8 @@
  */
 package cn.jiiiiiin.security.core.authentication.mobile;
 
+import lombok.Setter;
+import lombok.val;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -18,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  *
  * @author zhailiang
  */
+@Setter
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
     private UserDetailsService userDetailsService;
@@ -32,10 +35,10 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
+        val authenticationToken = (SmsCodeAuthenticationToken) authentication;
 
         // 获取手机号进行查询
-        UserDetails user = userDetailsService.loadUserByUsername((String) authenticationToken.getPrincipal());
+        val user = userDetailsService.loadUserByUsername((String) authenticationToken.getPrincipal());
 
         if (user == null) {
             throw new InternalAuthenticationServiceException("无法获取用户信息");
@@ -63,13 +66,4 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return SmsCodeAuthenticationToken.class.isAssignableFrom(authentication);
     }
-
-    public UserDetailsService getUserDetailsService() {
-        return userDetailsService;
-    }
-
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
 }

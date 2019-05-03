@@ -30,16 +30,6 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.jiiiiiin.security</groupId>
-            <artifactId>jiiiiiin-security-browser</artifactId>
-        </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>cn.jiiiiiin.security</groupId>-->
-<!--            <artifactId>jiiiiiin-security-app</artifactId>-->
-<!--        </dependency>-->
-
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
@@ -66,18 +56,12 @@
             <version>${springfox.swagger2.version}</version>
         </dependency>
 
-        <!--解析jwt自定义源信息-->
-        <!--<dependency>-->
-            <!--<groupId>io.jsonwebtoken</groupId>-->
-            <!--<artifactId>jjwt</artifactId>-->
-            <!--<version>0.7.0</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>com.h2database</groupId>-->
-            <!--<artifactId>h2</artifactId>-->
-            <!--<scope>runtime</scope>-->
-        <!--</dependency>-->
+        <!--解析jwt自定义源信息工具库-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+<!--            <version>0.7.0</version>-->
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>

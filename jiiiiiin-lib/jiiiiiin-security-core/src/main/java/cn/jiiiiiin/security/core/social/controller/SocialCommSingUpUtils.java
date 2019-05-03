@@ -1,12 +1,11 @@
 /**
  *
  */
-package cn.jiiiiiin.security.app.component.authentication.social;
+package cn.jiiiiiin.security.core.social.controller;
 
-import cn.jiiiiiin.security.app.AppSecretException;
 import cn.jiiiiiin.security.core.dict.SecurityConstants;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionData;
@@ -19,22 +18,22 @@ import org.springframework.web.context.request.WebRequest;
 import java.util.concurrent.TimeUnit;
 
 /**
- * app环境下替换providerSignInUtils，避免由于没有session导致读不到社交用户信息的问题
+ * app环境下替换`providerSignInUtils`，以便两个环节公用，避免切换时候修改代码
+ *
+ * 避免由于没有session导致读不到社交用户信息的问题
  *
  * @author zhailiang
  * @see org.springframework.social.connect.web.ProviderSignInUtils#doPostSignUp(String, RequestAttributes) 和这个类的作用一直，spring默认实现提供的是将 {@link ConnectionData}存储在session
  */
 @Component
-public class AppSingUpUtils {
+@AllArgsConstructor
+public class SocialCommSingUpUtils {
 
-    @Autowired
-    private RedisTemplate<Object, Object> redisTemplate;
+    private final RedisTemplate<Object, Object> redisTemplate;
 
-    @Autowired
-    private UsersConnectionRepository usersConnectionRepository;
+    private final UsersConnectionRepository usersConnectionRepository;
 
-    @Autowired
-    private ConnectionFactoryLocator connectionFactoryLocator;
+    private final ConnectionFactoryLocator connectionFactoryLocator;
 
     /**
      * 缓存社交网站用户信息到redis
@@ -51,6 +50,8 @@ public class AppSingUpUtils {
     /**
      * 将缓存的社交网站用户信息与系统注册用户信息绑定
      *
+     * 及完成了（新注册）系统用户和social社交用户的绑定
+     *
      * @param request
      * @param userId 业务系统的用户id
      * @see org.springframework.social.connect.web.ProviderSignInUtils#doPostSignUp(String, RequestAttributes) 和这个类的作用一直，spring默认实现提供的是将 {@link ConnectionData}存储在session
@@ -58,9 +59,10 @@ public class AppSingUpUtils {
     public void doPostSignUp(WebRequest request, String userId) {
         String key = getKey(request);
         if (!redisTemplate.hasKey(key)) {
-            throw new AppSecretException("无法找到缓存的用户社交账号信息");
+            throw new RuntimeException("无法找到缓存的用户社交账号信息");
         }
         ConnectionData connectionData = (ConnectionData) redisTemplate.opsForValue().get(key);
+        assert connectionData != null;
         Connection<?> connection = connectionFactoryLocator.getConnectionFactory(connectionData.getProviderId())
                 .createConnection(connectionData);
         // 将数据存储到`UserConnection`表中
@@ -78,7 +80,7 @@ public class AppSingUpUtils {
     private String getKey(WebRequest request) {
         String deviceId = request.getHeader(SecurityConstants.DEFAULT_PARAMETER_NAME_DEVICEID);
         if (StringUtils.isBlank(deviceId)) {
-            throw new AppSecretException("设备id参数不能为空");
+            throw new RuntimeException("设备id参数不能为空");
         }
         return "security:social.connect." + deviceId;
     }

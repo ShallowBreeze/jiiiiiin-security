@@ -141,7 +141,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
         // 配置自定义注册页面接口，当第三方授权获取user detail在业务系统找不到的时候默认调整到该页面
         configurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
         if (socialAuthenticationFilterPostProcessor != null) {
-            // 注入后处理器，以便app模式（标准）下授权登录能够完成，动态设置signup Url根据模块（app/browser）
+            // 注入后处理器，以便app模式（标准）下授权登录能够完成，使其可以下发访问令牌
             configurer.setSocialAuthenticationFilterPostProcessor(socialAuthenticationFilterPostProcessor);
         }
         return configurer;

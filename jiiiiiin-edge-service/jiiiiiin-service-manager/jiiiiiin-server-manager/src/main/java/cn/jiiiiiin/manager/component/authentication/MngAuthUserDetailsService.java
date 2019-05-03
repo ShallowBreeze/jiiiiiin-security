@@ -34,6 +34,9 @@ import java.util.HashSet;
 @Slf4j
 public class MngAuthUserDetailsService implements UserDetailsService, SocialUserDetailsService {
 
+    /**
+     * 注意：不要手动简化这里的注入方式
+     */
     @Autowired
     private IAdminService adminService;
 
@@ -51,7 +54,7 @@ public class MngAuthUserDetailsService implements UserDetailsService, SocialUser
 
     private SocialUserDetails _getUserDetails(String username) {
         // 根据channel去获取登录用户的权限信息
-        val optionalAdmin = adminService.signInByUsername(username, ChannelEnum.MNG);
+        val optionalAdmin = adminService.signInByUsernameOrPhoneNumb(username, ChannelEnum.MNG);
         if (optionalAdmin == null) {
             throw new UsernameNotFoundException("用户名密码不符");
         } else {

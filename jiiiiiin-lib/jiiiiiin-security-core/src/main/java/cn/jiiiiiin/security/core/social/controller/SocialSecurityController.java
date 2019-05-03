@@ -1,15 +1,13 @@
 /**
  *
  */
-package cn.jiiiiiin.security.app;
+package cn.jiiiiiin.security.core.social.controller;
 
-import cn.jiiiiiin.security.app.component.authentication.social.AppSingUpUtils;
 import cn.jiiiiiin.security.core.dict.SecurityConstants;
 import cn.jiiiiiin.security.core.social.SocialConfig;
 import cn.jiiiiiin.security.core.social.SocialController;
 import cn.jiiiiiin.security.core.social.support.SocialUserInfo;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.ProviderSignInUtils;
@@ -21,16 +19,33 @@ import org.springframework.web.context.request.ServletWebRequest;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ *
  * @author zhailiang
  * @author jiiiiiin
  */
 @RestController
 @AllArgsConstructor
-public class AppSecurityController extends SocialController {
+public class SocialSecurityController extends SocialController {
 
     private final ProviderSignInUtils providerSignInUtils;
 
-    private final AppSingUpUtils appSingUpUtils;
+    private final SocialCommSingUpUtils socialCommSingUpUtils;
+
+    // 使用`AppSecurityController`替代当前接口
+//    /**
+//     * 用户第一次社交登录时，会引导用户进行用户注册或绑定，此服务用于在注册或绑定页面获取社交网站用户信息
+//     * 端点：`"/social/userInfo"`
+//     * @param request
+//     * @return
+//     */
+//    @GetMapping(SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
+//    public SocialUserInfo getSocialUserInfo(HttpServletRequest request) {
+//        // 从session中获取连接对象，在获取用户信息
+//        // @see Connection
+//        Connection<?> connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
+//        return buildSocialUserInfo(connection);
+//    }
+
 
     /**
      * 需要注册时跳到这里，返回401（需要进行用户认证）和用户信息给前端
@@ -39,8 +54,7 @@ public class AppSecurityController extends SocialController {
      *
      * @param request
      * @return 第三方授权用户信息
-     * @see AppSingUpUtils
-     * @see cn.jiiiiiin.security.app.component.authentication.social.SpringSocialConfigurerPostProcessor
+     * @see SocialCommSingUpUtils
      * @see SocialConfig#socialSecurityConfig()
      */
     @GetMapping(SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
@@ -49,7 +63,7 @@ public class AppSecurityController extends SocialController {
         // 在当前请求[第三方]通过重定向回到应用的时候，用户信息可以放到session，但下一次请求会新建一个session（token模式）
         Connection<?> connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
         // 故需要进行缓存
-        appSingUpUtils.saveConnectionData(new ServletWebRequest(request), connection.createData());
+        socialCommSingUpUtils.saveConnectionData(new ServletWebRequest(request), connection.createData());
         return buildSocialUserInfo(connection);
     }
 

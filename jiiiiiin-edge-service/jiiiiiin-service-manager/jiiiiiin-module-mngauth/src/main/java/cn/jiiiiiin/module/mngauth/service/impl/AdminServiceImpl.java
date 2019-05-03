@@ -11,6 +11,7 @@ import cn.jiiiiiin.module.common.mapper.mngauth.AdminMapper;
 import cn.jiiiiiin.module.common.mapper.mngauth.InterfaceMapper;
 import cn.jiiiiiin.module.common.mapper.mngauth.ResourceMapper;
 import cn.jiiiiiin.module.mngauth.service.IAdminService;
+import cn.jiiiiiin.security.core.social.controller.SocialCommSingUpUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,6 +22,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Service;
@@ -53,11 +55,26 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * browser 模块下使用
+     */
     private final ProviderSignInUtils providerSignInUtils;
+
+    /**
+     * app 模块下使用
+     */
+    private final SocialCommSingUpUtils socialCommSingUpUtils;
 
     @Override
     public Admin signInByUsername(@NonNull String username, ChannelEnum channel) {
         val res = adminMapper.selectByUsername(username, channel);
+        return handlerSignUser(username, channel, res);
+    }
+
+    private Admin handlerSignUser(@NonNull String username, ChannelEnum channel, Admin res) {
+        if (res == null) {
+            throw new UsernameNotFoundException(String.format("找不到%s对应的登录用户信息", username));
+        }
         if (res.getRoles().stream().anyMatch(p -> p.getId().equals(Role.ROLE_ADMIN_ID))) {
             // 系统管理员拥有所有访问控制权限和菜单资源
             val adminRole = res.getRoles().stream().filter(p -> p.getId().equals(Role.ROLE_ADMIN_ID)).findFirst().get();
@@ -74,6 +91,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             });
         }
         return res;
+    }
+
+    @Override
+    public Admin signInByUsernameOrPhoneNumb(String username, ChannelEnum channel) {
+        val res = adminMapper.signInByUsernameOrPhoneNumb(username, channel);
+        return handlerSignUser(username, channel, res);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -103,7 +126,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
     /**
-     * 前端将添加和修改的用户管理角色ids存储在{@link AdminDto#roleIds}中，
+     * 前端将添加和修改的用户管理角色ids存储在 中，
      * 需要进行转换以便{@link AdminServiceImpl#saveRelationRoleRecords(Admin)}可以完成管理记录
      *
      * @param admin
@@ -189,6 +212,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         // 不管是注册用户还是绑定用户，都会拿到一个用户唯一标识。
         String userId = admin.getUsername();
         // 插入关联数据，针对social的UserConnection表
-        providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+//        providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+        // 针对app
+        socialCommSingUpUtils.doPostSignUp(new ServletWebRequest(request), userId);
     }
 }

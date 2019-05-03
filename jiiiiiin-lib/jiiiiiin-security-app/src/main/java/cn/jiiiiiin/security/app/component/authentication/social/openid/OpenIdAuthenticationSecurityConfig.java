@@ -3,6 +3,8 @@
  */
 package cn.jiiiiiin.security.app.component.authentication.social.openid;
 
+import lombok.AllArgsConstructor;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -20,33 +22,31 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
+@AllArgsConstructor
 public class OpenIdAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 	
-	@Autowired
-	private AuthenticationSuccessHandler authenticationSuccessHandler;
+	private final AuthenticationSuccessHandler authenticationSuccessHandler;
 	
-	@Autowired
-	private AuthenticationFailureHandler authenticationFailureHandler;
+	private final AuthenticationFailureHandler authenticationFailureHandler;
 	
-	@Autowired
-	private SocialUserDetailsService socialUserDetailsService;
+	private final SocialUserDetailsService socialUserDetailsService;
 	
-	@Autowired
-	private UsersConnectionRepository usersConnectionRepository;
-	
+	private final UsersConnectionRepository usersConnectionRepository;
+
+
 	@Override
-	public void configure(HttpSecurity http) throws Exception {
+	public void configure(HttpSecurity http) {
 		
-		OpenIdAuthenticationFilter OpenIdAuthenticationFilter = new OpenIdAuthenticationFilter();
+		val OpenIdAuthenticationFilter = new OpenIdAuthenticationFilter();
 		OpenIdAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
 		OpenIdAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
 		OpenIdAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
 		
-		OpenIdAuthenticationProvider OpenIdAuthenticationProvider = new OpenIdAuthenticationProvider();
-		OpenIdAuthenticationProvider.setUserDetailsService(socialUserDetailsService);
-		OpenIdAuthenticationProvider.setUsersConnectionRepository(usersConnectionRepository);
+		val openIdAuthenticationProvider = new OpenIdAuthenticationProvider();
+		openIdAuthenticationProvider.setUserDetailsService(socialUserDetailsService);
+		openIdAuthenticationProvider.setUsersConnectionRepository(usersConnectionRepository);
 		
-		http.authenticationProvider(OpenIdAuthenticationProvider)
+		http.authenticationProvider(openIdAuthenticationProvider)
 			.addFilterAfter(OpenIdAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		
 	}
