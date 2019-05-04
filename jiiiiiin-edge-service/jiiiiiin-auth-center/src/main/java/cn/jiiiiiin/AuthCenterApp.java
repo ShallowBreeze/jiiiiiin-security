@@ -8,6 +8,7 @@ import lombok.val;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 //@EnableTransactionManagement
 //@EnableApolloConfig
 @SpringBootApplication
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 @RestController
 @AllArgsConstructor
 public class AuthCenterApp {
@@ -35,8 +36,8 @@ public class AuthCenterApp {
     }
 
     @GetMapping("/testZuul")
-    public R<String> testZuul() {
-        return R.ok(String.format("你好Zuul网关"));
+    public String testZuul() {
+        return "你好Zuul网关";
     }
 
 }

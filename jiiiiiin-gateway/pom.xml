@@ -37,6 +37,11 @@
             <artifactId>mybatis-plus-extension</artifactId>
             <version>RELEASE</version>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>cn.jiiiiiin.security</groupId>-->
+<!--            <artifactId>jiiiiiin-security-app</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

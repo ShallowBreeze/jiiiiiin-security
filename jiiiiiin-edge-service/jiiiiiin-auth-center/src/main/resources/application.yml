@@ -39,17 +39,14 @@ debug: false
 # 通过apollo配置
 server:
   port: 8888
-  # 测试微信、qq授权登录时候启用
-  #  port: 80
   servlet:
-    #    context-path: /mng
     session:
       timeout: 60
-#eureka:
-#  client:
-#    service-url:
-#      # 指定服务注册中心的地址
-#      defaultZone: http://jiiiiiin-eureka:8761/eureka/
+eureka:
+  client:
+    service-url:
+      # 指定服务注册中心的地址
+      defaultZone: http://jiiiiiin-eureka:8761/eureka/
 logging:
   level:
     # 配置日志输出级别以观察SQL的执行情况
@@ -59,6 +56,8 @@ logging:
       springboot:
         mapper: debug
 spring:
+  application:
+    name: jiiiiiin-auth-center
   oauth2:
     resource:
       # https://my.oschina.net/buwei/blog/910028

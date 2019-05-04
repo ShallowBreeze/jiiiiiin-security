@@ -22,15 +22,15 @@
             <artifactId>jiiiiiin-module-mngauth</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>cn.jiiiiiin.security</groupId>-->
-<!--            <artifactId>jiiiiiin-security-app</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>cn.jiiiiiin.security</groupId>
+            <artifactId>jiiiiiin-security-app</artifactId>
+        </dependency>
 
-                <dependency>
-                    <groupId>cn.jiiiiiin.security</groupId>
-                    <artifactId>jiiiiiin-security-browser</artifactId>
-                </dependency>
+        <!--                <dependency>-->
+        <!--                    <groupId>cn.jiiiiiin.security</groupId>-->
+        <!--                    <artifactId>jiiiiiin-security-browser</artifactId>-->
+        <!--                </dependency>-->
 
         <dependency>
             <groupId>mysql</groupId>

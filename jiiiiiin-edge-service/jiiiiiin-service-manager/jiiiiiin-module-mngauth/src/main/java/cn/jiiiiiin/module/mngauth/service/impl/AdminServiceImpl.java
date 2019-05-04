@@ -55,10 +55,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * browser 模块下使用
-     */
-    private final ProviderSignInUtils providerSignInUtils;
+//    /**
+//     * browser 模块下使用
+//     */
+//    private final ProviderSignInUtils providerSignInUtils;
 
     /**
      * app 模块下使用

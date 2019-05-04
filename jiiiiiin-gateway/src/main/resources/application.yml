@@ -55,16 +55,22 @@ zuul:
       strip-prefix: false
       # 放开对于敏感头的过滤（支持cookie传递）
       sensitiveHeaders:
+    jiiiiiin-auth-center:
+      path: /ac/**
+      serviceId: jiiiiiin-auth-center
+      strip-prefix: true
+      # 放开对于敏感头的过滤（支持cookie传递）
+      sensitiveHeaders: Cookie,Set-Cookie
     jiiiiiin-product:
       path: /product/**
       serviceId: jiiiiiin-product
-      strip-prefix: false
+      strip-prefix: true
     jiiiiiin-order:
       path: /order/**
       serviceId: jiiiiiin-order
       strip-prefix: false
   # 用来设置不希望被API网关进行路由的URL表达式
-  ignored-patterns: /**/product/**
+#  ignored-patterns: /**/product/**
 #  ignored-patterns:
 #    - /product/**
 
@@ -81,7 +87,7 @@ hystrix:
         isolation:
           thread:
             # 该参数用来设置API网关中路由转发请求的HystrixCommand超时时间，单位为毫秒。当路由转发请求的命令执行时间超过该配置值后，Hystrix会将该执行命令标记为TIMEOUT并抛出异常。
-            timeoutInMilliseconds: 3000
+            timeoutInMilliseconds: 4000
 
 ribbon:
   # 该参数用来设置路由转发请求的时候，创建请求连接的超时时间。当ribbon.ConnectTimeout的配置值小于hystrix.command.default.execution.isolation.thread.timeoutMilliseconds配置值的时候，若出现路由请求连接超时，会自动进行重试路由请求，如果重试依然失败，Zuul会抛出异常。如果ribbon.ConnectTimeout的配置值大于hystrix.command.default.execution.isolation.thread.timeoutMilliseconds配置值的时候，不会进行请求重试，直接抛出异常。

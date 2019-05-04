@@ -63,9 +63,9 @@ public class CommonResponseDataAdvice implements ResponseBodyAdvice<Object> {
         if (o instanceof R) {
             response = (R<Object>) o;
         } else if (null == o) {
-            response = R.ok("服务端无响应");
+            response = R.ok("服务端无数据返回");
         } else {
-            response.setData(o);
+            response = R.ok(o);
         }
         log.debug("服务器端响应数据 {}", response);
         return response;

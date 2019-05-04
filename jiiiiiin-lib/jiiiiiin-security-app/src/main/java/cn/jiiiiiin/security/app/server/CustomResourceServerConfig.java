@@ -14,6 +14,7 @@ import cn.jiiiiiin.security.core.validate.code.ValidateCodeSecurityConfig;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -37,9 +38,10 @@ import static cn.jiiiiiin.security.app.server.CustomAuthorizationServerConfig.SE
  *
  * @author zhailiang
  */
-@Configuration
-@EnableResourceServer
+//@Configuration
+//@EnableResourceServer
 @AllArgsConstructor
+//@ConditionalOnMissingBean(ResourceServerConfigurerAdapter.class)
 public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private final SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
