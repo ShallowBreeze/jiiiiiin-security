@@ -145,7 +145,7 @@
 | 实践Zipkin 服务链路追踪 | 90% | [集成方式参考](https://windmt.com/2018/04/24/spring-cloud-12-sleuth-zipkin/)，建议使用docker直接部署服务端 |
 | 集成Spring Boot Admin | 90% | [集成方式参考](https://codecentric.github.io/spring-boot-admin/2.1.3/#spring-cloud-discovery-support)|
 | 实践apollo 服务配置管理| 90% | 实践[Apollo（阿波罗）](https://mp.weixin.qq.com/s/iDmYJre_ULEIxuliu1EbIQ?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=weixin) |
-| 实践OAuth2授权认证中心 服务安全 | 0% |  |
+| 实践OAuth2授权认证中心 服务安全 | 80% | 通过Spring Security Oauth2 + JWT来实现，身份认证通过网关走`jiiiiiin-auth-center`，鉴权直接在网关完成|
 | 服务实时日志 | 0% |  |
 | 代码自动生成 | 0% | [服务端3层代码自动生成](https://github.com/Jiiiiiin/jiiiiiin-security/blob/master/jiiiiiin-module-common/src/main/java/cn/jiiiiiin/module/common/generator/CodeGenerator.java)，待适配目前的目录结构 |
 | docker化部署实践 | 0% |  |

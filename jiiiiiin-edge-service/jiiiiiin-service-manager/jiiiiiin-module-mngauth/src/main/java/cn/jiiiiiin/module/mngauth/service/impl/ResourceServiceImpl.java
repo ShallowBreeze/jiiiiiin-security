@@ -8,9 +8,9 @@ import cn.jiiiiiin.module.common.enums.common.ChannelEnum;
 import cn.jiiiiiin.module.common.enums.common.StatusEnum;
 import cn.jiiiiiin.module.common.exception.BusinessErrException;
 import cn.jiiiiiin.module.common.mapper.mngauth.ResourceMapper;
+import cn.jiiiiiin.module.mngauth.dict.AuthDict;
 import cn.jiiiiiin.module.mngauth.service.IResourceService;
 import cn.jiiiiiin.module.mngauth.service.IRoleService;
-import cn.jiiiiiin.security.rbac.component.dict.RbacDict;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
@@ -120,7 +120,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
         if (res) {
             // 新增资源都默认加挂到`ROLE_ADMIN`
-            val adminRole = roleService.getOne(new QueryWrapper<Role>().eq(Role.AUTHORITY_NAME, RbacDict.ROLE_ADMIN_AUTHORITY_NAME));
+            val adminRole = roleService.getOne(new QueryWrapper<Role>().eq(Role.AUTHORITY_NAME, AuthDict.ROLE_ADMIN_AUTHORITY_NAME));
             val resList = new ArrayList<Resource>();
             resList.add(resource);
             adminRole.setResources(resList);

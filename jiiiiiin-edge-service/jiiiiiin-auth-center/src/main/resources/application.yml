@@ -62,11 +62,6 @@ spring:
     resource:
       # https://my.oschina.net/buwei/blog/910028
       filter-order: 3
-  #  application:
-  #    # 指定发布的微服务名（以后调用时，只需该名称即可访问该服务）
-  #    name: jiiiiiin-server-manager
-  #  profiles:
-  #    active: dev
   jackson:
     default-property-inclusion: non_null
   thymeleaf:
@@ -75,9 +70,6 @@ spring:
     mode: LEGACYHTML5
     encoding: UTF-8
     prefix: classpath:/templates/
-  # https://docs.spring.io/spring-session/docs/current/reference/html5/guides/boot-redis.html
-  session:
-    store-type: redis
   # https://segmentfault.com/a/1190000013269653
   #  cache:
   #    # 缓存的技术类型
@@ -179,18 +171,6 @@ mybatis-plus:
     #开启MyBatis的二级缓存
     cache-enabled: true
 
-#security:
-#  oauth2:
-#    client:
-#      client-id: pweb
-#      client-secret: pweb
-#      # https://stackoverflow.com/questions/39756748/spring-oauth-authorization-server-requires-scope
-#      scope: all
-#      grant-type: password
-
-#security:
-#  basic:
-#    enabled: false
 # 自定义配置
 jiiiiiin:
   security:

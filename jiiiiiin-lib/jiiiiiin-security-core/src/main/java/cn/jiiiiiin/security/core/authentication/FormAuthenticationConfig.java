@@ -5,6 +5,7 @@ package cn.jiiiiiin.security.core.authentication;
 
 import cn.jiiiiiin.security.core.dict.SecurityConstants;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @AllArgsConstructor
+@ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", matchIfMissing = true)
 public class FormAuthenticationConfig {
 
     private final AuthenticationSuccessHandler authenticationSuccessHandler;

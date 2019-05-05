@@ -18,13 +18,15 @@ import java.util.List;
  * #    client:
  * #      client-id: immoc
  * #      client-secret: immocsecret
+ *
  * 配置
  *
  * 参考：https://www.jianshu.com/p/576dbf44b2ae
  *
+ * `ClientDetailsServiceBuilder.ClientBuilder` 关于应用运行的第三方授权应用信息的配置
+ *
  * @author zhailiang
  * @author jiiiiiin
- * @see ClientDetailsServiceBuilder.ClientBuilder 关于应用运行的第三方授权应用信息的配置
  */
 @Setter
 @Getter
@@ -40,6 +42,11 @@ public class OAuth2Properties {
      * 服务器用其进行签名、客户端用其进行延签，注意要将其进行安全存储，否则任何人都可以模拟应用下发token
      */
     private String jwtSigningKey = "jiiiiiin";
+
+    /**
+     * 是否启用默认的`org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter`
+     */
+    private boolean enableAuthorizationServer = true;
 
     /**
      * 客户端配置

@@ -25,7 +25,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
  *
  * @author zhailiang
  * @author jiiiiiin
- * @see CustomAuthorizationServerConfig
+ * @see AppAuthorizationServerConfig
  */
 @Configuration
 public class TokenStoreConfig {

@@ -2,6 +2,7 @@ package cn.jiiiiiin.security.app.component.authentication.social.impl;
 
 import cn.jiiiiiin.security.core.social.support.SocialAuthenticationFilterPostProcessor;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @AllArgsConstructor
+@ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", matchIfMissing = true)
 public class AppSocialAuthenticationFilterPostProcessor implements SocialAuthenticationFilterPostProcessor {
 
     private final AuthenticationSuccessHandler authenticationSuccessHandler;

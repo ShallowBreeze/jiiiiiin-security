@@ -6,7 +6,7 @@ package cn.jiiiiiin.security.app.server;
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -109,8 +108,8 @@ import java.util.List;
  */
 @Configuration
 @EnableAuthorizationServer
-//@ConditionalOnMissingBean(AuthorizationServerConfigurerAdapter.class)
-public class CustomAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+@ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", matchIfMissing = true)
+public class AppAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     /**
      * https://stackoverflow.com/questions/29596036/spring-security-oauth2-resource-server-always-returning-invalid-token

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -25,7 +26,8 @@ public class AdminTest {
         user.setUsername("test001");
         user.setChannel(ChannelEnum.MNG);
         user.setPassword("123456");
-        user.setCreateTime(LocalDateTime.now());
+//        user.setCreateTime(LocalDateTime.now());
+        user.setCreateTime(new Timestamp(System.currentTimeMillis()));
 
         ObjectMapper om = new ObjectMapper();
 //        om.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
