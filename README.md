@@ -46,12 +46,12 @@
 ├── config 各个边界服务、后端服务的apollo配置目录
 ├── db 数据库初始化脚本
 ├── jiiiiiin-lib 自定义库
-│   ├── jiiiiiin-data-orm orm层模块（目前主要针对Mybatis-Plus）
-│   ├── jiiiiiin-security-app 针对JWT Token的安全模块（lib，目前没有依赖）
+│   ├── jiiiiiin-data-orm orm层模块，目前主要针对Mybatis-Plus、redis（lib）
+│   ├── jiiiiiin-security-app 针对SpringSecurity OAuth2 + Token(default/JWT)的安全模块(lib)
 │   ├── jiiiiiin-security-authorize 后端RBAC抽象模块(lib)
 │   ├── jiiiiiin-security-browser 针对Session的安全层模块(lib)
-│   ├── jiiiiiin-security-core 安全层基础模块（lib，处理Spring-Security相关基础配置）
-│   ├── jiiiiiin-module-common 应用通用模块(目前内管依赖)
+│   ├── jiiiiiin-security-core 安全层基础模块，处理Spring-Security相关基础配置（lib）
+│   ├── jiiiiiin-module-common 应用通用模块(lib，TODO 将会做调整，迁移entity和相关代码)
 ├── jiiiiiin-eureka-server 注册中心服务端(通用服务)
 ├── jiiiiiin-gateway 网关(通用服务)
 ├── jiiiiiin-hystrix
