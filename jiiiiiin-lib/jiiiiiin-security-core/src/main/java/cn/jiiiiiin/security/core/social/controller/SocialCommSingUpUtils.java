@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class SocialCommSingUpUtils {
 
-    private final RedisTemplate<Object, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private final UsersConnectionRepository usersConnectionRepository;
 

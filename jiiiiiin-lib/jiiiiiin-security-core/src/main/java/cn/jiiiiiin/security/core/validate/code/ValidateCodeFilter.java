@@ -33,7 +33,7 @@ import java.util.Set;
  */
 @Component
 @Slf4j
-@ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", havingValue = "true", matchIfMissing = true)
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
     /**

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Order(Integer.MAX_VALUE)
-public class AuthAuthorizeConfigProvider implements AuthorizeConfigProvider {
+public class ZuulAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
     @Override
     public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {

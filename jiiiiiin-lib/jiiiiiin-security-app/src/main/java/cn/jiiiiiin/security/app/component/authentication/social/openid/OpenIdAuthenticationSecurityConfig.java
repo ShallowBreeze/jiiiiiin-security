@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @AllArgsConstructor
-@ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", havingValue = "true", matchIfMissing = true)
 public class OpenIdAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 	
 	private final AuthenticationSuccessHandler authenticationSuccessHandler;

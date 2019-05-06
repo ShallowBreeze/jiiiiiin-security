@@ -108,7 +108,7 @@ import java.util.List;
  */
 @Configuration
 @EnableAuthorizationServer
-@ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", havingValue = "true", matchIfMissing = true)
 public class AppAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     /**

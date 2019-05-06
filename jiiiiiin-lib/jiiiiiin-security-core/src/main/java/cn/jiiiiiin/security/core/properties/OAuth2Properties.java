@@ -48,6 +48,8 @@ public class OAuth2Properties {
      */
     private boolean enableAuthorizationServer = true;
 
+    private boolean useSimpleUserAuthenticationConverter = true;
+
     /**
      * 客户端配置
      */

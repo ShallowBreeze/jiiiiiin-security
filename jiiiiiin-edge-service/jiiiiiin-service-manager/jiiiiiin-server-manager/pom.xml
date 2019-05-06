@@ -39,15 +39,15 @@
             <artifactId>jiiiiiin-security-authorize</artifactId>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>cn.jiiiiiin.security</groupId>-->
-        <!--            <artifactId>jiiiiiin-security-app</artifactId>-->
-        <!--        </dependency>-->
-
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
-            <artifactId>jiiiiiin-security-browser</artifactId>
+            <artifactId>jiiiiiin-security-app</artifactId>
         </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>cn.jiiiiiin.security</groupId>-->
+        <!--            <artifactId>jiiiiiin-security-browser</artifactId>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>mysql</groupId>
@@ -95,8 +95,8 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>de.codecentric</groupId>-->
-            <!--<artifactId>spring-boot-admin-starter-client</artifactId>-->
+        <!--<groupId>de.codecentric</groupId>-->
+        <!--<artifactId>spring-boot-admin-starter-client</artifactId>-->
         <!--</dependency>-->
 
     </dependencies>

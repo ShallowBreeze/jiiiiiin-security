@@ -98,6 +98,8 @@ public class Admin extends BaseEntity<Admin> {
 
     public static final String CHANNEL = "channel";
 
+    public static final String ROLES = "roles";
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -53,7 +53,7 @@ public class AdminController extends BaseController {
 
     private final IAdminService adminService;
 
-    private final SimpleGrantedAuthority simpleGrantedAuthority;
+    private final SimpleGrantedAuthority adminGrantedAuthority;
 
     @ApiOperation(value = "第三方授权登录注册/绑定用户", notes = "关联的角色记录，必须传递到{@link AdminDto#roleIds}字段中", httpMethod = "POST")
     @PostMapping("regist")
@@ -107,7 +107,7 @@ public class AdminController extends BaseController {
      */
     @ApiOperation(value = "登录用户自身记录查询", httpMethod = "GET")
     @JsonView(View.DetailView.class)
-    @GetMapping("/me")
+    @GetMapping("me")
 //    public AdminDto me(@AuthenticationPrincipal UserDetails user) {
     // 使用app模块 jwt生成的就不是一个可以被注入的`@AuthenticationPrincipal`
     public AdminDto me(Authentication authentication, HttpServletRequest request) {
@@ -150,7 +150,7 @@ public class AdminController extends BaseController {
     @PutMapping("pwd")
     @JsonView(View.SecurityView.class)
     public AdminDto updatePwd(@RequestBody @Validated({BaseEntity.IDGroup.class, Groups.Security.class}) AdminDto admin, @AuthenticationPrincipal UserDetails user) {
-        if (user.getAuthorities().stream().anyMatch(p -> p.equals(simpleGrantedAuthority))) {
+        if (user.getAuthorities().stream().anyMatch(p -> p.equals(adminGrantedAuthority))) {
             adminService.updatePwd(admin);
         }
         return admin;

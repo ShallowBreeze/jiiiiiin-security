@@ -11,8 +11,8 @@ public class MngAuthConfig {
 
     // TODO 待整理
     @Bean
-    @ConditionalOnMissingBean(name = "simpleGrantedAuthority")
-    public SimpleGrantedAuthority simpleGrantedAuthority() {
+    @ConditionalOnMissingBean(name = "adminGrantedAuthority")
+    public SimpleGrantedAuthority adminGrantedAuthority() {
         return new SimpleGrantedAuthority(AuthDict.ROLE_ADMIN_AUTHORITY_FULL_NAME);
     }
 }

@@ -18,8 +18,8 @@ public class RbacConfig {
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = "simpleGrantedAuthority")
-    public SimpleGrantedAuthority simpleGrantedAuthority() {
+    @ConditionalOnMissingBean(name = "adminGrantedAuthority")
+    public SimpleGrantedAuthority adminGrantedAuthority() {
         return new SimpleGrantedAuthority(RbacDict.ROLE_ADMIN_AUTHORITY_FULL_NAME);
     }
 }

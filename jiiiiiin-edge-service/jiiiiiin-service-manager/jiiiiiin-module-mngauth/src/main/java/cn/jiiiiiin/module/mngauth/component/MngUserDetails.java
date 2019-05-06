@@ -1,16 +1,16 @@
 package cn.jiiiiiin.module.mngauth.component;
 
 import cn.jiiiiiin.module.common.dto.mngauth.AdminDto;
-import cn.jiiiiiin.module.common.entity.mngauth.Admin;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.social.security.SocialUserDetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "admin")
+@NoArgsConstructor
 public class MngUserDetails implements SocialUserDetails {
 
     private static final long serialVersionUID = -8362660409491439833L;
@@ -36,6 +37,10 @@ public class MngUserDetails implements SocialUserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getGrantedAuthority(admin);
+    }
+
+    public static List<SimpleGrantedAuthority> getGrantedAuthority(AdminDto admin) {
         return admin.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getAuthorityName()))
                 .collect(Collectors.toList());

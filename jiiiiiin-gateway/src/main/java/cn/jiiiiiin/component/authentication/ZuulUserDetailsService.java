@@ -33,7 +33,7 @@ import java.util.HashSet;
  */
 @Component
 @Slf4j
-public class AuthCenterUserDetailsService implements UserDetailsService, SocialUserDetailsService {
+public class ZuulUserDetailsService implements UserDetailsService, SocialUserDetailsService {
 
     /**
      * 注意：不要手动简化这里的注入方式
@@ -42,7 +42,8 @@ public class AuthCenterUserDetailsService implements UserDetailsService, SocialU
     private IAdminService adminService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { log.debug("普通登录用户名 {}", username);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.debug("普通登录用户名 {}", username);
         return _getUserDetails(username);
     }
 
