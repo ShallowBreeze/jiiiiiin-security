@@ -18,6 +18,7 @@
         <module>jiiiiiin-security-app</module>
         <module>jiiiiiin-security-authorize</module>
         <module>jiiiiiin-module-common</module>
+        <module>jiiiiiin-apollo</module>
     </modules>
 
 

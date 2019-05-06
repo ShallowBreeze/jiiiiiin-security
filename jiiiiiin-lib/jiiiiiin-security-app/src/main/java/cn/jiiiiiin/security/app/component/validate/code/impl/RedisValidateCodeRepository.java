@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -30,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class RedisValidateCodeRepository implements ValidateCodeRepository {
 
-    private final RedisTemplate<Object, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 存储的时候设置了30分钟的超时时间，如果超过这个实现，数据将会被自动清除

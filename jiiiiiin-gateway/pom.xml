@@ -37,6 +37,23 @@
             <artifactId>mybatis-plus-extension</artifactId>
             <version>RELEASE</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.jiiiiiin.security</groupId>
+            <artifactId>jiiiiiin-security-app</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.jiiiiiin.security</groupId>
+            <artifactId>jiiiiiin-module-mngauth</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -20,6 +20,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -45,7 +46,7 @@ public class Admin extends BaseEntity<Admin> {
     private static final long serialVersionUID = -7474741970506921026L;
     @ApiModelProperty(value = "创建时间")
     @JsonIgnore
-    private LocalDateTime createTime;
+    private Timestamp createTime;
 
     @ApiModelProperty(value = "标识渠道，不同的渠道就是不同的资源分组: 0:内管")
     @JsonView(View.DetailView.class)
@@ -96,6 +97,8 @@ public class Admin extends BaseEntity<Admin> {
     public static final String EMAIL = "email";
 
     public static final String CHANNEL = "channel";
+
+    public static final String ROLES = "roles";
 
     @Override
     public boolean equals(Object o) {

@@ -39,7 +39,7 @@
         <dependency>
             <groupId>org.springframework.mobile</groupId>
             <artifactId>spring-mobile-device</artifactId>
-            <version>LATEST</version>
+            <version>RELEASE</version>
         </dependency>
 
         <!--负责引入spring security 和spring security oauth2相关依赖-->

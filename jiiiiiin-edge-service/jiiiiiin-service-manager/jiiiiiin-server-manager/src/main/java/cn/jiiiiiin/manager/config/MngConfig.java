@@ -30,8 +30,4 @@ public class MngConfig {
         return factoryBean;
     }
 
-    @Bean
-    public SimpleGrantedAuthority adminSimpleGrantedAuthority() {
-        return new SimpleGrantedAuthority(RbacDict.ROLE_ADMIN_AUTHORITY_FULL_NAME);
-    }
 }

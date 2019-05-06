@@ -6,7 +6,7 @@ import cn.jiiiiiin.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -33,6 +33,7 @@ import java.util.Set;
  */
 @Component
 @Slf4j
+@ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", havingValue = "true", matchIfMissing = true)
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
     /**

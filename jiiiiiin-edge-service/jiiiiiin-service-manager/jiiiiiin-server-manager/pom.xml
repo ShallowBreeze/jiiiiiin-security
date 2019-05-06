@@ -21,6 +21,11 @@
 
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
+            <artifactId>jiiiiiin-apollo</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.jiiiiiin.security</groupId>
             <artifactId>jiiiiiin-module-common</artifactId>
         </dependency>
 
@@ -28,6 +33,21 @@
             <groupId>cn.jiiiiiin.security</groupId>
             <artifactId>jiiiiiin-module-mngauth</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.jiiiiiin.security</groupId>
+            <artifactId>jiiiiiin-security-authorize</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.jiiiiiin.security</groupId>
+            <artifactId>jiiiiiin-security-app</artifactId>
+        </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>cn.jiiiiiin.security</groupId>-->
+        <!--            <artifactId>jiiiiiin-security-browser</artifactId>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>mysql</groupId>
@@ -60,7 +80,7 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-<!--            <version>0.7.0</version>-->
+            <version>0.7.0</version>
         </dependency>
 
         <dependency>
@@ -75,8 +95,8 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>de.codecentric</groupId>-->
-            <!--<artifactId>spring-boot-admin-starter-client</artifactId>-->
+        <!--<groupId>de.codecentric</groupId>-->
+        <!--<artifactId>spring-boot-admin-starter-client</artifactId>-->
         <!--</dependency>-->
 
     </dependencies>

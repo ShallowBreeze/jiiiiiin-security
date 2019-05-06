@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -55,10 +56,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * browser 模块下使用
-     */
-    private final ProviderSignInUtils providerSignInUtils;
+//    /**
+//     * browser 模块下使用
+//     */
+//    private final ProviderSignInUtils providerSignInUtils;
 
     /**
      * app 模块下使用
@@ -118,7 +119,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public Boolean saveAdminAndRelationRecords(AdminDto admin) {
         _checkAdminUniqueness(admin);
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
-        admin.setCreateTime(LocalDateTime.now());
+        // druid下面会出问题故修改`InvalidDataAccessApiUsageException LocalDateTime DATATIME`
+        // admin.setCreateTime(LocalDateTime.now());
+        admin.setCreateTime(new Timestamp(System.currentTimeMillis()));
         val res = SqlHelper.retBool(adminMapper.insert(admin));
         _parseRoleIds2Roles(admin);
         saveRelationRoleRecords(admin);

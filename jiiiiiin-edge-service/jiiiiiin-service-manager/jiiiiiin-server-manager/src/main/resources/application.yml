@@ -42,12 +42,15 @@ server:
 #    service-url:
 #      # 指定服务注册中心的地址
 #      defaultZone: http://jiiiiiin-eureka:8761/eureka/
-#logging:
-#  level:
-#    # 配置日志输出级别以观察SQL的执行情况
-#    com:
-#      springboot:
-#        mapper: debug
+logging:
+  level:
+    # 配置日志输出级别以观察SQL的执行情况
+    com:
+      springboot:
+        mapper: debug
+    org:
+      springframework:
+        security: debug
 spring:
   oauth2:
     resource:
@@ -76,23 +79,28 @@ spring:
   #      config: 'classpath:def-ehcache-config.xml'
   #    type: ehcache
   redis:
+    # http://blog.didispace.com/springbootredis/
+    # https://www.jianshu.com/p/feef1421ab0b
+    # http://www.iocoder.cn/Spring-Boot/battcn/v2-nosql-redis/
     # 配置redis链接地址
     host: jiiiiiin-redis
     port: 6379
     # Redis数据库索引（默认为0）
     database: 0
-    jedis:
+    lettuce:
       pool:
         # 连接池最大连接数（使用负值表示没有限制）
         max-active: 8
         # 连接池最大阻塞等待时间（使用负值表示没有限制）
-        #        max-wait: -1
+        max-wait: -1
         # 连接池中的最大空闲连接
         max-idle: 8
         # 连接池中的最小空闲连接
         min-idle: 0
       # 连接超时时间（毫秒）
       timeout: 0
+    # Redis服务器连接密码（默认为空）
+    password:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://jiiiiiin-mysql:3306/vplusdb?&useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false

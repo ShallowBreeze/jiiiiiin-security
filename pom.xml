@@ -89,6 +89,12 @@
 
             <dependency>
                 <groupId>cn.jiiiiiin.security</groupId>
+                <artifactId>jiiiiiin-apollo</artifactId>
+                <version>${jiiiiiin-security-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.jiiiiiin.security</groupId>
                 <artifactId>jiiiiiin-security-core</artifactId>
                 <version>${jiiiiiin-security-version}</version>
             </dependency>

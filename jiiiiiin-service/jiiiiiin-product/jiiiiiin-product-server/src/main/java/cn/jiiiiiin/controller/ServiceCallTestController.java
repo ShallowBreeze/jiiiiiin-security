@@ -37,7 +37,7 @@ public class ServiceCallTestController {
             log.info("商品服务模拟处理延迟");
             _sleep();
         } else if (randomNum == 2) {
-            throw new RuntimeException("模拟商品服务");
+            throw new RuntimeException("模拟商品服务模拟发生错误");
         }
     }
 
