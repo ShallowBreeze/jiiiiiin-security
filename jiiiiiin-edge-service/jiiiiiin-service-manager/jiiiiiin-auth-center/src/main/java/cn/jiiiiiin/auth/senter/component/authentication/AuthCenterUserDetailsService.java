@@ -42,7 +42,8 @@ public class AuthCenterUserDetailsService implements UserDetailsService, SocialU
     private IAdminService adminService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { log.debug("普通登录用户名 {}", username);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.debug("普通登录用户名 {}", username);
         return _getUserDetails(username);
     }
 

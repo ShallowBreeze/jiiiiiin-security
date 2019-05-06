@@ -15,6 +15,7 @@
     <modules>
         <module>jiiiiiin-module-mngauth</module>
         <module>jiiiiiin-server-manager</module>
+        <module>jiiiiiin-auth-center</module>
     </modules>
 
 </project>

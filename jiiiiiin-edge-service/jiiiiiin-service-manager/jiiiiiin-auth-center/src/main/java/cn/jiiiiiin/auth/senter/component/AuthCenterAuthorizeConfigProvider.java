@@ -26,7 +26,6 @@ public class AuthCenterAuthorizeConfigProvider implements AuthorizeConfigProvide
                         "/druid", "/druid/*", "/druid/**",
                         // Spring Boot Admin监控配置
                         "/actuator/**",
-//                        "/oauth/**",
                         "/testZuul",
                         // 用户注册需要放开
                         "/admin/regist"

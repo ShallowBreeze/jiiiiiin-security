@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>jiiiiiin-service-manager</module>
-        <module>jiiiiiin-auth-center</module>
     </modules>
 
 </project>
