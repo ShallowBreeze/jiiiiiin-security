@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 /**
  * 认证服务器注册的第三方应用配置项
@@ -17,8 +18,10 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
+@Accessors(chain = true)
 public class OAuth2ClientProperties {
 
+    public static final int DEFAULT_ACCESSTOKEN_VALIDATESECONDS = 7200;
     /**
      * 第三方应用appId
      */
@@ -35,6 +38,6 @@ public class OAuth2ClientProperties {
     /**
      * 针对此应用发出的token的有效时间
      */
-    private int accessTokenValidateSeconds = 7200;
+    private int accessTokenValidateSeconds = DEFAULT_ACCESSTOKEN_VALIDATESECONDS;
 
 }
