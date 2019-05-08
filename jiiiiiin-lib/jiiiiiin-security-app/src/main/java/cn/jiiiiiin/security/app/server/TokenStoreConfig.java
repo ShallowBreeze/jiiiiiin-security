@@ -116,7 +116,7 @@ public class TokenStoreConfig {
         @Bean
         @ConditionalOnBean(TokenEnhancer.class)
         public TokenEnhancer jwtTokenEnhancer() {
-            return new CustomJwtTokenEnhancer(redisTemplate);
+            return new CustomJwtTokenEnhancer(redisTemplate, securityProperties);
         }
 
     }

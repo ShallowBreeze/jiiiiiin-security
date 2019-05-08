@@ -1,7 +1,7 @@
 package cn.jiiiiiin.security.app.server;
 
-import cn.jiiiiiin.module.common.dto.mngauth.AdminDto;
-import cn.jiiiiiin.module.common.entity.mngauth.Admin;
+import cn.jiiiiiin.module.mngauth.dto.AdminDto;
+import cn.jiiiiiin.module.mngauth.entity.Admin;
 import cn.jiiiiiin.module.mngauth.component.MngUserDetails;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

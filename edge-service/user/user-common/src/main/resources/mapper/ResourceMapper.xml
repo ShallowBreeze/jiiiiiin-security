@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jiiiiiin.module.mngauth.mapper.ResourceMapper">
+
+    <!-- 开启二级缓存 -->
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.jiiiiiin.module.mngauth.entity.Resource">
+        <result column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="pids" property="pids"/>
+        <result column="name" property="name"/>
+        <result column="alias" property="alias"/>
+        <result column="icon" property="icon"/>
+        <result column="path" property="path"/>
+        <result column="num" property="num"/>
+        <result column="levels" property="levels"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="channel" property="channel"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        pid, pids, name, alias, icon, path, num, levels, type, status, channel
+    </sql>
+
+    <sql id="selectByRoleId_Column_List">
+        r.id,
+        r.pid, r.name, r.alias, r.icon, r.path, r.num, r.levels, r.type
+    </sql>
+
+    <insert id="insertRelationInterfaceRecords">
+        insert into mng_resource_interface(interface_id, resource_id) values
+        <foreach collection="interfaces" item="item" index="index"
+                 separator=",">
+            (#{item.id}, #{id})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRelationInterfaceRecords">
+      delete from mng_resource_interface where resource_id = #{id}
+    </delete>
+
+    <delete id="deleteRelationRoleRecords">
+      delete from mng_role_resource where resource_id = #{id}
+    </delete>
+
+    <select id="selectByRoleId" resultType="cn.jiiiiiin.module.mngauth.entity.Resource" useCache="false">
+        select
+            <include refid="selectByRoleId_Column_List"/>
+            from mng_resource r
+            left join mng_role_resource mrr on mrr.resource_id = r.id
+        where
+            mrr.role_id = #{roleId}
+            and r.status = 1
+            and r.channel = #{channel}
+        order by levels,num asc
+    </select>
+
+    <select id="selectChildren" resultType="cn.jiiiiiin.module.mngauth.entity.Resource" useCache="false">
+        -- 没有like后面一个`,`，用来查询当前pid对应的子节点
+        select * from mng_resource where pids like CONCAT('%',#{pid}) and channel = #{channel} order by levels, num asc;
+    </select>
+
+    <select id="selectAllChildrenNode" resultType="cn.jiiiiiin.module.mngauth.entity.Resource">
+      select * from mng_resource
+      where
+        pids like CONCAT('%',#{pid},'%')
+        and channel = #{channel}
+        <if test="status != null">
+        and status = #{status}
+        </if>
+        order by levels, num asc;
+    </select>
+
+    <select id="selectCountChildren" resultType="java.lang.Integer">
+      select count(id) from mng_resource where pids like CONCAT('%',#{pid}) and channel = #{channel};
+    </select>
+
+    <resultMap id="selectResourceAndRelationRecordsResultMap" type="cn.jiiiiiin.module.mngauth.dto.ResourceDto">
+        <result column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="pids" property="pids"/>
+        <result column="name" property="name"/>
+        <result column="alias" property="alias"/>
+        <result column="icon" property="icon"/>
+        <result column="path" property="path"/>
+        <result column="num" property="num"/>
+        <result column="levels" property="levels"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="channel" property="channel"/>
+        <collection property="interfaces" ofType="Interface" javaType="list">
+            <result column="i_id" property="id"/>
+            <result column="i_name" property="name"/>
+            <result column="i_status" property="status"/>
+            <result column="url" property="url"/>
+            <result column="method" property="method"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectResourceAndRelationRecords" resultMap="selectResourceAndRelationRecordsResultMap">
+        select r.*, i.id as i_id, i.name as i_name, i.status as i_status, i.url, i.method from mng_resource r
+            left join mng_resource_interface ri on ri.`resource_id` = r.id
+            left join mng_interface i on ri.`interface_id` = i.id
+            where r.id = #{id};
+    </select>
+
+</mapper>

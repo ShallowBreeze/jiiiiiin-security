@@ -1,11 +1,11 @@
-package cn.jiiiiiin.component.authentication;
+package cn.jiiiiiin.auth.senter.component.authentication;
 
-import cn.jiiiiiin.module.mngauth.enums.ChannelEnum;
-import cn.jiiiiiin.module.mngauth.component.MngUserDetails;
 import cn.jiiiiiin.module.mngauth.dto.AdminDto;
 import cn.jiiiiiin.module.mngauth.dto.Menu;
 import cn.jiiiiiin.module.mngauth.entity.Interface;
 import cn.jiiiiiin.module.mngauth.entity.Resource;
+import cn.jiiiiiin.module.mngauth.enums.ChannelEnum;
+import cn.jiiiiiin.module.mngauth.component.MngUserDetails;
 import cn.jiiiiiin.module.mngauth.enums.ResourceTypeEnum;
 import cn.jiiiiiin.module.mngauth.service.IAdminService;
 import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
@@ -33,7 +33,7 @@ import java.util.HashSet;
  */
 @Component
 @Slf4j
-public class ZuulUserDetailsService implements UserDetailsService, SocialUserDetailsService {
+public class AuthCenterUserDetailsService implements UserDetailsService, SocialUserDetailsService {
 
     /**
      * 注意：不要手动简化这里的注入方式

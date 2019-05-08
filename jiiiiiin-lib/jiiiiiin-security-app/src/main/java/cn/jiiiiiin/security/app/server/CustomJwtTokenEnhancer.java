@@ -3,7 +3,7 @@
  */
 package cn.jiiiiiin.security.app.server;
 
-import cn.jiiiiiin.module.common.entity.mngauth.Admin;
+import cn.jiiiiiin.module.mngauth.entity.Admin;
 import cn.jiiiiiin.module.mngauth.component.MngUserDetails;
 import cn.jiiiiiin.security.core.properties.OAuth2ClientProperties;
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
@@ -42,12 +42,12 @@ public class CustomJwtTokenEnhancer implements TokenEnhancer {
     static final String CACHE_PRINCIPAL = "cache_principal";
     private static final String TOKENENHANCER = "TokenEnhancer-userDetails-";
     private static final OAuth2ClientProperties DEF_CLIENT_INFO = new OAuth2ClientProperties().setAccessTokenValidateSeconds(DEFAULT_ACCESSTOKEN_VALIDATESECONDS);
-    private final RedisTemplate redisTemplate;
-    private final SecurityProperties securityProperties;
     /**
      * 默认延迟清理附加时间（秒）
      */
-    private int DEF_DELAY = 30;
+    private static final int DEF_DELAY = 30;
+    private final RedisTemplate redisTemplate;
+    private final SecurityProperties securityProperties;
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
