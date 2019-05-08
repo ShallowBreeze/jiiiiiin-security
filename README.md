@@ -102,8 +102,8 @@
             127.0.0.1   jiiiiiin-hystrix-dashboard
             127.0.0.1   jiiiiiin-hystrix-tuibine
             127.0.0.1   jiiiiiin-springboot-admin
-            127.0.0.1   user-manager
-            127.0.0.1   user-auth-center
+            127.0.0.1   jiiiiiin-user-manager
+            127.0.0.1   jiiiiiin-user-auth-center
             127.0.0.1   jiiiiiin-gateway
             ```
 
@@ -115,26 +115,26 @@
 
     > 注意这里可以自行控制apollo的连接环境，可以使用`apollo-Quick-Start`快速上手实践
 
-    + 启动jiiiiiin-eureka::DiscoveryServerApplication
+    + 启动eureka::DiscoveryServerApplication
     + 启动监控服务
-        + jiiiiiin-hystrix-dashboard::HystrixDashboardApplication
-        + jiiiiiin-hystrix-tuibine::HystrixTuibineApplication
-        + jiiiiiin-springboot-admin::SpringBootAdminApplication
-        + jiiiiiin-zipkin::[集成方式参考](https://windmt.com/2018/04/24/spring-cloud-12-sleuth-zipkin/)，建议使用docker直接部署服务端
+        + hystrix-dashboard::HystrixDashboardApplication
+        + hystrix-tuibine::HystrixTuibineApplication
+        + springboot-admin::SpringBootAdminApplication
+        + zipkin::[集成方式参考](https://windmt.com/2018/04/24/spring-cloud-12-sleuth-zipkin/)，建议使用docker直接部署服务端
 
     + 启动后端内管应用
 
-    + 启动前端内管应用：user-manager-app::`j user-manager-app && npm run serve`
+    + 启动前端内管应用：jiiiiiin-user-manager-app::`j user-manager-app && npm run serve`
 
-    > 一切ok，就可以直接访问`user-manager:9000` 查看管理控制台了 ：）
+    > 一切ok，就可以直接访问`jiiiiiin-user-manager:9000` 查看管理控制台了 ：）
 
     > 其他服务：
 
     + 启动统一用户认证中心应用user-auth-center-server::AuthCenterApp
 
-    + 启动网关jiiiiiin-gateway::ZuulGatewayApplication
+    + 启动网关gateway::ZuulGatewayApplication
 
-    > 一切ok，就可以通过`POST::http://${host}/api/ac/oauth/token`测试到统一用户认证中心进行身份认证，认证通过之后，即可走网关请求其他服务，比如可以启动`jiiiiiin-product`进行测试，注意自行配置[网关的资源服务器权限信息](https://github.com/Jiiiiiin/jiiiiiin-security/blob/c1eab44a0e053093c572ac576e9e961a945e625c/jiiiiiin-gateway/src/main/java/cn/jiiiiiin/component/ZuulAuthorizeConfigProvider.java)，目前这块代码还在优化中
+    > 一切ok，就可以通过`POST::http://${host}/api/ac/oauth/token`测试到统一用户认证中心进行身份认证，认证通过之后，即可走网关请求其他服务，比如可以启动`product`进行测试，注意自行配置[网关的资源服务器权限信息](https://github.com/Jiiiiiin/jiiiiiin-security/blob/c1eab44a0e053093c572ac576e9e961a945e625c/jiiiiiin-gateway/src/main/java/cn/jiiiiiin/component/ZuulAuthorizeConfigProvider.java)，目前这块代码还在优化中
 
 
 
