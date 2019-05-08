@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.security.SocialUserDetailsService;
 
@@ -21,17 +21,14 @@ import org.springframework.social.security.SocialUserDetailsService;
 public class AuthenticationBeanConfig {
 
     /**
-     * 默认密码处理器
-     * <p>
-     * https://www.ktanx.com/blog/p/4917
-     *
-     * @return
+     * http://www.iocoder.cn/Spring-Security/laoxu/PasswordEncoder/
+     * https://blog.csdn.net/alinyua/article/details/80219500
      */
     @Bean
-    @ConditionalOnMissingBean(PasswordEncoder.class)
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    PasswordEncoder passwordEncoder(){
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
 
     /**
      * 默认认证器

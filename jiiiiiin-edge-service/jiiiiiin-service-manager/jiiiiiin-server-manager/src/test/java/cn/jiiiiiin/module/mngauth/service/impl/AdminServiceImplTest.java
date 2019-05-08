@@ -5,6 +5,7 @@ import cn.jiiiiiin.module.common.dto.mngauth.AdminDto;
 import cn.jiiiiiin.module.common.entity.mngauth.Role;
 import cn.jiiiiiin.module.common.enums.common.ChannelEnum;
 import cn.jiiiiiin.module.common.mapper.mngauth.RoleMapper;
+import cn.jiiiiiin.module.mngauth.dict.AuthDict;
 import cn.jiiiiiin.module.mngauth.service.IAdminService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.CacheManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,9 +38,6 @@ import static org.junit.Assert.assertTrue;
 public class AdminServiceImplTest {
 
     @Autowired
-    private CacheManager cacheManager;
-
-    @Autowired
     private IAdminService adminService;
 
     @Autowired
@@ -47,14 +46,28 @@ public class AdminServiceImplTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     // https://waylau.gitbooks.io/spring-security-tutorial/docs/password-encoder.html
     @Test
     public void testBCryptPasswordEncoder() {
-        CharSequence rawPassword = "123456";
+        CharSequence rawPassword = "admin";
         String encodePasswd = passwordEncoder.encode(rawPassword);
-        boolean isMatch = passwordEncoder.matches(rawPassword, encodePasswd);
         System.out.println("encodePasswd:" + encodePasswd);
-        System.out.println(isMatch);
+        boolean isMatch = passwordEncoder.matches(rawPassword, encodePasswd);
+        System.out.println("testBCryptPasswordEncoder " + isMatch);
+    }
+
+    String BCRYPT_PREFIX = "{bcrypt}";
+
+    @Test
+    public void testDelegatingPasswordEncoder() {
+        CharSequence rawPassword = "admin";
+//        String encodePasswd = AuthDict.BCRYPT_PREFIX.concat(bCryptPasswordEncoder.encode(bCryptPasswordEncoder.encode(rawPassword)));
+        String encodePasswd = BCRYPT_PREFIX.concat(bCryptPasswordEncoder.encode(bCryptPasswordEncoder.encode(rawPassword)));
+        System.out.println("encodePasswd:" + encodePasswd);
+        boolean isMatch = passwordEncoder.matches(rawPassword, encodePasswd);
+        System.out.println("testDelegatingPasswordEncoder " + isMatch);
     }
 
     @Transactional

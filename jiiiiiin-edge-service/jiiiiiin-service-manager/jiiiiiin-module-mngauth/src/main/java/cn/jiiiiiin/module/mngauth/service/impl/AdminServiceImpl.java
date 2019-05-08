@@ -10,6 +10,7 @@ import cn.jiiiiiin.module.common.exception.BusinessErrException;
 import cn.jiiiiiin.module.common.mapper.mngauth.AdminMapper;
 import cn.jiiiiiin.module.common.mapper.mngauth.InterfaceMapper;
 import cn.jiiiiiin.module.common.mapper.mngauth.ResourceMapper;
+import cn.jiiiiiin.module.mngauth.dict.AuthDict;
 import cn.jiiiiiin.module.mngauth.service.IAdminService;
 import cn.jiiiiiin.security.core.social.controller.SocialCommSingUpUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -23,12 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.ServletWebRequest;
 
+import javax.net.ssl.SNIHostName;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -54,8 +57,6 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     private final InterfaceMapper interfaceMapper;
 
-    private final PasswordEncoder passwordEncoder;
-
 //    /**
 //     * browser 模块下使用
 //     */
@@ -65,6 +66,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      * app 模块下使用
      */
     private final SocialCommSingUpUtils socialCommSingUpUtils;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Admin signInByUsername(@NonNull String username, ChannelEnum channel) {

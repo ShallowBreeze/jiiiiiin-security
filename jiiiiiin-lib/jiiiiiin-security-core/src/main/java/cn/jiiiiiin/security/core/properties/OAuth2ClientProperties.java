@@ -11,8 +11,6 @@ import lombok.ToString;
 /**
  * 认证服务器注册的第三方应用配置项
  *
- * 可以自行添加需要配置的属性{@link ClientDetailsServiceBuilder.ClientBuilder}
- *
  * @author zhailiang
  */
 @Setter
@@ -29,6 +27,11 @@ public class OAuth2ClientProperties {
      * 第三方应用appSecret
      */
     private String clientSecret;
+    /**
+     * 如果授权服务器支持`authorization_code`授权码模式，那么需要配置该属性，即当前客户应用接收授权码`code`的回调地址
+     * 简化模式也需要配置
+     */
+    private String redirectUris;
     /**
      * 针对此应用发出的token的有效时间
      */

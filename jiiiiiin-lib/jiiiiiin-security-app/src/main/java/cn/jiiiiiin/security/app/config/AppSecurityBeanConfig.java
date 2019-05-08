@@ -109,8 +109,6 @@ public class AppSecurityBeanConfig {
          *
          * https://blog.csdn.net/liu_zhaoming/article/details/79411021
          *
-         * @param resources
-         * @throws Exception
          */
         @Override
         public void configure(ResourceServerSecurityConfigurer resources) throws Exception {

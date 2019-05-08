@@ -128,7 +128,7 @@
 
     > 一切ok，就可以直接访问`jiiiiiin-server-manager:9000` 查看管理控制台了 ：）
 
-    > 其他
+    > 其他服务：
 
     + 启动统一用户认证中心应用jiiiiiin-auth-center::AuthCenterApp
 
@@ -240,6 +240,7 @@
 
 + [Spring Security开发安全的REST服务](https://coding.imooc.com/class/134.html)
 + [OAuth2.0最简向导](http://static.iocoder.cn/OAuth2.0%E6%9C%80%E7%AE%80%E5%90%91%E5%AF%BC.pdf)
++ [Spring Security 实现原理与源码解析系统 —— 精品合集](http://www.iocoder.cn/Spring-Security/good-collection/)
 + [GitHub 9K Star！Apollo作者手把手教你微服务配置中心之道](https://mp.weixin.qq.com/s/iDmYJre_ULEIxuliu1EbIQ?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=weixin)
 
 

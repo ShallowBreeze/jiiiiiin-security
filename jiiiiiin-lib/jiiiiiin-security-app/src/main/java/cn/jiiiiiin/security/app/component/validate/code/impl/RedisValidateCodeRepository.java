@@ -55,11 +55,6 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
         redisTemplate.delete(buildKey(request, type));
     }
 
-    /**
-     * @param request
-     * @param type
-     * @return
-     */
     private String buildKey(ServletWebRequest request, ValidateCodeType type) {
         String deviceId = request.getHeader(SecurityConstants.DEFAULT_PARAMETER_NAME_DEVICEID);
         if (StringUtils.isBlank(deviceId)) {

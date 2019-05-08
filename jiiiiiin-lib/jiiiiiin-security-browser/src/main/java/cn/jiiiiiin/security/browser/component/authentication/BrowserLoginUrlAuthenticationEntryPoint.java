@@ -14,8 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * > [自定义AuthenticationEntryPoint](https://segmentfault.com/a/1190000012137647)
- * {@link org.springframework.security.web.access.ExceptionTranslationFilter#authenticationEntryPoint}
+ * [自定义AuthenticationEntryPoint](https://segmentfault.com/a/1190000012137647)
+ * http://www.iocoder.cn/Spring-Security/laoxu/SpringSecurityFilterChain/
+ *
+ * {@link org.springframework.security.web.access.ExceptionTranslationFilter}
  *
  * @author jiiiiiin
  */

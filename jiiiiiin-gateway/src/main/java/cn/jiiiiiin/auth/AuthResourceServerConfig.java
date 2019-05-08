@@ -10,6 +10,7 @@ import cn.jiiiiiin.security.core.authorize.AuthorizeConfigManager;
 import cn.jiiiiiin.security.core.config.component.SmsCodeAuthenticationSecurityConfig;
 import cn.jiiiiiin.security.core.social.SocialConfig;
 import cn.jiiiiiin.security.core.validate.code.ValidateCodeSecurityConfig;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,52 +30,21 @@ import org.springframework.social.security.SpringSocialConfigurer;
  */
 @Configuration
 @EnableResourceServer
+@AllArgsConstructor
 public class AuthResourceServerConfig extends ResourceServerConfigurerAdapter {
-
-//    @Autowired(required = false)
-//    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
-//
-//    @Autowired(required = false)
-//    private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
-//
-//    @Autowired(required = false)
-//    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
-//
-//    /**
-//     * @see SocialConfig#socialSecurityConfig() 注入social配置到ss
-//     */
-//    private final SpringSocialConfigurer socialSecurityConfig;
-//
-//    @Autowired(required = false)
-//    private  FormAuthenticationConfig formAuthenticationConfig;
 
     private final AuthorizeConfigManager authorizeConfigManager;
 
     private final AppOAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler;
 
-    public AuthResourceServerConfig(AuthorizeConfigManager authorizeConfigManager, AppOAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler) {
-        this.authorizeConfigManager = authorizeConfigManager;
-        this.oAuth2WebSecurityExpressionHandler = oAuth2WebSecurityExpressionHandler;
-    }
+//    public AuthResourceServerConfig(AuthorizeConfigManager authorizeConfigManager, AppOAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler) {
+//        this.authorizeConfigManager = authorizeConfigManager;
+//        this.oAuth2WebSecurityExpressionHandler = oAuth2WebSecurityExpressionHandler;
+//    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-
-//        formAuthenticationConfig.configure(http);
-
         http
-                // 添加自定义验证码过滤器，校验session中的图形验证码
-//                .apply(validateCodeSecurityConfig)
-//                .and()
-                // 追加短信验证码公共配置
-                // .apply(smsCodeAuthenticationSecurityConfig)
-                // .and()
-                // 添加social拦截过滤器，引导用户进行社交登录,`SocialAuthenticationFilter`
-//                .apply(socialSecurityConfig)
-//                .and()
-                // 添加针对`openid`第三方授权登录的token版本支持
-                // .apply(openIdAuthenticationSecurityConfig)
-                // .and()
                 // 临时关闭防护
                 .csrf().disable()
                 // iframe 设置，以便swagger-ui页面能嵌入前端显示

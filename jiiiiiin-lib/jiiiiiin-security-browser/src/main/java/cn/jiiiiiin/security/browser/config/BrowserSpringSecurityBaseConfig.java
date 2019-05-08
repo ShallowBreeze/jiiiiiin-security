@@ -127,7 +127,10 @@ public class BrowserSpringSecurityBaseConfig extends WebSecurityConfigurerAdapte
                 .deleteCookies("JSESSIONID")
                 .and()
                 .exceptionHandling()
+                // ExceptionTranslationFilter如果检测到AccessDeniedException，需要先判断当前用户是不是匿名用户，如果是匿名访问，则和前面一样运行AuthenticationEntryPoint，否则会委托给AccessDeniedHandler去处理
                 .accessDeniedHandler(accessDeniedHandler)
+                // ExceptionTranslationFilter如果该过滤器检测到AuthenticationException，则将会交给内部的AuthenticationEntryPoint去处理
+                // http://www.iocoder.cn/Spring-Security/laoxu/SpringSecurityFilterChain/
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .rememberMe()
