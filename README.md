@@ -1,6 +1,6 @@
 # jiiiiiin-security
 
-一个SpringCloud微服务学习项目 && 一个前后端分离的内管基础项目
+一个SpringCloud微服务学习项目 && 一个前后端分离的权限管理基础项目
 
 + [MyBatis-Plus优秀案例之一](https://mp.baomidou.com/guide/#%E4%BC%98%E7%A7%80%E6%A1%88%E4%BE%8B)
 + [d2-admin优秀案例之一](https://github.com/d2-projects/d2-admin#open-source-backend-implementation)
