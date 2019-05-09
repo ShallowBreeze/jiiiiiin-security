@@ -27,7 +27,7 @@ import java.util.Date;
 @SpringBootApplication
 @EnableDiscoveryClient
 @RestController
-@MapperScan(value = {"cn.jiiiiiin.module.mngauth.mapper"})
+@MapperScan(value = {"cn.jiiiiiin.user.mapper"})
 public class ManagerApp {
 
     @Value("${server.port}")

@@ -38,7 +38,6 @@
             <version>RELEASE</version>
         </dependency>
 
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -53,7 +52,7 @@
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
             <artifactId>user-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${jiiiiiin-security-version}</version>
         </dependency>
     </dependencies>
 

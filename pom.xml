@@ -40,7 +40,6 @@
 
 
     <dependencies>
-
         <dependency>
             <groupId>com.ctrip.framework.apollo</groupId>
             <artifactId>apollo-client</artifactId>
@@ -127,12 +126,6 @@
             <dependency>
                 <groupId>cn.jiiiiiin.security</groupId>
                 <artifactId>jiiiiiin-mvc</artifactId>
-                <version>${jiiiiiin-security-version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.jiiiiiin.security</groupId>
-                <artifactId>jiiiiiin-eureka-server</artifactId>
                 <version>${jiiiiiin-security-version}</version>
             </dependency>
 

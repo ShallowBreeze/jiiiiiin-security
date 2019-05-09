@@ -7,7 +7,7 @@ import cn.jiiiiiin.security.app.component.authentication.AppAuthenticationFailur
 import cn.jiiiiiin.security.app.component.authentication.AppAuthenticationSuccessHandler;
 import cn.jiiiiiin.security.app.component.authentication.AppOAuth2WebSecurityExpressionHandler;
 import cn.jiiiiiin.security.app.component.authentication.social.openid.OpenIdAuthenticationSecurityConfig;
-import cn.jiiiiiin.security.app.server.SimpleUserAuthenticationConverter;
+import cn.jiiiiiin.security.app.component.oauth2.AppDefaultJwtTokenEnhancer;
 import cn.jiiiiiin.security.core.authentication.FormAuthenticationConfig;
 import cn.jiiiiiin.security.core.authorize.AuthorizeConfigManager;
 import cn.jiiiiiin.security.core.config.component.SmsCodeAuthenticationSecurityConfig;
@@ -22,6 +22,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -48,13 +50,6 @@ public class AppSecurityBeanConfig {
     public AuthenticationFailureHandler authenticationFailureHandler() {
         return new AppAuthenticationFailureHandler();
     }
-
-    @Bean
-    @ConditionalOnMissingBean(SimpleUserAuthenticationConverter.class)
-    public SimpleUserAuthenticationConverter simpleUserAuthenticationConverter() {
-        return new SimpleUserAuthenticationConverter();
-    }
-
 
     @EnableResourceServer
     @AllArgsConstructor
@@ -126,6 +121,26 @@ public class AppSecurityBeanConfig {
                     .expressionHandler(oAuth2WebSecurityExpressionHandler);
         }
     }
+
+    @Bean
+    @ConditionalOnMissingBean(DefaultUserAuthenticationConverter.class)
+    public DefaultUserAuthenticationConverter defaultUserAuthenticationConverter() {
+        return new DefaultUserAuthenticationConverter();
+    }
+
+
+    /**
+     * 用于扩展和解析JWT的信息
+     * <p>
+     * 业务系统可以自行配置自己的{@link TokenEnhancer}
+     *
+     */
+    @Bean
+    @ConditionalOnMissingBean(name = "jwtTokenEnhancer")
+    public TokenEnhancer jwtTokenEnhancer() {
+        return new AppDefaultJwtTokenEnhancer();
+    }
+
 
 
 

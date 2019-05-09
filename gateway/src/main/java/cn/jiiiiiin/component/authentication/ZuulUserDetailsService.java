@@ -1,13 +1,13 @@
 package cn.jiiiiiin.component.authentication;
 
-import cn.jiiiiiin.module.mngauth.component.MngUserDetails;
-import cn.jiiiiiin.module.mngauth.dto.AdminDto;
-import cn.jiiiiiin.module.mngauth.dto.Menu;
-import cn.jiiiiiin.module.mngauth.entity.Interface;
-import cn.jiiiiiin.module.mngauth.entity.Resource;
-import cn.jiiiiiin.module.mngauth.enums.ChannelEnum;
-import cn.jiiiiiin.module.mngauth.enums.ResourceTypeEnum;
-import cn.jiiiiiin.module.mngauth.service.IAdminService;
+import cn.jiiiiiin.user.component.MngUserDetails;
+import cn.jiiiiiin.user.dto.AdminDto;
+import cn.jiiiiiin.user.dto.Menu;
+import cn.jiiiiiin.user.entity.Interface;
+import cn.jiiiiiin.user.entity.Resource;
+import cn.jiiiiiin.user.enums.ChannelEnum;
+import cn.jiiiiiin.user.enums.ResourceTypeEnum;
+import cn.jiiiiiin.user.service.IAdminService;
 import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

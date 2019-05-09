@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.jiiiiiin.module.mngauth.mapper.AdminMapper">
+<mapper namespace="cn.jiiiiiin.user.mapper.AdminMapper">
 
     <!-- 开启二级缓存 -->
     <!--<cache TYPE="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
@@ -15,7 +15,7 @@
     <!--</cache>-->
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.jiiiiiin.module.mngauth.entity.Admin">
+    <resultMap id="BaseResultMap" type="cn.jiiiiiin.user.entity.Admin">
         <result column="id" property="id"/>
         <result column="create_time" property="createTime"/>
         <result column="username" property="username"/>
@@ -99,7 +99,7 @@
         </if>
     </select>
 
-    <select id="selectPageAdminDto" resultType="cn.jiiiiiin.module.mngauth.dto.AdminDto">
+    <select id="selectPageAdminDto" resultType="cn.jiiiiiin.user.dto.AdminDto">
         select
         <include refid="Comm_Column_List"/>,
 --         UNIX_TIMESTAMP(create_time) as createTimestamp,
@@ -116,7 +116,7 @@
         </if>
     </select>
 
-    <resultMap id="selectRoleRecordsByIdResultMap" type="cn.jiiiiiin.module.mngauth.dto.AdminDto">
+    <resultMap id="selectRoleRecordsByIdResultMap" type="cn.jiiiiiin.user.dto.AdminDto">
         <result column="id" property="id"/>
         <result column="create_time" property="createTime"/>
         <result column="username" property="username"/>

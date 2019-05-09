@@ -119,7 +119,7 @@ mybatis-plus:
   mapper-locations: classpath:/mapper/*/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: cn.jiiiiiin.module.common.entity
-  type-aliases-super-type: cn.jiiiiiin.data.orm.entity.BaseEntity
+  type-aliases-super-type: cn.jiiiiiin.data.entity.BaseEntity
   typeEnumsPackage: cn.jiiiiiin.module.common.enums.*
   global-config:
     db-config:
@@ -145,33 +145,6 @@ jiiiiiin:
       clients:
         - clientId: pweb
           clientSecret: pweb
-    # https://github.com/jojozhai/security
-    social:
-      filterProcessesUrl: /qqLogin
-      qq:
-        app-id: 100550231
-        app-secret: 69b6ab57b22f3c2fe6a6149274e3295e
-        # 覆盖默认的`/auth`用于测试
-        # 覆盖默认的`/qq`用于测试
-        providerId: callback.do
-      weixin:
-        app-id: wxd99431bbff8305a0
-        app-secret: 60f78681d063590a469f1b297feff3c4
-        providerId: weixin
-    validate:
-      image-code:
-        type: EASYCAPTCHA_GIF_TYPE_NUM_AND_UPPER
-        width: 70
-        length: 2
-        interceptor-urls: ${server.context-path}/authentication/form,${server.context-path}/authentication/mobile
-    browser:
-      fontUrl: http://jiiiiiin-server-manager:9000/
-      signInUrl: /signIn
-      sign-up-url: /signUp
-      sign-out-url: /signOut
-      # 以下设置非必须
-      rememberMeSeconds: 3600
-      proxy-uri: http://www.pinzhi365.com
 
 management:
   endpoints:

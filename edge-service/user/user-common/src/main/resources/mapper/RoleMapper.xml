@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.jiiiiiin.module.mngauth.mapper.RoleMapper">
+<mapper namespace="cn.jiiiiiin.user.mapper.RoleMapper">
 
     <!-- 开启二级缓存 -->
     <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.jiiiiiin.module.mngauth.entity.Role">
+    <resultMap id="BaseResultMap" type="cn.jiiiiiin.user.entity.Role">
         <result column="id" property="id" />
         <result column="name" property="name" />
         <result column="authority_name" property="authorityName" />
@@ -43,7 +43,7 @@
         </foreach>
     </delete>
 
-    <resultMap id="selectRoleAndRelationRecordsResultMap" type="cn.jiiiiiin.module.mngauth.dto.RoleDto">
+    <resultMap id="selectRoleAndRelationRecordsResultMap" type="cn.jiiiiiin.user.dto.RoleDto">
         <result column="r_id" property="id" />
         <result column="r_name" property="name" />
         <result column="authority_name" property="authorityName" />
@@ -72,7 +72,7 @@
         WHERE r.id = #{id}
     </select>
 
-    <select id="selectPageDto" resultType="cn.jiiiiiin.module.mngauth.dto.RoleDto">
+    <select id="selectPageDto" resultType="cn.jiiiiiin.user.dto.RoleDto">
       select * from mng_role where channel = #{channel}
         <if test="role!= null and role.name != null">
             and name like CONCAT('%',#{role.name},'%')

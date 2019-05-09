@@ -11,10 +11,9 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.util.encoders.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-//import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.security.oauth2.provider.*;
@@ -26,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
+//import org.springframework.security.crypto.codec.Base64;
 
 /**
  * APP环境下认证成功处理器
@@ -46,7 +47,9 @@ public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
 
     /**
      * 认证服务器令牌服务
+     * @Lazy 解决循环引用问题 https://blog.csdn.net/moneyshi/article/details/51144752
      */
+    @Lazy
 	@Autowired
 	private AuthorizationServerTokenServices authorizationServerTokenServices;
 

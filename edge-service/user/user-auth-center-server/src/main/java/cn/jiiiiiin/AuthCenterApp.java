@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.api.R;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableDiscoveryClient
 @RestController
 @AllArgsConstructor
+// TODO 待把用户抽成一个原子服务
+@MapperScan(value = {"cn.jiiiiiin.user.mapper"})
 public class AuthCenterApp {
 
     private final SecurityProperties securityProperties;

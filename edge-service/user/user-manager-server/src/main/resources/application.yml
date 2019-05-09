@@ -162,10 +162,10 @@ mybatis-plus:
   #Mapper.xml所在的位置
   mapper-locations: classpath:/mapper/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: cn.jiiiiiin.module.mngauth.entity
-  type-aliases-super-type: cn.jiiiiiin.data.orm.entity.BaseEntity
+  typeAliasesPackage: cn.jiiiiiin.user.entity
+  type-aliases-super-type: cn.jiiiiiin.data.entity.BaseEntity
   # TODO 目前mp+不支持多包配置，故需要把当前模块依赖的枚举都放在一个包下
-  type-enums-package: cn.jiiiiiin.module.mngauth.enums
+  type-enums-package: cn.jiiiiiin.user.enums
   global-config:
     db-config:
       id-type: id_worker
@@ -178,19 +178,6 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     #开启MyBatis的二级缓存
     cache-enabled: true
-
-#security:
-#  oauth2:
-#    client:
-#      client-id: pweb
-#      client-secret: pweb
-#      # https://stackoverflow.com/questions/39756748/spring-oauth-authorization-server-requires-scope
-#      scope: all
-#      grant-type: password
-
-#security:
-#  basic:
-#    enabled: false
 # 自定义配置
 jiiiiiin:
   security:
