@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jiiiiiin-edge-service</artifactId>
+    <artifactId>edge-service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>jiiiiiin-service-manager</module>
+        <module>user</module>
     </modules>
 
 </project>

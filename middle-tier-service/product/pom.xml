@@ -9,11 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jiiiiiin-product</artifactId>
+    <artifactId>product</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>jiiiiiin-product-server</module>
-        <module>jiiiiiin-product-client</module>
+        <module>product-server</module>
+        <module>product-client</module>
     </modules>
 
 </project>

@@ -12,12 +12,12 @@
     <artifactId>jiiiiiin-lib</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>jiiiiiin-data-orm</module>
+        <module>jiiiiiin-data</module>
         <module>jiiiiiin-security-core</module>
         <module>jiiiiiin-security-browser</module>
         <module>jiiiiiin-security-app</module>
         <module>jiiiiiin-security-authorize</module>
-        <module>jiiiiiin-module-common</module>
+        <module>jiiiiiin-mvc</module>
         <module>jiiiiiin-apollo</module>
     </modules>
 

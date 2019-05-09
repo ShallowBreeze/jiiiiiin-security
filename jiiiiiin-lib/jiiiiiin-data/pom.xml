@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jiiiiiin-data-orm</artifactId>
+    <artifactId>jiiiiiin-data</artifactId>
 
     <description>orm 模块</description>
 

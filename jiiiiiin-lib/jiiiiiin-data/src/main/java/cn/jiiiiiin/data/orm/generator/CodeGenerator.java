@@ -1,4 +1,4 @@
-package cn.jiiiiiin.module.common.generator;
+package cn.jiiiiiin.data.orm.generator;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;

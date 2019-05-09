@@ -7,6 +7,7 @@ import cn.jiiiiiin.security.app.component.authentication.AppAuthenticationFailur
 import cn.jiiiiiin.security.app.component.authentication.AppAuthenticationSuccessHandler;
 import cn.jiiiiiin.security.app.component.authentication.AppOAuth2WebSecurityExpressionHandler;
 import cn.jiiiiiin.security.app.component.authentication.social.openid.OpenIdAuthenticationSecurityConfig;
+import cn.jiiiiiin.security.app.server.SimpleUserAuthenticationConverter;
 import cn.jiiiiiin.security.core.authentication.FormAuthenticationConfig;
 import cn.jiiiiiin.security.core.authorize.AuthorizeConfigManager;
 import cn.jiiiiiin.security.core.config.component.SmsCodeAuthenticationSecurityConfig;
@@ -47,6 +48,13 @@ public class AppSecurityBeanConfig {
     public AuthenticationFailureHandler authenticationFailureHandler() {
         return new AppAuthenticationFailureHandler();
     }
+
+    @Bean
+    @ConditionalOnMissingBean(SimpleUserAuthenticationConverter.class)
+    public SimpleUserAuthenticationConverter simpleUserAuthenticationConverter() {
+        return new SimpleUserAuthenticationConverter();
+    }
+
 
     @EnableResourceServer
     @AllArgsConstructor
@@ -117,7 +125,8 @@ public class AppSecurityBeanConfig {
 //                .resourceId(SERVER_RESOURCE_ID)
                     .expressionHandler(oAuth2WebSecurityExpressionHandler);
         }
-
     }
+
+
 
 }

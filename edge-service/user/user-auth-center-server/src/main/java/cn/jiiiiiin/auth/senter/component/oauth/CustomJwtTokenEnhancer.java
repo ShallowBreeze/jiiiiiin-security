@@ -3,13 +3,11 @@
  */
 package cn.jiiiiiin.security.app.server;
 
-import cn.jiiiiiin.module.mngauth.entity.Admin;
 import cn.jiiiiiin.module.mngauth.component.MngUserDetails;
 import cn.jiiiiiin.security.core.properties.OAuth2ClientProperties;
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
 import lombok.AllArgsConstructor;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -19,9 +17,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 import static cn.jiiiiiin.security.core.properties.OAuth2ClientProperties.DEFAULT_ACCESSTOKEN_VALIDATESECONDS;
 
@@ -39,7 +35,7 @@ public class CustomJwtTokenEnhancer implements TokenEnhancer {
     /**
      * token增强存储认证服务器认证之后的{@link org.springframework.security.core.userdetails.UserDetails}的key
      */
-    static final String CACHE_PRINCIPAL = "cache_principal";
+    public static final String CACHE_PRINCIPAL = "cache_principal";
     private static final String TOKENENHANCER = "TokenEnhancer-userDetails-";
     private static final OAuth2ClientProperties DEF_CLIENT_INFO = new OAuth2ClientProperties().setAccessTokenValidateSeconds(DEFAULT_ACCESSTOKEN_VALIDATESECONDS);
     /**

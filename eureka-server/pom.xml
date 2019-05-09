@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jiiiiiin-eureka-server</artifactId>
+    <artifactId>eureka-server</artifactId>
 
     <!-- eureka server: 提供服务发现与服务注册 -->
     <dependencies>

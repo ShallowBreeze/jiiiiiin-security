@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jiiiiiin-order</artifactId>
+    <artifactId>order</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>jiiiiiin-order-server</module>
+        <module>order-server</module>
     </modules>
 
 </project>

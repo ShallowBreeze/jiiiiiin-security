@@ -1,11 +1,11 @@
 package cn.jiiiiiin.component.authentication;
 
-import cn.jiiiiiin.module.mngauth.enums.ChannelEnum;
 import cn.jiiiiiin.module.mngauth.component.MngUserDetails;
 import cn.jiiiiiin.module.mngauth.dto.AdminDto;
 import cn.jiiiiiin.module.mngauth.dto.Menu;
 import cn.jiiiiiin.module.mngauth.entity.Interface;
 import cn.jiiiiiin.module.mngauth.entity.Resource;
+import cn.jiiiiiin.module.mngauth.enums.ChannelEnum;
 import cn.jiiiiiin.module.mngauth.enums.ResourceTypeEnum;
 import cn.jiiiiiin.module.mngauth.service.IAdminService;
 import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
@@ -81,9 +81,7 @@ public class ZuulUserDetailsService implements UserDetailsService, SocialUserDet
         val authorizeInterfaces = new HashSet<Interface>();
         roles.forEach(item -> item.getResources().forEach(resource -> {
             authorizeResources.add(resource);
-            resource.getInterfaces().forEach(ife -> {
-                authorizeInterfaces.add(ife);
-            });
+            resource.getInterfaces().forEach(ife -> authorizeInterfaces.add(ife));
             if (resource.getType().equals(ResourceTypeEnum.MENU)) {
                 menuResources.add(resource);
             }

@@ -28,7 +28,7 @@
 
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
-            <artifactId>jiiiiiin-data-orm</artifactId>
+            <artifactId>jiiiiiin-data</artifactId>
         </dependency>
 
     </dependencies>

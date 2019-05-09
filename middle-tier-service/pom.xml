@@ -12,8 +12,8 @@
     <artifactId>jiiiiiin-service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>jiiiiiin-product</module>
-        <module>jiiiiiin-order</module>
+        <module>product</module>
+        <module>order</module>
     </modules>
 
     <dependencies>

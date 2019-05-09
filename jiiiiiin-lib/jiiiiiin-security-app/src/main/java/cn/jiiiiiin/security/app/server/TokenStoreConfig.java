@@ -4,7 +4,6 @@
 package cn.jiiiiiin.security.app.server;
 
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -12,7 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
@@ -70,7 +68,7 @@ public class TokenStoreConfig {
 
         private final UserDetailsService userDetailsService;
 
-        private final RedisTemplate redisTemplate;
+        private final DefaultUserAuthenticationConverter defaultUserAuthenticationConverter;
 
         /**
          * @return
@@ -90,12 +88,8 @@ public class TokenStoreConfig {
             // https://coding.imooc.com/learn/questiondetail/113508.html
             // 解决`hasPermission`表达式如果`principal`是一个字符串问题
             final DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
-            DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = null;
-            if(securityProperties.getOauth2().isUseSimpleUserAuthenticationConverter()){
-                defaultUserAuthenticationConverter = new SimpleUserAuthenticationConverter(redisTemplate);
-            } else {
+            if (!securityProperties.getOauth2().isUseSimpleUserAuthenticationConverter()) {
                 // 这里会带来性能问题，故做了自定义，具体问题可以参考：https://juejin.im/post/5c9191785188252d7941f87c
-                defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter();
                 defaultUserAuthenticationConverter.setUserDetailsService(userDetailsService);
             }
             defaultAccessTokenConverter.setUserTokenConverter(defaultUserAuthenticationConverter);
@@ -106,17 +100,22 @@ public class TokenStoreConfig {
             return converter;
         }
 
+        @Bean
+        @ConditionalOnBean(DefaultUserAuthenticationConverter.class)
+        public DefaultUserAuthenticationConverter defaultUserAuthenticationConverter() {
+            return new DefaultUserAuthenticationConverter();
+        }
+
         /**
          * 用于扩展和解析JWT的信息
          * <p>
          * 业务系统可以自行配置自己的{@link TokenEnhancer}
          *
-         * @return
          */
         @Bean
         @ConditionalOnBean(TokenEnhancer.class)
         public TokenEnhancer jwtTokenEnhancer() {
-            return new CustomJwtTokenEnhancer(redisTemplate, securityProperties);
+            return new AppDefaultJwtTokenEnhancer();
         }
 
     }

@@ -9,12 +9,12 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>jiiiiiin-lib</module>
-        <module>jiiiiiin-eureka-server</module>
-        <module>jiiiiiin-gateway</module>
-        <module>jiiiiiin-hystrix</module>
-        <module>jiiiiiin-service</module>
-        <module>jiiiiiin-edge-service</module>
-        <module>jiiiiiin-springboot-admin</module>
+        <module>eureka-server</module>
+        <module>gateway</module>
+        <module>hystrix</module>
+        <module>middle-tier-service</module>
+        <module>edge-service</module>
+        <module>springboot-admin</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -50,8 +50,9 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>LATEST</version>
+            <version>RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -119,19 +120,13 @@
 
             <dependency>
                 <groupId>cn.jiiiiiin.security</groupId>
-                <artifactId>jiiiiiin-data-orm</artifactId>
+                <artifactId>jiiiiiin-data</artifactId>
                 <version>${jiiiiiin-security-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.jiiiiiin.security</groupId>
-                <artifactId>jiiiiiin-module-common</artifactId>
-                <version>${jiiiiiin-security-version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.jiiiiiin.security</groupId>
-                <artifactId>jiiiiiin-module-mngauth</artifactId>
+                <artifactId>jiiiiiin-mvc</artifactId>
                 <version>${jiiiiiin-security-version}</version>
             </dependency>
 

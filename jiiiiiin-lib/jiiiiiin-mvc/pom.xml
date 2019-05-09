@@ -9,9 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jiiiiiin-module-common</artifactId>
-
-    <name>jiiiiiin-module-common</name>
+    <artifactId>jiiiiiin-mvc</artifactId>
 
     <description>业务模块-通用模块</description>
 
@@ -30,7 +28,7 @@
 
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
-            <artifactId>jiiiiiin-data-orm</artifactId>
+            <artifactId>jiiiiiin-data</artifactId>
         </dependency>
 
         <!--http://modelmapper.org/getting-started/-->
