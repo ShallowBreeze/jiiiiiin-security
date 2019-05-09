@@ -12,7 +12,8 @@
     <artifactId>edge-service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>user</module>
+        <module>auth-center-server</module>
+        <module>manager-server</module>
     </modules>
 
 </project>

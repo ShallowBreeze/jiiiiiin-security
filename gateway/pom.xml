@@ -49,6 +49,7 @@
             <artifactId>jiiiiiin-security-app</artifactId>
         </dependency>
 
+<!--        TODO 待修改为服务间调用，而不是直接依赖-->
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
             <artifactId>user-common</artifactId>

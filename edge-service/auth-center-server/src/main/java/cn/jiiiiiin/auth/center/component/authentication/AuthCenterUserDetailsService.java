@@ -1,14 +1,14 @@
 package cn.jiiiiiin.auth.center.component.authentication;
 
+import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
+import cn.jiiiiiin.user.component.MngUserDetails;
 import cn.jiiiiiin.user.dto.AdminDto;
 import cn.jiiiiiin.user.dto.Menu;
 import cn.jiiiiiin.user.entity.Interface;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.enums.ChannelEnum;
-import cn.jiiiiiin.user.component.MngUserDetails;
 import cn.jiiiiiin.user.enums.ResourceTypeEnum;
 import cn.jiiiiiin.user.service.IAdminService;
-import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.modelmapper.ModelMapper;

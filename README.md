@@ -58,16 +58,18 @@
 │   ├── jiiiiiin-hystrix-dashboard Hystrix熔断监服务(通用服务)
 │   ├── jiiiiiin-hystrix-tuibine Hystrix Turbine聚合服务(通用服务)
 ├── edge-service 边界服务(pom)
-│   └── user 用户相关(pom)
-│       ├── user-common 用户公共模块(lib)
-│       ├── user-auth-center-server 统一用户认证中心应用
-│   │   ├── user-manager-server 内管后端应用
-│   │   ├── user-manager-app 内管前端应用（vue项目，依赖d2-admin模块（1.6.9最新））
+│   ├── auth-center-server 统一用户认证中心应用
+│   ├── manager-server 内管后端应用
+│   ├── manager-app 内管前端应用（vue项目，依赖d2-admin模块（1.6.9最新））
 ├── middle-tier-service 后端服务(pom)
+│   └── user 用户服务(pom)
+│       ├── user-common 用户公共代码(lib) TODO
+│       ├── user-client 用户Feign客户端(lib) TODO
+│       ├── user-server 用户应用 TODO
 │   ├── order 订单服务(pom)
 │   │   ├── order-server 后端应用
 │   ├── product 商品服务(pom)
-│   │   ├── product-client 商品Feign客户端（提供给调用方使用，如在创建订单时候）
+│   │   ├── product-client 商品Feign客户端(lib)
 │   │   ├── product-server 后端应用
 ```
 
@@ -168,12 +170,9 @@
 
 | 模块名称 | 完成状态 | 简介 |
 | ------ | ------ | ------ |
-| 用户管理 | 100% | 用来管理系统存在的用户 |
-| 角色管理 | 100% | 用来管理系统定义的角色 |
-| 资源管理 | 100% | 用来管理系统定义的资源 |
-| 接口管理 | 100% | 用来管理后台对应的接口集合 |
-| 商品管理 | 10% | 商家用来管理自己的商品 |
-| 订单管理 | 10% | 商家用来管理自己的订单 |
+| 用户服务 | **50%** | 开发进行中，将用户管理相关业务抽成一个`user`原子服务，提供给网关、统一权限认证中心、内管等应用使用 |
+| 商品服务 | 10% | 商家用来管理自己的商品 |
+| 订单服务 | 10% | 商家用来管理自己的订单 |
 
 + 已经实践的基础功能
 

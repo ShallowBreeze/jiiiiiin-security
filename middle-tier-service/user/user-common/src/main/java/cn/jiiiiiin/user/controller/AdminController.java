@@ -77,7 +77,7 @@ public class AdminController extends BaseController {
     @JsonView(View.SimpleView.class)
     @PostMapping("search/dto/{channel:[0]}/{current:\\d+}/{size:\\d+}")
     public IPage<AdminDto> searchAdminDto(@PathVariable ChannelEnum channel, @PathVariable Long current, @PathVariable Long size, @RequestBody AdminDto admin) {
-        return adminService.pageAdminDto(new Page<AdminDto>(current, size), channel, admin);
+        return adminService.pageAdminDto(new Page<>(current, size), channel, admin);
     }
 
     @ApiOperation(value = "用户记录分页检索", httpMethod = "GET")
@@ -95,9 +95,8 @@ public class AdminController extends BaseController {
         if (StringUtils.isNotEmpty(admin.getEmail())) {
             qw.like(Admin.EMAIL, admin.getEmail());
         }
-        return adminService.page(new Page<Admin>(current, size), qw);
+        return adminService.page(new Page<>(current, size), qw);
     }
-
 
     /**
      * 获取当前登录的管理员信息
