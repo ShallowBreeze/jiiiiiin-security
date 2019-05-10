@@ -1,18 +1,13 @@
 package cn.jiiiiiin.component.authentication;
 
-import cn.jiiiiiin.user.component.MngUserDetails;
+import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
 import cn.jiiiiiin.user.dto.AdminDto;
 import cn.jiiiiiin.user.dto.Menu;
 import cn.jiiiiiin.user.entity.Interface;
 import cn.jiiiiiin.user.entity.Resource;
-import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.enums.ResourceTypeEnum;
-import cn.jiiiiiin.user.service.IAdminService;
-import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,12 +30,6 @@ import java.util.HashSet;
 @Slf4j
 public class ZuulUserDetailsService implements UserDetailsService, SocialUserDetailsService {
 
-    /**
-     * 注意：不要手动简化这里的注入方式
-     */
-    @Autowired
-    private IAdminService adminService;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.debug("普通登录用户名 {}", username);
@@ -54,16 +43,18 @@ public class ZuulUserDetailsService implements UserDetailsService, SocialUserDet
     }
 
     private SocialUserDetails _getUserDetails(String username) {
-        // 根据channel去获取登录用户的权限信息
-        val optionalAdmin = adminService.signInByUsernameOrPhoneNumb(username, ChannelEnum.MNG);
-        if (optionalAdmin == null) {
-            throw new UsernameNotFoundException("用户名密码不符");
-        } else {
-            val modelMapper = new ModelMapper();
-            val adminDto = modelMapper.map(optionalAdmin, AdminDto.class);
-            _parserResource(adminDto);
-            return new MngUserDetails(adminDto);
-        }
+        // TODO 在`jiiiiiin-security-core`模块写一个类MngUserDetails接口让下层去实现
+//        // 根据channel去获取登录用户的权限信息
+//        val optionalAdmin = adminService.signInByUsernameOrPhoneNumb(username, ChannelEnum.MNG);
+//        if (optionalAdmin == null) {
+//            throw new UsernameNotFoundException("用户名密码不符");
+//        } else {
+//            val modelMapper = new ModelMapper();
+//            val adminDto = modelMapper.map(optionalAdmin, AdminDto.class);
+//            _parserResource(adminDto);
+//            return new UserDetails(adminDto);
+//        }
+        throw new RuntimeException("待改造");
     }
 
     /**

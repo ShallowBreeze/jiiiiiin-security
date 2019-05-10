@@ -44,7 +44,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     /**
      * 验证码校验失败处理器
      */
-    private final AuthenticationFailureHandler customAuthenticationFailureHandler;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
 
     /**
      * 系统中的校验码处理器
@@ -63,9 +63,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      */
     private Map<String, ValidateCodeType> interceptorUrlsMap = new HashMap<>();
 
-    public ValidateCodeFilter(SecurityProperties securityProperties, AuthenticationFailureHandler customAuthenticationFailureHandler, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
+    public ValidateCodeFilter(SecurityProperties securityProperties, AuthenticationFailureHandler authenticationFailureHandler, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
         this.securityProperties = securityProperties;
-        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
+        this.authenticationFailureHandler = authenticationFailureHandler;
         this.validateCodeProcessorHolder = validateCodeProcessorHolder;
     }
 
@@ -123,7 +123,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
             } catch (ValidateCodeException exception) {
                 logger.error("验证码校验失败", exception);
                 // 统一身份认证异常处理
-                customAuthenticationFailureHandler.onAuthenticationFailure(request, response, exception);
+                authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
                 return;
             }
         }
@@ -138,7 +138,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      */
     private ValidateCodeType getValidateCodeType(HttpServletRequest request) {
         ValidateCodeType result = null;
-        if (!StringUtils.equalsIgnoreCase(request.getMethod(), CommonConstants.GET)) {
+        if (!StringUtils.equalsIgnoreCase(request.getMethod(), "GET")) {
             final Set<String> urls = interceptorUrlsMap.keySet();
             for (String url : urls) {
                 if (pathMatcher.match(url, request.getRequestURI())) {

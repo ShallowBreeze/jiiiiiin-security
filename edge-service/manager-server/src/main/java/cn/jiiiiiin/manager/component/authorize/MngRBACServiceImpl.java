@@ -3,7 +3,7 @@
  */
 package cn.jiiiiiin.manager.component.authorize;
 
-import cn.jiiiiiin.user.component.MngUserDetails;
+import cn.jiiiiiin.manager.component.authentication.MngUserDetails;
 import cn.jiiiiiin.user.entity.Interface;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.entity.Role;

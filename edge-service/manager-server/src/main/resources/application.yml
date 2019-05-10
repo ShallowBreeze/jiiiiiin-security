@@ -34,7 +34,6 @@ server:
   # 测试微信、qq授权登录时候启用
   #  port: 80
   servlet:
-    #    context-path: /mng
     session:
       timeout: 60
 #eureka:

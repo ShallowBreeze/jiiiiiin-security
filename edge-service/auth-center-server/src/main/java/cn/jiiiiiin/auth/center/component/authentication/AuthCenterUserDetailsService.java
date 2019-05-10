@@ -1,18 +1,13 @@
 package cn.jiiiiiin.auth.center.component.authentication;
 
 import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
-import cn.jiiiiiin.user.component.MngUserDetails;
 import cn.jiiiiiin.user.dto.AdminDto;
 import cn.jiiiiiin.user.dto.Menu;
 import cn.jiiiiiin.user.entity.Interface;
 import cn.jiiiiiin.user.entity.Resource;
-import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.enums.ResourceTypeEnum;
-import cn.jiiiiiin.user.service.IAdminService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,12 +30,6 @@ import java.util.HashSet;
 @Slf4j
 public class AuthCenterUserDetailsService implements UserDetailsService, SocialUserDetailsService {
 
-    /**
-     * 注意：不要手动简化这里的注入方式
-     */
-    @Autowired
-    private IAdminService adminService;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.debug("普通登录用户名 {}", username);
@@ -55,15 +44,16 @@ public class AuthCenterUserDetailsService implements UserDetailsService, SocialU
 
     private SocialUserDetails _getUserDetails(String username) {
         // 根据channel去获取登录用户的权限信息
-        val optionalAdmin = adminService.signInByUsernameOrPhoneNumb(username, ChannelEnum.MNG);
-        if (optionalAdmin == null) {
-            throw new UsernameNotFoundException("用户名密码不符");
-        } else {
-            val modelMapper = new ModelMapper();
-            val adminDto = modelMapper.map(optionalAdmin, AdminDto.class);
-            _parserResource(adminDto);
-            return new MngUserDetails(adminDto);
-        }
+//        val optionalAdmin = adminService.signInByUsernameOrPhoneNumb(username, ChannelEnum.MNG);
+//        if (optionalAdmin == null) {
+//            throw new UsernameNotFoundException("用户名密码不符");
+//        } else {
+//            val modelMapper = new ModelMapper();
+//            val adminDto = modelMapper.map(optionalAdmin, AdminDto.class);
+//            _parserResource(adminDto);
+//            return new MngUserDetails(adminDto);
+//        }
+        throw new RuntimeException("待改造");
     }
 
     /**

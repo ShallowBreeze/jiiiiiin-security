@@ -109,11 +109,11 @@ public class AppAuthorizationServerConfig extends AuthorizationServerConfigurerA
             // 3.1自定义数据配置
             val enhancerChain = new TokenEnhancerChain();
             final List<TokenEnhancer> enhancers = new ArrayList<>();
+            enhancers.add(jwtAccessTokenConverter);
             if (jwtTokenEnhancer != null) {
                 // jwtTokenEnhancer向jwt token中订制自定义数据
                 enhancers.add(jwtTokenEnhancer);
             }
-            enhancers.add(jwtAccessTokenConverter);
             enhancerChain.setTokenEnhancers(enhancers);
             endpoints
                     .tokenEnhancer(enhancerChain)

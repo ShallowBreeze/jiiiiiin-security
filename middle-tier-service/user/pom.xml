@@ -14,6 +14,18 @@
 
     <modules>
         <module>user-common</module>
+        <module>user-server</module>
+        <module>user-client</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cn.jiiiiiin.security</groupId>
+                <artifactId>user-common</artifactId>
+                <version>${jiiiiiin-security-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

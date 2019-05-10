@@ -61,12 +61,6 @@ spring:
       filter-order: 3
   jackson:
     default-property-inclusion: non_null
-  # https://segmentfault.com/a/1190000013269653
-  #  cache:
-  #    # 缓存的技术类型
-  #    ehcache:
-  #      config: 'classpath:def-ehcache-config.xml'
-  #    type: ehcache
   redis:
     # 配置redis链接地址
     host: jiiiiiin-redis

@@ -1,0 +1,4 @@
+spring:
+  application:
+    # logback日志配置需要
+    name: jiiiiiin-eureka-server

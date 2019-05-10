@@ -23,12 +23,12 @@
 
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
-            <artifactId>jiiiiiin-security-core</artifactId>
+            <artifactId>jiiiiiin-data</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>cn.jiiiiiin.security</groupId>
-            <artifactId>jiiiiiin-data</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <!--http://modelmapper.org/getting-started/-->
@@ -37,6 +37,7 @@
             <artifactId>modelmapper</artifactId>
             <version>2.3.0</version>
         </dependency>
+
 
     </dependencies>
 

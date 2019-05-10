@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.enums.ApiErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,8 +35,8 @@ public class GlobalExceptionAdvice {
         return apiResult;
     }
 
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R<List<FieldError>> handlerMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
         StringBuilder stringBuilder = new StringBuilder("参数传递错误：");
