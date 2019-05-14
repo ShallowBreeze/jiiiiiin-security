@@ -88,6 +88,8 @@
 
 ![](https://ws2.sinaimg.cn/large/006tKfTcly1g0kscyq1s0j317m0j00ue.jpg)
 
+> 关于边界服务和原子服务的理解可以参考，[【微服务架构~BFF和网关是如何演化出来的】](https://mp.weixin.qq.com/s/F6WalEvx69_BCJ0z1dW1cg)
+
 
 
 + 提示步骤：
@@ -240,6 +242,7 @@
 + [Spring Security开发安全的REST服务](https://coding.imooc.com/class/134.html)
 + [OAuth2.0最简向导](http://static.iocoder.cn/OAuth2.0%E6%9C%80%E7%AE%80%E5%90%91%E5%AF%BC.pdf)
 + [Spring Security 实现原理与源码解析系统 —— 精品合集](http://www.iocoder.cn/Spring-Security/good-collection/)
++ [微服务的4大设计原则和19个解决方案](https://juejin.im/entry/59bf30876fb9a00a583176a1)
 + [GitHub 9K Star！Apollo作者手把手教你微服务配置中心之道](https://mp.weixin.qq.com/s/iDmYJre_ULEIxuliu1EbIQ?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=weixin)
 
 

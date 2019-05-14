@@ -3,12 +3,12 @@
  */
 package cn.jiiiiiin.manager.component.authorize;
 
-import cn.jiiiiiin.manager.component.authentication.MngUserDetails;
+import cn.jiiiiiin.security.rbac.component.dict.RbacDict;
+import cn.jiiiiiin.security.rbac.component.service.RBACService;
+import cn.jiiiiiin.user.dto.CommonUserDetails;
 import cn.jiiiiiin.user.entity.Interface;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.entity.Role;
-import cn.jiiiiiin.security.rbac.component.dict.RbacDict;
-import cn.jiiiiiin.security.rbac.component.service.RBACService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import lombok.var;
@@ -44,8 +44,8 @@ public class MngRBACServiceImpl implements RBACService {
         // principal即系统的UserDetailsService返回的用户标识对象，如果没有通过认证则是一个匿名的字符串
         val principal = authentication.getPrincipal();
         boolean hasPermission = false;
-        if (principal instanceof MngUserDetails) {
-            val admin = ((MngUserDetails) principal).getAdmin();
+        if (principal instanceof CommonUserDetails) {
+            val admin = ((CommonUserDetails) principal).getAdmin();
             val roles = admin.getRoles();
             val hasAdminRole = roles.stream().anyMatch(role -> role.getAuthorityName().equals(RbacDict.ROLE_ADMIN_AUTHORITY_NAME));
             if (hasAdminRole) {

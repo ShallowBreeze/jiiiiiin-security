@@ -1,13 +1,17 @@
 package cn.jiiiiiin.auth.center.component.authentication;
 
 import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
-import cn.jiiiiiin.user.dto.AdminDto;
+import cn.jiiiiiin.user.client.RemoteUserService;
 import cn.jiiiiiin.user.dto.Menu;
+import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.entity.Interface;
 import cn.jiiiiiin.user.entity.Resource;
+import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.enums.ResourceTypeEnum;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,7 +32,10 @@ import java.util.HashSet;
  */
 @Component
 @Slf4j
+@AllArgsConstructor
 public class AuthCenterUserDetailsService implements UserDetailsService, SocialUserDetailsService {
+
+    private final RemoteUserService remoteUserService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -43,17 +50,28 @@ public class AuthCenterUserDetailsService implements UserDetailsService, SocialU
     }
 
     private SocialUserDetails _getUserDetails(String username) {
-        // 根据channel去获取登录用户的权限信息
-//        val optionalAdmin = adminService.signInByUsernameOrPhoneNumb(username, ChannelEnum.MNG);
-//        if (optionalAdmin == null) {
-//            throw new UsernameNotFoundException("用户名密码不符");
-//        } else {
-//            val modelMapper = new ModelMapper();
-//            val adminDto = modelMapper.map(optionalAdmin, AdminDto.class);
-//            _parserResource(adminDto);
-//            return new MngUserDetails(adminDto);
-//        }
-        throw new RuntimeException("待改造");
+        // TODO 根据channel去获取登录用户的权限信息
+        // TODO 改造思路，在前端传过来的`username`参数上拼接渠道标识符
+        ChannelEnum channelEnum = ChannelEnum.MNG;
+        SocialUserDetails userDetails = null;
+        switch (channelEnum){
+            case MNG:
+                userDetails = getChannelUserInfo(username);
+                break;
+        }
+        return userDetails;
+    }
+
+    private SocialUserDetails getChannelUserInfo(String username) {
+        val optionalAdmin = remoteUserService.signInByUsernameOrPhoneNumb(ChannelEnum.MNG, username);
+        if (optionalAdmin == null) {
+            throw new UsernameNotFoundException("用户名密码不符");
+        } else {
+            val modelMapper = new ModelMapper();
+            val admin = modelMapper.map(optionalAdmin, Admin.class);
+            _parserResource(admin);
+            return new RBACUserDetails(optionalAdmin);
+        }
     }
 
     /**
@@ -61,7 +79,7 @@ public class AuthCenterUserDetailsService implements UserDetailsService, SocialU
      *
      * @param optionalAdmin
      */
-    private void _parserResource(AdminDto optionalAdmin) {
+    private void _parserResource(Admin optionalAdmin) {
         val roles = optionalAdmin.getRoles();
         // 过滤菜单和授权资源
         val menuResources = new HashSet<Resource>();

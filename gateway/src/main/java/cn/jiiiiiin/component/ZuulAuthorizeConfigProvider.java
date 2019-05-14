@@ -24,7 +24,8 @@ public class ZuulAuthorizeConfigProvider implements AuthorizeConfigProvider {
                         // Druid监控的配置
                         "/",
                         "/index",
-                        "/api/ac/oauth/*"
+                        "/api/ac/oauth/*",
+                        "/api/user/*"
 
 //                        "/api/ac/testZuul"
 //                        "/druid", "/druid/*", "/druid/**",

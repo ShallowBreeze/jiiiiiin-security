@@ -7,11 +7,11 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.security.SocialUserDetailsService;
 

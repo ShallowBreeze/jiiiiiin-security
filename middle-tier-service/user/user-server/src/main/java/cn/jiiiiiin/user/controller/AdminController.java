@@ -2,8 +2,8 @@ package cn.jiiiiiin.user.controller;
 
 
 import cn.jiiiiiin.data.entity.BaseEntity;
-import cn.jiiiiiin.data.util.View;
 import cn.jiiiiiin.user.common.exception.BusinessErrException;
+import cn.jiiiiiin.user.common.utils.View;
 import cn.jiiiiiin.user.common.validation.Groups;
 import cn.jiiiiiin.user.dto.AdminDto;
 import cn.jiiiiiin.user.entity.Admin;
@@ -137,4 +137,12 @@ public class AdminController extends BaseController {
         return adminService.removeAdminsAndRelationRecords(ids);
     }
 
+    /**
+     * ==== 以下接口提供给远程服务间调用 ====
+     */
+    @GetMapping("{channel:[0]}/{username}")
+    public Admin signInByUsernameOrPhoneNumb(@PathVariable ChannelEnum channel, @PathVariable String username) {
+        log.debug("调用[signInByUsernameOrPhoneNumb]服务 channel: %s ,username: %s", channel, username);
+        return adminService.signInByUsernameOrPhoneNumb(username, channel);
+    }
 }

@@ -16,17 +16,28 @@
         mng_admin,mng_role,mng_role_admin,mng_resource,mng_role_resource
     </description>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
     <dependencies>
 
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
+            <artifactId>jiiiiiin-data</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.jiiiiiin.security</groupId>
             <artifactId>jiiiiiin-mvc</artifactId>
+        </dependency>
+
+        <!--特殊依赖，为了解决不同应用共用UserDetails的问题-->
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-security</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
 
     </dependencies>

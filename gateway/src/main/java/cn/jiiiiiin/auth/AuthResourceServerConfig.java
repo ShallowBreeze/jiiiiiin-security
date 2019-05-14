@@ -11,6 +11,7 @@ import cn.jiiiiiin.security.core.config.component.SmsCodeAuthenticationSecurityC
 import cn.jiiiiiin.security.core.social.SocialConfig;
 import cn.jiiiiiin.security.core.validate.code.ValidateCodeSecurityConfig;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,16 +32,12 @@ import org.springframework.social.security.SpringSocialConfigurer;
 @Configuration
 @EnableResourceServer
 @AllArgsConstructor
+@Slf4j
 public class AuthResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private final AuthorizeConfigManager authorizeConfigManager;
 
     private final AppOAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler;
-
-//    public AuthResourceServerConfig(AuthorizeConfigManager authorizeConfigManager, AppOAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler) {
-//        this.authorizeConfigManager = authorizeConfigManager;
-//        this.oAuth2WebSecurityExpressionHandler = oAuth2WebSecurityExpressionHandler;
-//    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -53,6 +50,7 @@ public class AuthResourceServerConfig extends ResourceServerConfigurerAdapter {
 
         // 对请求进行授权，这个方法下面的都是授权的配置
         authorizeConfigManager.config(http.authorizeRequests());
+        log.debug("网关默认资源服务启动");
     }
 
     /**

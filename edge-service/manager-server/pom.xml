@@ -29,32 +29,16 @@
             <artifactId>jiiiiiin-mvc</artifactId>
         </dependency>
 
-<!--        TODO 待修改为服务间调用，而不是直接依赖-->
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
-            <artifactId>user-common</artifactId>
+            <artifactId>user-client</artifactId>
             <version>${jiiiiiin-security-version}</version>
         </dependency>
 
+<!--        TODO 在这里配置估计不起作用-->
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
             <artifactId>jiiiiiin-security-authorize</artifactId>
-        </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>cn.jiiiiiin.security</groupId>-->
-<!--            <artifactId>jiiiiiin-security-app</artifactId>-->
-<!--        </dependency>-->
-
-        <dependency>
-            <groupId>cn.jiiiiiin.security</groupId>
-            <artifactId>jiiiiiin-security-browser</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
         <!--处理文件工具类库-->
@@ -95,11 +79,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>de.codecentric</groupId>-->
-        <!--<artifactId>spring-boot-admin-starter-client</artifactId>-->
-        <!--</dependency>-->
 
     </dependencies>
 

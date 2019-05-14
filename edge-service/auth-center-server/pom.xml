@@ -12,27 +12,41 @@
     <artifactId>auth-center-server</artifactId>
 
     <dependencies>
+        <!--        http://www.voidcn.com/article/p-ntdfiifc-qh.html-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>mysql</groupId>-->
+<!--            <artifactId>mysql-connector-java</artifactId>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
             <artifactId>jiiiiiin-mvc</artifactId>
         </dependency>
 
-<!--        TODO 待修改为服务间调用，而不是直接依赖-->
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
-            <artifactId>user-common</artifactId>
+            <artifactId>user-client</artifactId>
             <version>${jiiiiiin-security-version}</version>
         </dependency>
 
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
             <artifactId>jiiiiiin-security-app</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
         <!--处理文件工具类库-->

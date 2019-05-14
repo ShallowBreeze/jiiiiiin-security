@@ -5,7 +5,6 @@ package cn.jiiiiiin.security.core.config.component;
 
 import cn.jiiiiiin.security.core.authentication.mobile.SmsCodeAuthenticationFilter;
 import cn.jiiiiiin.security.core.authentication.mobile.SmsCodeAuthenticationProvider;
-import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -34,7 +33,6 @@ import java.util.UUID;
  * @author jiiiiiin
  */
 @Component
-@AllArgsConstructor
 @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", havingValue = "true", matchIfMissing = true)
 public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
@@ -44,7 +42,14 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
 
     private final UserDetailsService userDetailsService;
 
-    private final PersistentTokenRepository persistentTokenRepository;
+    @Autowired(required = false)
+    private PersistentTokenRepository persistentTokenRepository;
+
+    public SmsCodeAuthenticationSecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler, AuthenticationFailureHandler authenticationFailureHandler, UserDetailsService userDetailsService) {
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+        this.authenticationFailureHandler = authenticationFailureHandler;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -57,9 +62,10 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
         // 注入认证失败处理器
         smsCodeAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
 
-        String key = UUID.randomUUID().toString();
-        smsCodeAuthenticationFilter.setRememberMeServices(new PersistentTokenBasedRememberMeServices(key, userDetailsService, persistentTokenRepository));
-
+        if (persistentTokenRepository != null) {
+            String key = UUID.randomUUID().toString();
+            smsCodeAuthenticationFilter.setRememberMeServices(new PersistentTokenBasedRememberMeServices(key, userDetailsService, persistentTokenRepository));
+        }
         // 配置支持认证的provider
         val smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
         // 配置provider所需的user details service

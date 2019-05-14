@@ -8,6 +8,7 @@ import cn.jiiiiiin.security.core.social.SocialConfig;
 import cn.jiiiiiin.security.core.social.SocialController;
 import cn.jiiiiiin.security.core.social.support.SocialUserInfo;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.ProviderSignInUtils;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @AllArgsConstructor
+@ConditionalOnBean(name = "dataSource")
 public class SocialSecurityController extends SocialController {
 
     private final ProviderSignInUtils providerSignInUtils;

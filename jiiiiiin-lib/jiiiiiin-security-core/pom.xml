@@ -73,7 +73,6 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
 
-
         <!--spring social相关: 实现第三方登录（如qq登录）需要的依赖-->
         <dependency>
             <groupId>org.springframework.social</groupId>

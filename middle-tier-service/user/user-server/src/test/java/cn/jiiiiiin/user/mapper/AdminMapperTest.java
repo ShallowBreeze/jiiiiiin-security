@@ -1,11 +1,9 @@
-package cn.jiiiiiin.user.common.mapper.mngauth;
+package cn.jiiiiiin.user.mapper;
 
 
-import cn.jiiiiiin.ManagerApp;
 import cn.jiiiiiin.user.dto.AdminDto;
 import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.enums.ChannelEnum;
-import cn.jiiiiiin.user.mapper.AdminMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +19,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ManagerApp.class)
+@SpringBootTest
 @Slf4j
 public class AdminMapperTest {
 

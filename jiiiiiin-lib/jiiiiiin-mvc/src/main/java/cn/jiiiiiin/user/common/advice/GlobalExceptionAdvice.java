@@ -50,10 +50,10 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public R<Exception> handlerException(HttpServletRequest req, Exception ex) {
-        return _commonHandler(ex);
+        return commonHandler(ex);
     }
 
-    private R<Exception> _commonHandler(Exception ex) {
+    public static R<Exception> commonHandler(Exception ex) {
         log.error("全局异常处理捕获到的错误", ex);
         R<Exception> response = R.failed(ex.getMessage());
         response.setData(ex);

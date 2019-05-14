@@ -1,8 +1,8 @@
-package cn.jiiiiiin.data.util;
+package cn.jiiiiiin.user.common.utils;
 
 /**
  * https://github.com/sdeleuze/spring-jackson-demo/blob/HEAD/src/main/java/demo/View.java
- * {@link cn.jiiiiiin.data.config.JacksonConfiguration}
+ * {@link cn.jiiiiiin.user.common.config.JacksonConfiguration}
  * @author jiiiiiin
  */
 public class View {

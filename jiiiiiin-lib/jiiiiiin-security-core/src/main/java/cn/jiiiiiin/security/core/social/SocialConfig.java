@@ -9,6 +9,7 @@ import cn.jiiiiiin.security.core.social.support.CustomSpringSocialConfigurer;
 import cn.jiiiiiin.security.core.social.support.SocialAuthenticationFilterPostProcessor;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -37,6 +38,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableSocial
+@ConditionalOnBean(name = "dataSource")
 public class SocialConfig extends SocialConfigurerAdapter {
 
     @Autowired
@@ -115,7 +117,6 @@ public class SocialConfig extends SocialConfigurerAdapter {
      */
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-        // TODO !Encryptors.noOpText()为调试使用，不做加解密
         val repository = new JdbcUsersConnectionRepository(dataSource,
                 connectionFactoryLocator, Encryptors.noOpText());
         // 添加表前缀

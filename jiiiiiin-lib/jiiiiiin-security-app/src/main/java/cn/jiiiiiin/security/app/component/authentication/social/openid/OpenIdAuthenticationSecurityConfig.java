@@ -6,6 +6,7 @@ package cn.jiiiiiin.security.app.component.authentication.social.openid;
 import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @AllArgsConstructor
+@ConditionalOnBean(name = "dataSource")
 @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", havingValue = "true", matchIfMissing = true)
 public class OpenIdAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 	

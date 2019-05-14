@@ -3,7 +3,9 @@
  */
 package cn.jiiiiiin.security.app.server;
 
+import cn.jiiiiiin.security.app.component.oauth2.AppWebResponseExceptionTranslator;
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -48,6 +50,7 @@ import java.util.List;
 @Configuration
 @EnableAuthorizationServer
 @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", havingValue = "true", matchIfMissing = true)
+@Slf4j
 public class AppAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     /**
@@ -120,6 +123,9 @@ public class AppAuthorizationServerConfig extends AuthorizationServerConfigurerA
                     // 3.设置token签名器
                     .accessTokenConverter(jwtAccessTokenConverter);
         }
+        // 自定义oauth2异常信息 https://my.oschina.net/merryyou/blog/1819572
+        endpoints.exceptionTranslator(new AppWebResponseExceptionTranslator());
+        log.debug("默认授权服务启动");
     }
 
 

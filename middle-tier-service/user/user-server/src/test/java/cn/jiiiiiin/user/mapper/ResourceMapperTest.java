@@ -1,17 +1,14 @@
-package cn.jiiiiiin.user.common.mapper.mngauth;
+package cn.jiiiiiin.user.mapper;
 
 
-import cn.jiiiiiin.ManagerApp;
 import cn.jiiiiiin.user.dto.Menu;
 import cn.jiiiiiin.user.dto.ResourceDto;
 import cn.jiiiiiin.user.entity.Interface;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.entity.Role;
-import cn.jiiiiiin.user.enums.StatusEnum;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.enums.ResourceTypeEnum;
-import cn.jiiiiiin.user.mapper.ResourceMapper;
-import cn.jiiiiiin.user.mapper.RoleMapper;
+import cn.jiiiiiin.user.enums.StatusEnum;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +31,7 @@ import java.util.HashSet;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ManagerApp.class)
+@SpringBootTest
 @Slf4j
 public class ResourceMapperTest {
 
@@ -43,14 +40,6 @@ public class ResourceMapperTest {
 
     @Autowired
     private RoleMapper roleMapper;
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
 
     @Test
     @Transactional

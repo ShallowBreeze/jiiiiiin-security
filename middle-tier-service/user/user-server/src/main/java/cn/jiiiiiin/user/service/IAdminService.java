@@ -35,10 +35,10 @@ public interface IAdminService extends IService<Admin> {
     /**
      * {@link IAdminService#signInByUsername(String, ChannelEnum)} 外加手机号检索
      * @param username
-     * @param mng
+     * @param channel
      * @return
      */
-    Admin signInByUsernameOrPhoneNumb(String username, ChannelEnum mng);
+    Admin signInByUsernameOrPhoneNumb(String username, ChannelEnum channel);
 
     /**
      * spring 事务：

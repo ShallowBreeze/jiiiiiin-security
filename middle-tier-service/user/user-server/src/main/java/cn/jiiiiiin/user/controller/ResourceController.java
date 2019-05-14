@@ -2,13 +2,12 @@ package cn.jiiiiiin.user.controller;
 
 
 import cn.jiiiiiin.data.entity.BaseEntity;
-import cn.jiiiiiin.data.util.View;
+import cn.jiiiiiin.user.common.utils.View;
 import cn.jiiiiiin.user.dto.ResourceDto;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.enums.StatusEnum;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.service.IResourceService;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

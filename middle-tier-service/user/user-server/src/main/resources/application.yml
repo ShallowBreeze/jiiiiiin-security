@@ -1,32 +1,7 @@
-#spring.profiles.active=test或者pro 来控制加载哪个环境的配置,完整命令如下:
-#java -jar xxxxx.jar --spring.profiles.active=test  表示加载测试环境的配置
-#java -jar xxxxx.jar --spring.profiles.active=pro  表示加载生产环境的配置
-
 #查看springboot开启了哪些配置
 debug: false
 
-# Apollo客户端依赖于AppId https://github.com/ctripcorp/apollo/wiki/Java客户端使用指南
-#app:
-#  # 需要手动创建，或者直接用apollo默认给出的应用id
-#  id: jiiiiiin-server-manager
-#apollo:
-#  # Apollo Meta Server https://github.com/ctripcorp/apollo/wiki/Java客户端使用指南#122-apollo-meta-server
-#  # meta server和config service是部署在同一个JVM进程，所以meta server的地址就是config service的地址。
-#  meta: http://localhost:8080
-#  # 本地缓存路径
-#  # 默认会存储再/opt/data/「appid」
-#  # 对应的目录需要有读写权限
-#  cacheDir: /Users/jiiiiiin/Documents/IdeaProjects/jiiiiiin-security/apollo-cache-dir
-#  # Cluster（集群）
-#  cluster: default
-#  bootstrap:
-#    # 注入默认application namespace的配置示例
-#    enabled: true
-#    # 把日志相关的配置（如logging.level.root=info或logback-spring.xml中的参数）也放在Apollo管理
-#    eagerLoad:
-#      enabled: true
-#  # Spring Placeholder的使用
-#  autoUpdateInjectedSpringProperties: true
+# TODO 待整合Apollo
 
 # 通过apollo配置
 server:
@@ -49,6 +24,8 @@ logging:
       springframework:
         security: debug
 spring:
+  application:
+    name: user-server
   oauth2:
     resource:
       # https://my.oschina.net/buwei/blog/910028
@@ -192,7 +169,7 @@ jiiiiiin:
         length: 2
         interceptor-urls: ${server.context-path}/authentication/form,${server.context-path}/authentication/mobile
     browser:
-      fontUrl: http://jiiiiiin-server-manager:9000/
+      fontUrl: http://manager-server:9000/
       signInUrl: /signIn
       sign-up-url: /signUp
       sign-out-url: /signOut

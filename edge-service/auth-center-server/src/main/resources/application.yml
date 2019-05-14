@@ -52,9 +52,13 @@ logging:
     com:
       springboot:
         mapper: debug
+feign:
+  hystrix:
+    # Feign是自带断路器的，在D版本的Spring Cloud之后，它没有默认打开。需要在配置文件中配置打开它，在配置文件加以下代码
+    enabled: true
 spring:
   application:
-    name: jiiiiiin-auth-center
+    name: auth-center-server
   oauth2:
     resource:
       # https://my.oschina.net/buwei/blog/910028
@@ -79,83 +83,16 @@ spring:
         min-idle: 0
       # 连接超时时间（毫秒）
       timeout: 0
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://jiiiiiin-mysql:3306/vplusdb?&useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false
-    username: vplus
-    password: 1qaz@WSX
-    # 参考：https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter
-    druid:
-      # 数据库访问配置, 使用druid数据源
-      type: com.alibaba.druid.pool.DruidDataSource
-      # 连接池配置
-      initial-size: 2
-      min-idle: 2
-      max-active: 5
-      # 连接等待超时时间
-      max-wait: 30000
-      # 配置检测可以关闭的空闲连接间隔时间
-      time-between-eviction-runs-millis: 60000
-      # 配置连接在池中的最小生存时间
-      min-evictable-idle-time-millis: 300000
-      test-while-idle: true
-      test-on-borrow: false
-      test-on-return: false
-      # 配置监控统计拦截的filters, 去掉后监控界面sql无法统计, 'wall'用于防火墙
-      filters: stat,wall
-      # Spring监控AOP切入点，如x.y.z.service.*,配置多个英文逗号分隔
-      aop-patterns: cn.jiiiiiin.module.*.service.*
-      # WebStatFilter配置
-      web-stat-filter:
-        enabled: true
-        # 添加过滤规则
-        url-pattern: /*
-        # 忽略过滤的格式
-        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
-
-      # StatViewServlet配置
-      stat-view-servlet:
-        enabled: true
-        # 访问路径为/druid时，跳转到StatViewServlet
-        url-pattern: /druid/*
-        # 是否能够重置数据
-        reset-enable: false
-        # 需要账号密码才能访问控制台
-        login-username: druid
-        login-password: druid123
-        # IP白名单
-        allow: 127.0.0.1,192.168.1.185
-        #　IP黑名单（共同存在时，deny优先于allow）
-        # deny: 192.168.1.218
-
-      # 配置StatFilter
-      filter:
-        stat:
-          log-slow-sql: true
+#  datasource:
+#    type: com.zaxxer.hikari.HikariDataSource
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://jiiiiiin-mysql:3306/vplusdb?&useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false
+#    username: vplus
+#    password: 1qaz@WSX
   boot:
     admin:
       client:
         url: http://jiiiiiin-springboot-admin:5000
-mybatis-plus:
-  #Mapper.xml所在的位置
-  mapper-locations: classpath:/mapper/*Mapper.xml
-  #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: cn.jiiiiiin.user.entity
-  type-aliases-super-type: cn.jiiiiiin.data.entity.BaseEntity
-  # TODO 目前mp+不支持多包配置，故需要把当前模块依赖的枚举都放在一个包下
-  type-enums-package: cn.jiiiiiin.user.enums
-  global-config:
-    db-config:
-      id-type: id_worker
-    #刷新mapper 调试神器
-    refresh: true
-    sql-parser-cache: false
-  executor-type: reuse
-  # 原生配置
-  configuration:
-    map-underscore-to-camel-case: true
-    #开启MyBatis的二级缓存
-    cache-enabled: true
 
 # 自定义配置
 jiiiiiin:

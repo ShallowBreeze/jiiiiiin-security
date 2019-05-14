@@ -1,5 +1,6 @@
 # Apollo客户端依赖于AppId https://github.com/ctripcorp/apollo/wiki/Java客户端使用指南
 app:
+  # TODO 待修改名称
   # 需要手动创建，或者直接用apollo默认给出的应用id
   id: jiiiiiin-gateway
 apollo:
@@ -19,7 +20,90 @@ apollo:
   # Spring Placeholder的使用
   autoUpdateInjectedSpringProperties: true
 
+# 参考：http://blog.didispace.com/springcloud5/
+zuul:
+  # 全局关闭重试机制
+  # 指定路由关闭重试机制
+  # zuul.routes.<route>.retryable=false
+  # 关于重试 https://blog.csdn.net/WYA1993/article/details/82770827
+  retryable: false
+  # 上下文
+  prefix: /api
+  # 配置路由信息
+  routes:
+    # 微服务的自定义名称
+    manager-server:
+      # TODO 待修改将`manager-server`也注册到eureka上面
+      # 当前微服务的匹配前缀，对应微服务的`context-path`，进行url匹配
+      path: /mng/**
+      # 微服务对应`application.name`
+      # 去eureka server获取对应的注册信息发起负载均衡器调用
+      #      serviceId: manager-server
+      # 直接通过地址调用
+      url: http://localhost:9090
+      # 不过滤上下文，这里指的是对应微服务的对应微服务的`context-path`，如果微服务本身配置了`context-path`这里需要设置为false
+      strip-prefix: false
+      # 放开对于敏感头的过滤（支持cookie传递）
+      sensitiveHeaders:
+    auth-center-server:
+      path: /ac/**
+      serviceId: auth-center-server
+      strip-prefix: true
+      # 放开对于敏感头的过滤（支持cookie传递）
+      sensitiveHeaders: Cookie,Set-Cookie
+    user-server:
+      path: /user/**
+      serviceId: user-server
+      strip-prefix: true
+    jiiiiiin-product:
+      path: /product/**
+      serviceId: jiiiiiin-product
+      strip-prefix: true
+    jiiiiiin-order:
+      path: /order/**
+      serviceId: jiiiiiin-order
+      strip-prefix: false
+  # 用来设置不希望被API网关进行路由的URL表达式
+#  ignored-patterns: /**/product/**
+#  ignored-patterns:
+#    - /product/**
+
+logging:
+  level:
+    org:
+      springframework:
+        security: debug
+        cloud:
+          netflix:
+            zuul: info
+    # 配置日志输出级别以观察SQL的执行情况
+    cn:
+      jiiiiiin: debug
+    com:
+      springboot:
+        mapper: debug
+
+# 避免初次启动，因为延迟初始化bean的原因导致的访问超时
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # 该参数用来设置API网关中路由转发请求的HystrixCommand超时时间，单位为毫秒。当路由转发请求的命令执行时间超过该配置值后，Hystrix会将该执行命令标记为TIMEOUT并抛出异常。
+            timeoutInMilliseconds: 8000
+
+ribbon:
+  # 该参数用来设置路由转发请求的时候，创建请求连接的超时时间。
+  # 当ribbon.ConnectTimeout的配置值小于hystrix.command.default.execution.isolation.thread.timeoutMilliseconds配置值的时候，若出现路由请求连接超时，会自动进行重试路由请求，如果重试依然失败，Zuul会抛出异常。
+  # 如果ribbon.ConnectTimeout的配置值大于hystrix.command.default.execution.isolation.thread.timeoutMilliseconds配置值的时候，不会进行请求重试，直接抛出异常。
+  ConnectTimeout: 4000
+  # 该参数用来设置路由转发请求的超时时间。它的处理与ribbon.ConnectTimeout相似，当ribbon.ReadTimeout的配置值小于hystrix.command.default.execution.isolation.thread.timeoutMilliseconds配置值的时候，若出现路由请求连接超时，会自动进行重试路由请求，如果重试依然失败，Zuul会抛出异常。如果ribbon.ReadTimeout的配置值大于hystrix.command.default.execution.isolation.thread.timeoutMilliseconds配置值的时候，不会进行请求重试，直接抛出异常。
+  ReadTimeout: 4000
+
 spring:
+  application:
+    name: jiiiiiin-gateway
   sleuth:
     web:
       client:
@@ -61,78 +145,6 @@ spring:
         min-idle: 0
       # 连接超时时间（毫秒）
       timeout: 0
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://jiiiiiin-mysql:3306/vplusdb?&useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false
-    username: vplus
-    password: 1qaz@WSX
-    # 参考：https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter
-    druid:
-      # 数据库访问配置, 使用druid数据源
-      type: com.alibaba.druid.pool.DruidDataSource
-      # 连接池配置
-      initial-size: 5
-      min-idle: 5
-      max-active: 10
-      # 连接等待超时时间
-      max-wait: 30000
-      # 配置检测可以关闭的空闲连接间隔时间
-      time-between-eviction-runs-millis: 60000
-      # 配置连接在池中的最小生存时间
-      min-evictable-idle-time-millis: 300000
-      test-while-idle: true
-      test-on-borrow: false
-      test-on-return: false
-      # 配置监控统计拦截的filters, 去掉后监控界面sql无法统计, 'wall'用于防火墙
-      filters: stat,wall
-      # Spring监控AOP切入点，如x.y.z.service.*,配置多个英文逗号分隔
-      aop-patterns: cn.jiiiiiin.module.*.service.*
-      # WebStatFilter配置
-      web-stat-filter:
-        enabled: true
-        # 添加过滤规则
-        url-pattern: /*
-        # 忽略过滤的格式
-        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
-
-      # StatViewServlet配置
-      stat-view-servlet:
-        enabled: true
-        # 访问路径为/druid时，跳转到StatViewServlet
-        url-pattern: /druid/*
-        # 是否能够重置数据
-        reset-enable: false
-        # 需要账号密码才能访问控制台
-        login-username: druid
-        login-password: druid123
-        # IP白名单
-        allow: 127.0.0.1,192.168.1.185
-        #　IP黑名单（共同存在时，deny优先于allow）
-        # deny: 192.168.1.218
-
-      # 配置StatFilter
-      filter:
-        stat:
-        log-slow-sql: true
-mybatis-plus:
-  #Mapper.xml所在的位置
-  mapper-locations: classpath:/mapper/*/*Mapper.xml
-  #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: cn.jiiiiiin.module.common.entity
-  type-aliases-super-type: cn.jiiiiiin.data.entity.BaseEntity
-  typeEnumsPackage: cn.jiiiiiin.module.common.enums.*
-  global-config:
-    db-config:
-      id-type: id_worker
-    #刷新mapper 调试神器
-    refresh: true
-    sql-parser-cache: false
-  executor-type: reuse
-  # 原生配置
-  configuration:
-    map-underscore-to-camel-case: true
-    #开启MyBatis的二级缓存
-    cache-enabled: true
 
 # 自定义配置
 jiiiiiin:
@@ -156,78 +168,5 @@ management:
     health:
       show-details: ALWAYS
       # 无效
-
-# 参考：http://blog.didispace.com/springcloud5/
-zuul:
-  # 全局关闭重试机制
-  # 指定路由关闭重试机制
-  # zuul.routes.<route>.retryable=false
-  # 关于重试 https://blog.csdn.net/WYA1993/article/details/82770827
-  retryable: false
-  # 上下文
-  prefix: /api
-  # 配置路由信息
-  routes:
-    # 微服务的自定义名称
-    jiiiiiin-server-manager:
-      # 当前微服务的匹配前缀，对应微服务的`context-path`，进行url匹配
-      path: /mng/**
-      # 微服务对应`application.name`
-      # 去eureka server获取对应的注册信息发起负载均衡器调用
-#      serviceId: jiiiiiin-server-manager
-      # 直接通过地址调用
-      url: http://localhost:9090
-      # 不过滤上下文，这里指的是对应微服务的对应微服务的`context-path`，如果微服务本身配置了`context-path`这里需要设置为false
-      strip-prefix: false
-      # 放开对于敏感头的过滤（支持cookie传递）
-      sensitiveHeaders:
-    jiiiiiin-auth-center:
-      path: /ac/**
-      serviceId: jiiiiiin-auth-center
-      strip-prefix: true
-      # 放开对于敏感头的过滤（支持cookie传递）
-      sensitiveHeaders: Cookie,Set-Cookie
-    jiiiiiin-product:
-      path: /product/**
-      serviceId: jiiiiiin-product
-      strip-prefix: true
-    jiiiiiin-order:
-      path: /order/**
-      serviceId: jiiiiiin-order
-      strip-prefix: false
-  # 用来设置不希望被API网关进行路由的URL表达式
-#  ignored-patterns: /**/product/**
-#  ignored-patterns:
-#    - /product/**
-
-
-logging:
-  level:
-    org:
-      springframework:
-        security: debug
-        cloud:
-          netflix:
-            zuul: info
-    # 配置日志输出级别以观察SQL的执行情况
-    cn:
-      jiiiiiin: debug
-    com:
-      springboot:
-        mapper: debug
-
-# 避免初次启动，因为延迟初始化bean的原因导致的访问超时
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            # 该参数用来设置API网关中路由转发请求的HystrixCommand超时时间，单位为毫秒。当路由转发请求的命令执行时间超过该配置值后，Hystrix会将该执行命令标记为TIMEOUT并抛出异常。
-            timeoutInMilliseconds: 4000
-
-ribbon:
-  # 该参数用来设置路由转发请求的时候，创建请求连接的超时时间。当ribbon.ConnectTimeout的配置值小于hystrix.command.default.execution.isolation.thread.timeoutMilliseconds配置值的时候，若出现路由请求连接超时，会自动进行重试路由请求，如果重试依然失败，Zuul会抛出异常。如果ribbon.ConnectTimeout的配置值大于hystrix.command.default.execution.isolation.thread.timeoutMilliseconds配置值的时候，不会进行请求重试，直接抛出异常。
-  ConnectTimeout: 4000
-  # 该参数用来设置路由转发请求的超时时间。它的处理与ribbon.ConnectTimeout相似，当ribbon.ReadTimeout的配置值小于hystrix.command.default.execution.isolation.thread.timeoutMilliseconds配置值的时候，若出现路由请求连接超时，会自动进行重试路由请求，如果重试依然失败，Zuul会抛出异常。如果ribbon.ReadTimeout的配置值大于hystrix.command.default.execution.isolation.thread.timeoutMilliseconds配置值的时候，不会进行请求重试，直接抛出异常。
-  ReadTimeout: 4000
+server:
+  port: 8861

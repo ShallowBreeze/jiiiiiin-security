@@ -1,4 +1,4 @@
-package cn.jiiiiiin;
+package cn.jiiiiiin.data;
 
 import org.junit.Assert;
 import org.junit.Test;

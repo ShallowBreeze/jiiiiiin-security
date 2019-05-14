@@ -1,7 +1,5 @@
-package cn.jiiiiiin.user.common.mapper.mngauth;
+package cn.jiiiiiin.user.mapper;
 
-import cn.jiiiiiin.ManagerApp;
-import cn.jiiiiiin.user.mapper.InterfaceMapper;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.junit.Test;
@@ -13,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ManagerApp.class)
+@SpringBootTest
 @Slf4j
 public class InterfaceMapperTest {
 

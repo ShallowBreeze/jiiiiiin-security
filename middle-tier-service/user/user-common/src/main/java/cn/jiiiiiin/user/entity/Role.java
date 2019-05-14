@@ -1,8 +1,8 @@
 package cn.jiiiiiin.user.entity;
 
 import cn.jiiiiiin.data.entity.BaseEntity;
-import cn.jiiiiiin.data.util.View;
 import cn.jiiiiiin.user.common.exception.BusinessErrException;
+import cn.jiiiiiin.user.common.utils.View;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.validation.ChannelStyle;
 import com.baomidou.mybatisplus.annotation.TableField;

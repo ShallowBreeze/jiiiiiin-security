@@ -6,6 +6,7 @@ package cn.jiiiiiin.security.core.social.controller;
 import cn.jiiiiiin.security.core.dict.SecurityConstants;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionData;
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 @AllArgsConstructor
+@ConditionalOnBean(name = "dataSource")
 public class SocialCommSingUpUtils {
 
     private final RedisTemplate<String, Object> redisTemplate;

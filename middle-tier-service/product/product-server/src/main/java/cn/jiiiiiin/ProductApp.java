@@ -32,6 +32,7 @@ public class ProductApp {
      */
     @GetMapping("/pullOut")
     public void servicePullOut() {
+        // TODO 待掌握如何提出服务，还是只能依靠DevOps？
         DiscoveryManager.getInstance().shutdownComponent();
     }
 

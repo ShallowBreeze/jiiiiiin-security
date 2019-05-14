@@ -13,7 +13,8 @@ import cn.jiiiiiin.security.core.authorize.AuthorizeConfigManager;
 import cn.jiiiiiin.security.core.config.component.SmsCodeAuthenticationSecurityConfig;
 import cn.jiiiiiin.security.core.social.SocialConfig;
 import cn.jiiiiiin.security.core.validate.code.ValidateCodeSecurityConfig;
-import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +37,7 @@ import org.springframework.social.security.SpringSocialConfigurer;
  * @author jiiiiiin
  */
 @Configuration
+@Slf4j
 public class AppSecurityBeanConfig {
 
     @Bean
@@ -52,26 +54,35 @@ public class AppSecurityBeanConfig {
     }
 
     @EnableResourceServer
-    @AllArgsConstructor
     @ConditionalOnMissingBean(ResourceServerConfigurerAdapter.class)
     public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-        private final SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
-
-        private final OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
-
-        private final ValidateCodeSecurityConfig validateCodeSecurityConfig;
+        @Autowired(required = false)
+        private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
 
         /**
          * @see SocialConfig#socialSecurityConfig() 注入social配置到ss
          */
-        private final SpringSocialConfigurer socialSecurityConfig;
+        @Autowired(required = false)
+        private SpringSocialConfigurer socialSecurityConfig;
+
+        private final SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+        private final ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
         private final FormAuthenticationConfig formAuthenticationConfig;
 
         private final AuthorizeConfigManager authorizeConfigManager;
 
         private final AppOAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler;
+
+        public AppResourceServerConfig(SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig, ValidateCodeSecurityConfig validateCodeSecurityConfig, FormAuthenticationConfig formAuthenticationConfig, AuthorizeConfigManager authorizeConfigManager, AppOAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler) {
+            this.smsCodeAuthenticationSecurityConfig = smsCodeAuthenticationSecurityConfig;
+            this.validateCodeSecurityConfig = validateCodeSecurityConfig;
+            this.formAuthenticationConfig = formAuthenticationConfig;
+            this.authorizeConfigManager = authorizeConfigManager;
+            this.oAuth2WebSecurityExpressionHandler = oAuth2WebSecurityExpressionHandler;
+        }
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
@@ -83,14 +94,16 @@ public class AppSecurityBeanConfig {
                     .apply(validateCodeSecurityConfig)
                     .and()
                     // 追加短信验证码公共配置
-                    .apply(smsCodeAuthenticationSecurityConfig)
-                    .and()
-                    // 添加social拦截过滤器，引导用户进行社交登录,`SocialAuthenticationFilter`
-                    .apply(socialSecurityConfig)
-                    .and()
-                    // 添加针对`openid`第三方授权登录的token版本支持
-                    .apply(openIdAuthenticationSecurityConfig)
-                    .and()
+                    .apply(smsCodeAuthenticationSecurityConfig);
+            if (socialSecurityConfig != null) {
+                // 添加social拦截过滤器，引导用户进行社交登录,`SocialAuthenticationFilter`
+                    http.apply(socialSecurityConfig);
+            }
+            if (openIdAuthenticationSecurityConfig != null) {
+                // 添加针对`openid`第三方授权登录的token版本支持
+                http.apply(openIdAuthenticationSecurityConfig);
+            }
+            http
                     // 临时关闭防护
                     .csrf().disable()
                     // iframe 设置，以便swagger-ui页面能嵌入前端显示
@@ -99,6 +112,8 @@ public class AppSecurityBeanConfig {
 
             // 对请求进行授权，这个方法下面的都是授权的配置
             authorizeConfigManager.config(http.authorizeRequests());
+
+            log.debug("默认资源服务启动");
         }
 
         /**
@@ -140,8 +155,6 @@ public class AppSecurityBeanConfig {
     public TokenEnhancer jwtTokenEnhancer() {
         return new AppDefaultJwtTokenEnhancer();
     }
-
-
 
 
 }

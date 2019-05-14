@@ -1,4 +1,4 @@
-package cn.jiiiiiin.data.config;
+package cn.jiiiiiin.user.common.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;

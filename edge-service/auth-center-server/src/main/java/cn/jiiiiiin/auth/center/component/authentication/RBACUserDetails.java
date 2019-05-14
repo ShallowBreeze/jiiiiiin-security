@@ -1,6 +1,7 @@
-package cn.jiiiiiin.manager.component.authentication;
+package cn.jiiiiiin.auth.center.component.authentication;
 
 import cn.jiiiiiin.user.dto.AdminDto;
+import cn.jiiiiiin.user.entity.Admin;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,13 +21,13 @@ import java.util.stream.Collectors;
 @Setter
 @EqualsAndHashCode(of = "admin")
 @NoArgsConstructor
-public class MngUserDetails implements SocialUserDetails {
+public class RBACUserDetails implements SocialUserDetails {
 
     private static final long serialVersionUID = -8362660409491439833L;
 
-    private AdminDto admin;
+    private Admin admin;
 
-    public MngUserDetails(AdminDto admin) {
+    public RBACUserDetails(Admin admin) {
         this.admin = admin;
     }
 
@@ -40,7 +41,7 @@ public class MngUserDetails implements SocialUserDetails {
         return getGrantedAuthority(admin);
     }
 
-    public static List<SimpleGrantedAuthority> getGrantedAuthority(AdminDto admin) {
+    public static List<SimpleGrantedAuthority> getGrantedAuthority(Admin admin) {
         return admin.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getAuthorityName()))
                 .collect(Collectors.toList());

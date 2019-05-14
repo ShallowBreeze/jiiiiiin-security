@@ -2,7 +2,7 @@ package cn.jiiiiiin.user.controller;
 
 
 import cn.jiiiiiin.data.entity.BaseEntity;
-import cn.jiiiiiin.data.util.View;
+import cn.jiiiiiin.user.common.utils.View;
 import cn.jiiiiiin.user.dto.RoleDto;
 import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.entity.Resource;

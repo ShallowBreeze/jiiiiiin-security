@@ -1,7 +1,7 @@
 package cn.jiiiiiin.user.entity;
 
 import cn.jiiiiiin.data.entity.BaseEntity;
-import cn.jiiiiiin.data.util.View;
+import cn.jiiiiiin.user.common.utils.View;
 import cn.jiiiiiin.user.common.validation.Groups;
 import cn.jiiiiiin.user.dto.Menu;
 import cn.jiiiiiin.user.enums.ChannelEnum;
@@ -80,6 +80,10 @@ public class Admin extends BaseEntity<Admin> {
     @ApiModelProperty(value = "前端授权资源")
     @TableField(exist = false)
     private HashSet<Resource> authorizeResources;
+
+    @ApiModelProperty(value = "登录用户具有的接口权限集合")
+    @TableField(exist = false)
+    private HashSet<Interface> authorizeInterfaces;
 
     @ApiModelProperty(value = "前端菜单")
     @TableField(exist = false)

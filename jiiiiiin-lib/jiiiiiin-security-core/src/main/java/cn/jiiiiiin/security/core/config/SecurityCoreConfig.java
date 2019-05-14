@@ -2,6 +2,7 @@ package cn.jiiiiiin.security.core.config;
 
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,11 +21,7 @@ import javax.sql.DataSource;
 @Configuration
 // 注册配置
 @EnableConfigurationProperties(SecurityProperties.class)
-//@PropertySource(value = {"exception.properties"}, encoding = "UTF-8")
 public class SecurityCoreConfig {
-
-    @Autowired
-    private DataSource dataSource;
 
     /**
      * 记住我功能的token存取器配置
@@ -38,7 +35,8 @@ public class SecurityCoreConfig {
      * @see org.springframework.security.config.annotation.web.configurers.RememberMeConfigurer#tokenRepository(PersistentTokenRepository)
      */
     @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
+    @ConditionalOnBean(name = "dataSource")
+    public PersistentTokenRepository persistentTokenRepository(DataSource dataSource) {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
         // 帮我们在开发阶段建表
