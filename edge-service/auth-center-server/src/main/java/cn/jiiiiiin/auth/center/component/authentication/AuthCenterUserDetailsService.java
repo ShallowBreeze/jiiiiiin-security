@@ -1,5 +1,7 @@
 package cn.jiiiiiin.auth.center.component.authentication;
 
+import cn.jiiiiiin.auth.center.exception.AuthCenterException;
+import cn.jiiiiiin.auth.center.exception.AuthCenterUsernameNotFoundException;
 import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
 import cn.jiiiiiin.user.client.RemoteUserService;
 import cn.jiiiiiin.user.dto.Menu;
@@ -54,10 +56,13 @@ public class AuthCenterUserDetailsService implements UserDetailsService, SocialU
         // TODO 改造思路，在前端传过来的`username`参数上拼接渠道标识符
         ChannelEnum channelEnum = ChannelEnum.MNG;
         SocialUserDetails userDetails = null;
-        switch (channelEnum){
+        switch (channelEnum) {
             case MNG:
                 userDetails = getChannelUserInfo(username);
                 break;
+            default:
+                // TODO 待测试
+                throw new AuthCenterException("不支持的渠道请求错误");
         }
         return userDetails;
     }
@@ -65,7 +70,8 @@ public class AuthCenterUserDetailsService implements UserDetailsService, SocialU
     private SocialUserDetails getChannelUserInfo(String username) {
         val optionalAdmin = remoteUserService.signInByUsernameOrPhoneNumb(ChannelEnum.MNG, username);
         if (optionalAdmin == null) {
-            throw new UsernameNotFoundException("用户名密码不符");
+            // 这里不能直接使用`UsernameNotFoundException`
+            throw new AuthCenterUsernameNotFoundException("用户名密码不符");
         } else {
             val modelMapper = new ModelMapper();
             val admin = modelMapper.map(optionalAdmin, Admin.class);

@@ -1,6 +1,7 @@
 package cn.jiiiiiin;
 
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
+import cn.jiiiiiin.user.common.utils.SpringMVC;
 import com.baomidou.mybatisplus.extension.api.R;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +30,7 @@ public class AuthCenterApp {
     private final SecurityProperties securityProperties;
 
     public static void main(String[] args) {
-        val app = new SpringApplication(AuthCenterApp.class);
-        app.setBannerMode(Banner.Mode.OFF);
-        app.run(args);
+        SpringMVC.run(args, AuthCenterApp.class);
     }
 
     @GetMapping({"/", "/index"})

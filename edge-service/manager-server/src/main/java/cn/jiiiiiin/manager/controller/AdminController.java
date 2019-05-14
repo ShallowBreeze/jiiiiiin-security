@@ -52,7 +52,7 @@ public class AdminController {
 //    }
 
     @ApiOperation(value = "更新用户密码", notes = "只能在用户拥有系统管理员角色权限的状态下使用该接口", httpMethod = "PUT")
-    @PutMapping("pwd")
+    @PutMapping("/pwd")
     @JsonView(View.SecurityView.class)
     public AdminDto updatePwd(@RequestBody @Validated({BaseEntity.IDGroup.class, Groups.Security.class}) AdminDto admin, @AuthenticationPrincipal UserDetails user) {
         if (user.getAuthorities().stream().anyMatch(p -> p.equals(adminGrantedAuthority))) {

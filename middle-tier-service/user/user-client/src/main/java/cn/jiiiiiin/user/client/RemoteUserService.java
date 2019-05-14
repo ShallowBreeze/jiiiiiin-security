@@ -18,8 +18,16 @@ import static cn.jiiiiiin.user.UserDict.formatServiceFallbackMsg;
 /**
  * @author jiiiiiin
  */
-@FeignClient(name = UserDict.SERVICE_NAME, fallback = RemoteUserService.FeignClientFallBack.class)
+@FeignClient(name = UserDict.SERVICE_NAME, fallbackFactory = RemoteUserService.FeignClientFallBack.class)
 public interface RemoteUserService {
+
+    /**
+     * @param channel  对应的应用渠道
+     * @param username 用户名或者手机号
+     * @return 系统标准用户
+     */
+    @GetMapping("/admin/{channel}/{username}")
+    Admin signInByUsernameOrPhoneNumb(@PathVariable ChannelEnum channel, @PathVariable String username);
 
     @Component
     @Slf4j
@@ -38,12 +46,4 @@ public interface RemoteUserService {
             };
         }
     }
-
-    /**
-     * @param channel  对应的应用渠道
-     * @param username 用户名或者手机号
-     * @return 系统标准用户
-     */
-    @GetMapping("/admin/{channel}/{username}")
-    Admin signInByUsernameOrPhoneNumb(@PathVariable ChannelEnum channel, @PathVariable String username);
 }
