@@ -24,6 +24,7 @@ import java.util.Date;
  */
 @RestController
 @EnableApolloConfig
+// 开启针对`@FeignClient`注解的扫描
 @EnableFeignClients
 @SpringCloudApplication
 @Configuration

@@ -8,7 +8,7 @@ spring:
     active: node1
   # 做服务发现是使用（必须唯一）
   application:
-    name: jiiiiiin-product
+    name: product-server
   sleuth:
     web:
       client:

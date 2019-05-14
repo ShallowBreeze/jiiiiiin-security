@@ -33,7 +33,19 @@ spring:
     admin:
       client:
         url: http://jiiiiiin-springboot-admin:5000
+  application:
+    name: order-server
 feign:
+  # 开启gzip
+#  compression:
+#    request:
+#      # 开启请求gzip压缩
+#      enabled: true
+#      mime-types: text/xml,application/xml,application/json # 配置压缩支持的MIME TYPE
+#      min-request-size: 2048  # 配置压缩数据大小的下限
+#    response:
+#      # 配置响应GZIP压缩
+#      enabled: true
   hystrix:
     # Feign是自带断路器的，在D版本的Spring Cloud之后，它没有默认打开。需要在配置文件中配置打开它，在配置文件加以下代码
     enabled: true
@@ -57,7 +69,13 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 1000
+            # 命令执行超时时间，默认1000ms
+            # http://tietang.wang/2016/02/25/hystrix/Hystrix%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/
+            timeoutInMilliseconds: 8000
+  shareSecurityContext: true
 logging:
   level:
     org.springframework.web.servlet.*: debug
+    cn.jiiiiiin: debug
+server:
+  port: 7100

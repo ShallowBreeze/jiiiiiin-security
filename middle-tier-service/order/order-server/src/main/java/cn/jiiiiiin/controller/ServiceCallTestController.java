@@ -4,14 +4,14 @@ import cn.jiiiiiin.product.client.FeignClientTest;
 //import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 //import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 //import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import cn.jiiiiiin.service.HelloFeignService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +26,7 @@ import org.springframework.web.client.RestTemplate;
 //@DefaultProperties(defaultFallback = "defaultFallback")
 public class ServiceCallTestController {
 
-    private static final String PRODUCT_SERVICE_ID = "JIIIIIIN-PRODUCT";
+    private static final String PRODUCT_SERVICE_ID = "PRODUCT-SERVER";
 
     @Value("${server.port}")
     private int port;
@@ -40,12 +40,26 @@ public class ServiceCallTestController {
 
     private final FeignClientTest feignClientTest;
 
-    @Autowired
-    public ServiceCallTestController(LoadBalancerClient loadBalancerClient, RestTemplate restTemplate, FeignClientTest feignClientTest) {
+    private final HelloFeignService helloFeignService;
+
+    public ServiceCallTestController(LoadBalancerClient loadBalancerClient, RestTemplate restTemplate, FeignClientTest feignClientTest, HelloFeignService helloFeignService) {
         this.loadBalancerClient = loadBalancerClient;
         this.restTemplate = restTemplate;
         this.feignClientTest = feignClientTest;
+        this.helloFeignService = helloFeignService;
     }
+
+    @GetMapping(value = "/search/github")
+    public String searchGithubRepoByStr(@RequestParam("str") String queryStr) {
+        return helloFeignService.searchRepo(queryStr);
+    }
+
+
+//    @GetMapping(value = "/search/github")
+//    public ResponseEntity<byte[]> searchGithubRepoByStr(@RequestParam("str") String queryStr) {
+//        log.debug("gzip测试");
+//        return helloFeignService.searchRepo(queryStr);
+//    }
 
     // 测试熔断：curl "http://localhost:7100/msg?sw=1"
     // + feign client 配置的服务降级只是针对其本身 ！！！ 如果使用feign就可以不设置`@HystrixCommand`，直接使用client上面提供的降级配置，注意这里只是指降级对应client的
@@ -54,13 +68,13 @@ public class ServiceCallTestController {
     // + 需要进行熔断必须配置`@HystrixCommand`
     // + 如果要实现服务降级，就算使用默认配置`fallbackMethod`，也需要在接口上面配置`@HystrixCommand`
     // http://blog.didispace.com/springcloud3/
-    @HystrixCommand(fallbackMethod = "fallback",
-            // `HystrixCommandProperties`查看更多配置信息
-            commandProperties = {
-            // 配置超时时间，默认为1秒，这里设置为3秒
-            // 超时时间要看具体接口的调用执行逻辑，根据情况来设置
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "4000")
-    })
+//    @HystrixCommand(fallbackMethod = "fallback",
+//            // `HystrixCommandProperties`查看更多配置信息
+//            commandProperties = {
+//            // 配置超时时间，默认为1秒，这里设置为3秒
+//            // 超时时间要看具体接口的调用执行逻辑，根据情况来设置
+//            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "4000")
+//    })
 //
 //    @HystrixCommand(fallbackMethod = "fallback",
 //            commandProperties = {
@@ -107,7 +121,7 @@ public class ServiceCallTestController {
         if(sw!= null && sw % 2 == 0){
             return "success";
         }
-        val templ = new RestTemplate();
+//        val templ = new RestTemplate();
 
         // 1.第一种通讯方式（直接使用restTemplate，url写死）
 //        val product = templ.getForObject("http://localhost:7000/msg", String.class);
@@ -120,10 +134,10 @@ public class ServiceCallTestController {
 //        val product = templ.getForObject(url, String.class);
 
         // 3.第三种方式
-        val product = restTemplate.getForObject(String.format("http://%s/msg", PRODUCT_SERVICE_ID), String.class);
+//        val product = restTemplate.getForObject(String.format("http://%s/msg", PRODUCT_SERVICE_ID), String.class);
 
         // 4.第四种方式
-//        val product = feignClientTest.getMsg();
+        val product = feignClientTest.getMsg();
         log.info("getOrder:: product {}", product);
 
 //        throw new RuntimeException("服务降级测试触发");

@@ -21,7 +21,7 @@ public class ServiceCallTestController {
 
     @GetMapping("/msg")
     public String getMsg() throws InterruptedException {
-        _randomlyRunLong();
+//        _randomlyRunLong();
         log.info("商品服务模拟正常返回");
         return "商品" + port;
     }

@@ -4,6 +4,8 @@ import cn.jiiiiiin.user.UserDict;
 import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.exception.UserServiceException;
+import feign.hystrix.FallbackFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -13,13 +15,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import static cn.jiiiiiin.user.UserDict.formatServiceFallbackMsg;
 
+/**
+ * @author jiiiiiin
+ */
 @FeignClient(name = UserDict.SERVICE_NAME, fallback = RemoteUserService.FeignClientFallBack.class)
 public interface RemoteUserService {
 
-    Logger log = LoggerFactory.getLogger(RemoteUserService.class);
-
     @Component
-    class FeignClientFallBack implements RemoteUserService {
+    @Slf4j
+    class FeignClientFallBack implements FallbackFactory<RemoteUserService> {
+        @Override
+        public RemoteUserService create(Throwable cause) {
+            if (cause != null) {
+                log.error(UserDict.SERVICE_NAME + "服务发生服务降级", cause);
+            }
+            return new RemoteUserService() {
+                @Override
+                public Admin signInByUsernameOrPhoneNumb(ChannelEnum channel, String username) {
+                    log.error(UserDict.SERVICE_NAME+"#signInByUsernameOrPhoneNumb降级方法被执行");
+                    return null;
+                }
+            };
+        }
     }
 
     /**
@@ -28,8 +45,5 @@ public interface RemoteUserService {
      * @return 系统标准用户
      */
     @GetMapping("/admin/{channel}/{username}")
-    default Admin signInByUsernameOrPhoneNumb(@PathVariable ChannelEnum channel, @PathVariable String username) {
-        log.debug("signInByUsernameOrPhoneNumb 服务被降级");
-        throw new UserServiceException(formatServiceFallbackMsg("signInByUsernameOrPhoneNumb"));
-    }
+    Admin signInByUsernameOrPhoneNumb(@PathVariable ChannelEnum channel, @PathVariable String username);
 }
