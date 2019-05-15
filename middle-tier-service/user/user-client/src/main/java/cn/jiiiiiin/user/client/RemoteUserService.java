@@ -1,6 +1,8 @@
 package cn.jiiiiiin.user.client;
 
 import cn.jiiiiiin.user.UserDict;
+import cn.jiiiiiin.user.client.config.UserFeignClientConfiguration;
+import cn.jiiiiiin.user.common.annotation.IgnoreResponseAdvice;
 import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.exception.UserServiceException;
@@ -18,10 +20,12 @@ import static cn.jiiiiiin.user.UserDict.formatServiceFallbackMsg;
 /**
  * @author jiiiiiin
  */
-@FeignClient(name = UserDict.SERVICE_NAME, fallbackFactory = RemoteUserService.FeignClientFallBack.class)
+@FeignClient(name = UserDict.SERVICE_NAME, configuration = UserFeignClientConfiguration.class, fallbackFactory = RemoteUserService.FeignClientFallBack.class)
 public interface RemoteUserService {
 
     /**
+     * 通过用户名&手机号获取对应渠道的用户信息
+     *
      * @param channel  对应的应用渠道
      * @param username 用户名或者手机号
      * @return 系统标准用户
@@ -35,12 +39,12 @@ public interface RemoteUserService {
         @Override
         public RemoteUserService create(Throwable cause) {
             if (cause != null) {
-                log.error(UserDict.SERVICE_NAME + "服务发生服务降级", cause);
+                log.error(UserDict.SERVICE_NAME + "发生服务降级", cause);
             }
             return new RemoteUserService() {
                 @Override
                 public Admin signInByUsernameOrPhoneNumb(ChannelEnum channel, String username) {
-                    log.error(UserDict.SERVICE_NAME+"#signInByUsernameOrPhoneNumb降级方法被执行");
+                    log.error(UserDict.SERVICE_NAME + "#signInByUsernameOrPhoneNumb降级方法被执行");
                     return null;
                 }
             };

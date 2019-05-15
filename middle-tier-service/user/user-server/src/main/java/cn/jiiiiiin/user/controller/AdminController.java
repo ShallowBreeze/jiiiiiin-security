@@ -2,6 +2,7 @@ package cn.jiiiiiin.user.controller;
 
 
 import cn.jiiiiiin.data.entity.BaseEntity;
+import cn.jiiiiiin.user.common.annotation.IgnoreResponseAdvice;
 import cn.jiiiiiin.user.common.exception.BusinessErrException;
 import cn.jiiiiiin.user.common.utils.View;
 import cn.jiiiiiin.user.common.validation.Groups;
@@ -140,7 +141,8 @@ public class AdminController extends BaseController {
     /**
      * ==== 以下接口提供给远程服务间调用 ====
      */
-    @GetMapping("/{channel:[0]}/{username}")
+    @GetMapping("/{channel}/{username}")
+    @IgnoreResponseAdvice
     public Admin signInByUsernameOrPhoneNumb(@PathVariable ChannelEnum channel, @PathVariable String username) {
         log.debug("调用[signInByUsernameOrPhoneNumb]服务 channel: %s ,username: %s", channel, username);
         return adminService.signInByUsernameOrPhoneNumb(username, channel);

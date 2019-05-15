@@ -27,8 +27,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient(name = "product-server", fallbackFactory = FeignClientTestFallBack.class)
 public interface FeignClientTest {
 
-    Logger log = LoggerFactory.getLogger(FeignClientTest.class);
-
     @GetMapping("/msg")
     String getMsg();
 

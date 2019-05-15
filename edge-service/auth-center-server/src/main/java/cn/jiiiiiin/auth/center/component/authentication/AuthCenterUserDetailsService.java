@@ -71,6 +71,7 @@ public class AuthCenterUserDetailsService implements UserDetailsService, SocialU
         val optionalAdmin = remoteUserService.signInByUsernameOrPhoneNumb(ChannelEnum.MNG, username);
         if (optionalAdmin == null) {
             // 这里不能直接使用`UsernameNotFoundException`
+            // 这里有可能是因为`UserServer`服务没有注册导致
             throw new AuthCenterUsernameNotFoundException("用户名密码不符");
         } else {
             val modelMapper = new ModelMapper();
