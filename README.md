@@ -83,7 +83,7 @@
 
 + 视频演示
 
-> 注意：目前该视频是针对[master](https://github.com/Jiiiiiin/jiiiiiin-security/tree/master)分支录制，等当前分支对spring-cloud实践有一个基础眉目我会在重新录制响应视频，但是这个视频对于`jiiiiiin-service-manager 内管的聚合项目`也具有参考价值，目前这块改动不大
+> 注意：目前该视频是针对[master](https://github.com/Jiiiiiin/jiiiiiin-security/tree/master)分支录制，等当前分支对spring-cloud实践有一个基础眉目我会在重新录制响应视频，但是这个视频对于`user-server & manager-app`也具有参考价值
 
 [![Watch the video](https://ws2.sinaimg.cn/large/006tNc79gy1fzqotcb0i4j31410u07dl.jpg)](https://www.youtube.com/embed/eemHJEvsTog)
 
