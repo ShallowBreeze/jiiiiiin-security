@@ -120,10 +120,12 @@
     
 > 注意这里可以自行控制apollo的连接环境，可以使用`apollo-Quick-Start`快速上手实践
     
+    
+    
     + 启动eureka::DiscoveryServerApplication
     + 启动监控服务
         + hystrix-dashboard::HystrixDashboardApplication
-        + hystrix-tuibine::HystrixTuibineApplication
+    + hystrix-tuibine::HystrixTuibineApplication
         + springboot-admin::SpringBootAdminApplication
     + zipkin::[集成方式参考](https://windmt.com/2018/04/24/spring-cloud-12-sleuth-zipkin/)，建议使用docker直接部署服务端
     
