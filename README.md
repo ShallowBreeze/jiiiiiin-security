@@ -59,13 +59,13 @@
 │   ├── jiiiiiin-hystrix-tuibine Hystrix Turbine聚合服务(通用服务)
 ├── edge-service 边界服务(pom)
 │   ├── auth-center-server 统一用户认证中心应用
-│   ├── manager-server 内管后端应用
+│   ├── manager-server 内管后端应用(TODO 待删除)
 │   ├── manager-app 内管前端应用（vue项目，依赖d2-admin模块（1.6.9最新））
 ├── middle-tier-service 后端服务(pom)
 │   └── user 用户服务(pom)
-│       ├── user-common 用户公共代码(lib) TODO
-│       ├── user-client 用户Feign客户端(lib) TODO
-│       ├── user-server 用户应用 TODO
+│       ├── user-common 用户公共代码(lib) 
+│       ├── user-client 用户Feign客户端(lib) 
+│       ├── user-server 用户应用
 │   ├── order 订单服务(pom)
 │   │   ├── order-server 后端应用
 │   ├── product 商品服务(pom)
@@ -106,41 +106,37 @@
             127.0.0.1   jiiiiiin-hystrix-dashboard
             127.0.0.1   jiiiiiin-hystrix-tuibine
             127.0.0.1   jiiiiiin-springboot-admin
-            127.0.0.1   jiiiiiin-user-manager
-            127.0.0.1   jiiiiiin-user-auth-center
+            127.0.0.1   user-server
+            127.0.0.1   auth-center-server
             127.0.0.1   jiiiiiin-gateway
-            ```
-
-    + [导入数据脚本](https://github.com/Jiiiiiin/jiiiiiin-security/blob/master/db/sql-mysql.sql)
-
-    + 启动jiiiiiin-mysql & jiiiiiin-redis
-
-    + 启动[apollo](https://github.com/ctripcorp/apollo/wiki/Quick-Start)，并参考`config`目录中的`xxx.properties`创建各个应用的apollo对应项目，并自行配置所需配置信息
-
-    > 注意这里可以自行控制apollo的连接环境，可以使用`apollo-Quick-Start`快速上手实践
-
+            127.0.0.1   manager-app
+        ```
+    
++ [导入数据脚本](https://github.com/Jiiiiiin/jiiiiiin-security/blob/master/db/sql-mysql.sql)
+    
++ 启动jiiiiiin-mysql & jiiiiiin-redis
+    
++ 启动[apollo](https://github.com/ctripcorp/apollo/wiki/Quick-Start)，并参考`config`目录中的`xxx.properties`创建各个应用的apollo对应项目，并自行配置所需配置信息
+    
+> 注意这里可以自行控制apollo的连接环境，可以使用`apollo-Quick-Start`快速上手实践
+    
     + 启动eureka::DiscoveryServerApplication
     + 启动监控服务
         + hystrix-dashboard::HystrixDashboardApplication
         + hystrix-tuibine::HystrixTuibineApplication
         + springboot-admin::SpringBootAdminApplication
-        + zipkin::[集成方式参考](https://windmt.com/2018/04/24/spring-cloud-12-sleuth-zipkin/)，建议使用docker直接部署服务端
+    + zipkin::[集成方式参考](https://windmt.com/2018/04/24/spring-cloud-12-sleuth-zipkin/)，建议使用docker直接部署服务端
+    
 
-    + 启动后端内管应用
+    + 启动统一用户认证中心应用auth-center-server::AuthCenterApplication
++ 启动用户服务 user-server::UserApplication
+    + 启动网关 gateway::ZuulGatewayApplication
 
-    + 启动前端内管应用：jiiiiiin-user-manager-app::`j user-manager-app && npm run serve`
+    - 启动前端内管应用 manager-app::`j manager-app && npm run serve`
 
-    > 一切ok，就可以直接访问`jiiiiiin-user-manager:9000` 查看管理控制台了 ：）
+    > 一切ok，就可以直接访问manager-app 查看管理控制台了 ：）
 
-    > 其他服务：
-
-    + 启动统一用户认证中心应用user-auth-center-server::AuthCenterApp
-
-    + 启动网关gateway::ZuulGatewayApplication
-
-    > 一切ok，就可以通过`POST::http://${host}/api/ac/oauth/token`测试到统一用户认证中心进行身份认证，认证通过之后，即可走网关请求其他服务，比如可以启动`product`进行测试，注意自行配置[网关的资源服务器权限信息](https://github.com/Jiiiiiin/jiiiiiin-security/blob/c1eab44a0e053093c572ac576e9e961a945e625c/jiiiiiin-gateway/src/main/java/cn/jiiiiiin/component/ZuulAuthorizeConfigProvider.java)，目前这块代码还在优化中
-
-
+    
 
 # 计划
 
@@ -172,9 +168,9 @@
 
 | 模块名称 | 完成状态 | 简介 |
 | ------ | ------ | ------ |
-| 用户服务 | **50%** | 开发进行中，将用户管理相关业务抽成一个`user`原子服务，提供给网关、统一权限认证中心、内管等应用使用 |
-| 商品服务 | 10% | 商家用来管理自己的商品 |
-| 订单服务 | 10% | 商家用来管理自己的订单 |
+| 用户服务 | **90%** | 开发进行中，将用户管理相关业务抽成一个`user`原子服务，提供给网关、统一权限认证中心、内管等应用使用 |
+| 商品服务 | 0% | 商家用来管理自己的商品 |
+| 订单服务 | 0% | 商家用来管理自己的订单 |
 
 + 已经实践的基础功能
 
@@ -244,5 +240,6 @@
 + [Spring Security 实现原理与源码解析系统 —— 精品合集](http://www.iocoder.cn/Spring-Security/good-collection/)
 + [微服务的4大设计原则和19个解决方案](https://juejin.im/entry/59bf30876fb9a00a583176a1)
 + [GitHub 9K Star！Apollo作者手把手教你微服务配置中心之道](https://mp.weixin.qq.com/s/iDmYJre_ULEIxuliu1EbIQ?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=weixin)
++ [pig](https://gitee.com/log4j/pig) 目前我们做的事情和pig很像，但是我们有更大的幻想~~
 
 
