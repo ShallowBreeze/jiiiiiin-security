@@ -110,35 +110,29 @@
             127.0.0.1   auth-center-server
             127.0.0.1   jiiiiiin-gateway
             127.0.0.1   manager-app
-        ```
-    
-+ [导入数据脚本](https://github.com/Jiiiiiin/jiiiiiin-security/blob/master/db/sql-mysql.sql)
-    
-+ 启动jiiiiiin-mysql & jiiiiiin-redis
-    
-+ 启动[apollo](https://github.com/ctripcorp/apollo/wiki/Quick-Start)，并参考`config`目录中的`xxx.properties`创建各个应用的apollo对应项目，并自行配置所需配置信息
-    
-> 注意这里可以自行控制apollo的连接环境，可以使用`apollo-Quick-Start`快速上手实践
-    
-    
-    
-    + 启动eureka::DiscoveryServerApplication
-    + 启动监控服务
-        + hystrix-dashboard::HystrixDashboardApplication
-    + hystrix-tuibine::HystrixTuibineApplication
-        + springboot-admin::SpringBootAdminApplication
-    + zipkin::[集成方式参考](https://windmt.com/2018/04/24/spring-cloud-12-sleuth-zipkin/)，建议使用docker直接部署服务端
-    
+            ```
+  + [导入数据脚本](https://github.com/Jiiiiiin/jiiiiiin-security/blob/master/db/sql-mysql.sql)
 
-    + 启动统一用户认证中心应用auth-center-server::AuthCenterApplication
-+ 启动用户服务 user-server::UserApplication
-    + 启动网关 gateway::ZuulGatewayApplication
+  + 启动jiiiiiin-mysql & jiiiiiin-redis
 
-    - 启动前端内管应用 manager-app::`j manager-app && npm run serve`
+  + 启动[apollo](https://github.com/ctripcorp/apollo/wiki/Quick-Start)，并参考`config`目录中的`xxx.properties`创建各个应用的apollo对应项目，并自行配置所需配置信息
 
-    > 一切ok，就可以直接访问manager-app 查看管理控制台了 ：）
+  > 注意这里可以自行控制apollo的连接环境，可以使用`apollo-Quick-Start`快速上手实践
 
-    
+  + 启动eureka::DiscoveryServerApplication
+  + 启动监控服务
+  + hystrix-dashboard::HystrixDashboardApplication
+  + hystrix-tuibine::HystrixTuibineApplication
+  + springboot-admin::SpringBootAdminApplication
+  + zipkin::[集成方式参考](https://windmt.com/2018/04/24/spring-cloud-12-sleuth-zipkin/)，建议使用docker直接部署服务端
+  + 启动统一用户认证中心应用auth-center-server::AuthCenterApplication
+  + 启动用户服务 user-server::UserApplication
+  + 启动网关 gateway::ZuulGatewayApplication
+  + 启动前端内管应用 manager-app::`j manager-app && npm run serve`
+
+  > 一切ok，就可以直接访问manager-app 查看管理控制台了 ：）
+
+  
 
 # 计划
 
@@ -243,5 +237,6 @@
 + [微服务的4大设计原则和19个解决方案](https://juejin.im/entry/59bf30876fb9a00a583176a1)
 + [GitHub 9K Star！Apollo作者手把手教你微服务配置中心之道](https://mp.weixin.qq.com/s/iDmYJre_ULEIxuliu1EbIQ?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=weixin)
 + [pig](https://gitee.com/log4j/pig) 目前我们做的事情和pig很像，但是我们有更大的幻想~~
+
 
 
