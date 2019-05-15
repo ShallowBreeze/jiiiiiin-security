@@ -25,18 +25,6 @@
 | ![](https://ws2.sinaimg.cn/large/006tKfTcgy1g0ds20z3muj31d30u0dlw.jpg) | ![](https://ws2.sinaimg.cn/large/006tKfTcgy1g0jmwac98nj31d30u0jww.jpg) |
 | ![](https://ws3.sinaimg.cn/large/006tKfTcgy1g11m4k4sgtj31d30u076s.jpg) | ![](https://ws4.sinaimg.cn/large/006tKfTcgy1g14ok7i3n4j31d30u07g5.jpg) |
 
-
-# 快速开始
-
-+ 视频演示
-
-> 注意：目前该视频是针对[master](https://github.com/Jiiiiiin/jiiiiiin-security/tree/master)分支录制，等当前分支对spring-cloud实践有一个基础眉目我会在重新录制响应视频，但是这个视频对于`jiiiiiin-service-manager 内管的聚合项目`也具有参考价值，目前这块改动不大
-
-[![Watch the video](https://ws2.sinaimg.cn/large/006tNc79gy1fzqotcb0i4j31410u07dl.jpg)](https://www.youtube.com/embed/eemHJEvsTog)
-
-[下载高清视频](https://pan.baidu.com/s/1ZZmw7idemDWD0-tnmb1GHA)
-
-
 # 项目结构说明
 
 ```bash
@@ -75,14 +63,13 @@
 
 > 微服务代码划分，以便更好的管理项目，另外模块约定也可以为做代码生成做准备
 
-+ `middle-tier-service`为【原子服务】
-    + 一个原子服务，有划分为：
-        - 业务标识-client Feign客户端（提供给调用方使用）
-        - 业务标识-server 服务本身
-        - 业务标识-common 当前原子服务中client和server共同依赖的代码，如实体等
-
-+ `edge-service`为【边界服务服务】
-    + 边界服务即提供给外部客户端（如：App）来调用，组织比较自由，但有一个原则及其只会依赖【原子服务】，一般不作为内部服务提供者
+- `middle-tier-service`为【原子服务】
+  - 一个原子服务，有划分为：
+    - 业务标识-client Feign客户端（提供给调用方使用）
+    - 业务标识-server 服务本身
+    - 业务标识-common 当前原子服务中client和server共同依赖的代码，如实体等
+- `edge-service`为【边界服务服务】
+  - 边界服务即提供给外部客户端（如：App）来调用，组织比较自由，但有一个原则及其只会依赖【原子服务】，一般不作为内部服务提供者
 
 即下图中的`Edge Service`和`Middle Tier Service`：
 
@@ -91,6 +78,16 @@
 > 关于边界服务和原子服务的理解可以参考，[【微服务架构~BFF和网关是如何演化出来的】](https://mp.weixin.qq.com/s/F6WalEvx69_BCJ0z1dW1cg)
 
 
+
+# 快速开始
+
++ 视频演示
+
+> 注意：目前该视频是针对[master](https://github.com/Jiiiiiin/jiiiiiin-security/tree/master)分支录制，等当前分支对spring-cloud实践有一个基础眉目我会在重新录制响应视频，但是这个视频对于`jiiiiiin-service-manager 内管的聚合项目`也具有参考价值，目前这块改动不大
+
+[![Watch the video](https://ws2.sinaimg.cn/large/006tNc79gy1fzqotcb0i4j31410u07dl.jpg)](https://www.youtube.com/embed/eemHJEvsTog)
+
+[下载高清视频](https://pan.baidu.com/s/1ZZmw7idemDWD0-tnmb1GHA)
 
 + 提示步骤：
 
@@ -110,35 +107,39 @@
             127.0.0.1   auth-center-server
             127.0.0.1   jiiiiiin-gateway
             127.0.0.1   manager-app
-        ```
-    
-+ [导入数据脚本](https://github.com/Jiiiiiin/jiiiiiin-security/blob/master/db/sql-mysql.sql)
-    
-+ 启动jiiiiiin-mysql & jiiiiiin-redis
-    
-+ 启动[apollo](https://github.com/ctripcorp/apollo/wiki/Quick-Start)，并参考`config`目录中的`xxx.properties`创建各个应用的apollo对应项目，并自行配置所需配置信息
-    
-> 注意这里可以自行控制apollo的连接环境，可以使用`apollo-Quick-Start`快速上手实践
-    
-    
-    
-    + 启动eureka::DiscoveryServerApplication
-    + 启动监控服务
-        + hystrix-dashboard::HystrixDashboardApplication
-    + hystrix-tuibine::HystrixTuibineApplication
-        + springboot-admin::SpringBootAdminApplication
-    + zipkin::[集成方式参考](https://windmt.com/2018/04/24/spring-cloud-12-sleuth-zipkin/)，建议使用docker直接部署服务端
-    
+            ```
+  + [导入数据脚本](https://github.com/Jiiiiiin/jiiiiiin-security/blob/master/db/sql-mysql.sql)
 
-    + 启动统一用户认证中心应用auth-center-server::AuthCenterApplication
-+ 启动用户服务 user-server::UserApplication
-    + 启动网关 gateway::ZuulGatewayApplication
+  + 启动jiiiiiin-mysql & jiiiiiin-redis
 
-    - 启动前端内管应用 manager-app::`j manager-app && npm run serve`
+  + 启动[apollo](https://github.com/ctripcorp/apollo/wiki/Quick-Start)，并参考`config`目录中的`xxx.properties`创建各个应用的apollo对应项目，并自行配置所需配置信息
 
-    > 一切ok，就可以直接访问manager-app 查看管理控制台了 ：）
+  > 注意这里可以自行控制apollo的连接环境，可以使用`apollo-Quick-Start`快速上手实践
 
-    
+  + 启动eureka::DiscoveryServerApplication
+  + 启动监控服务
+  + hystrix-dashboard::HystrixDashboardApplication
+  + hystrix-tuibine::HystrixTuibineApplication
+  + springboot-admin::SpringBootAdminApplication
+  + zipkin::[集成方式参考](https://windmt.com/2018/04/24/spring-cloud-12-sleuth-zipkin/)，建议使用docker直接部署服务端
+  + 启动统一用户认证中心应用auth-center-server::AuthCenterApplication
+  + 启动用户服务 user-server::UserApplication::9999
+  + 启动网关 gateway::ZuulGatewayApplication::8861
+  + 启动前端内管应用 manager-app::`j manager-app && npm run serve`
+
+  > 一切ok，就可以直接访问manager-app 查看管理控制台了 ：）
+
+
+
+
+# 自定义配置
+
+| 配置内容                                | 位置                                                         |
+| --------------------------------------- | ------------------------------------------------------------ |
+| 自定义properties配置`jiiiiiin.security` | [SecurityProperties.java](https://github.com/Jiiiiiin/jiiiiiin-security/blob/feature/springcloud/jiiiiiin-lib/jiiiiiin-security-core/src/main/java/cn/jiiiiiin/security/core/properties/SecurityProperties.java#L26) 目前提供了针对公共接口、浏览器安全、验证码、OAuth2等相关配置 |
+| 可覆盖的Bean配置                        | 待整理~~                                                     |
+
+
 
 # 计划
 

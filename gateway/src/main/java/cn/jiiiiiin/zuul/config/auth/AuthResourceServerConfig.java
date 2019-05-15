@@ -1,24 +1,17 @@
 /**
  *
  */
-package cn.jiiiiiin.auth;
+package cn.jiiiiiin.zuul.config.auth;
 
 import cn.jiiiiiin.security.app.component.authentication.AppOAuth2WebSecurityExpressionHandler;
-import cn.jiiiiiin.security.app.component.authentication.social.openid.OpenIdAuthenticationSecurityConfig;
-import cn.jiiiiiin.security.core.authentication.FormAuthenticationConfig;
 import cn.jiiiiiin.security.core.authorize.AuthorizeConfigManager;
-import cn.jiiiiiin.security.core.config.component.SmsCodeAuthenticationSecurityConfig;
-import cn.jiiiiiin.security.core.social.SocialConfig;
-import cn.jiiiiiin.security.core.validate.code.ValidateCodeSecurityConfig;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.social.security.SpringSocialConfigurer;
 
 /**
  * 资源服务器配置

@@ -1,5 +1,8 @@
 package cn.jiiiiiin.security.core.validate.code.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -9,23 +12,26 @@ import java.time.LocalDateTime;
  *
  * @author jiiiiiin
  */
+@Setter
+@Getter
 public class ValidateCode implements Serializable {
 
     private static final long serialVersionUID = 3611750510059703824L;
+
     /**
      * 验证码
      */
     private String code;
 
     /**
+     * 到期时间 单位秒
+     */
+    private final int originExpireSecondsTime;
+
+    /**
      * 到期时间
      */
     private LocalDateTime expireTime;
-
-    public ValidateCode(String code, LocalDateTime expireTime) {
-        this.code = code;
-        this.expireTime = expireTime;
-    }
 
     /**
      * @param code
@@ -33,23 +39,8 @@ public class ValidateCode implements Serializable {
      */
     public ValidateCode(String code, int expireIn) {
         this.code = code;
-        this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public LocalDateTime getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(LocalDateTime expireTime) {
-        this.expireTime = expireTime;
+        this.originExpireSecondsTime = expireIn;
+        this.expireTime = LocalDateTime.now().plusSeconds(this.originExpireSecondsTime);
     }
 
     /**

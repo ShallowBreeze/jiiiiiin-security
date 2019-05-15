@@ -1,4 +1,4 @@
-package cn.jiiiiiin.hystrix;
+package cn.jiiiiiin.zuul.component.hystrix;
 
 import com.baomidou.mybatisplus.extension.api.R;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 
 /**
  * 网关服务降级

@@ -20,6 +20,25 @@ apollo:
   # Spring Placeholder的使用
   autoUpdateInjectedSpringProperties: true
 
+# 自定义配置
+jiiiiiin:
+  security:
+    publicApi:
+      - /
+      - /index
+      - /api/ac/oauth/* # TODO 只放开需要的端点
+      - /api/ac/code/*
+      - /error # TODO 默认spring security或者应用在直接响应401的状态时候回访问该端点
+      - /actuator/** # 需要注意安全问题
+    oauth2:
+      enableAuthorizationServer: false
+      tokenStore:
+        jwt
+      # redis
+      clients:
+        - clientId: pweb
+          clientSecret: pweb
+
 # 参考：http://blog.didispace.com/springcloud5/
 zuul:
   # 全局关闭重试机制
@@ -146,17 +165,6 @@ spring:
       # 连接超时时间（毫秒）
       timeout: 0
 
-# 自定义配置
-jiiiiiin:
-  security:
-    oauth2:
-      enableAuthorizationServer: false
-      tokenStore:
-        jwt
-      # redis
-      clients:
-        - clientId: pweb
-          clientSecret: pweb
 
 management:
   endpoints:

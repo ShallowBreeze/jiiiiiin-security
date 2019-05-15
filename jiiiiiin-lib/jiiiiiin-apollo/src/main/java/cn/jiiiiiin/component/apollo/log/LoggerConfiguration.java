@@ -1,4 +1,4 @@
-package cn.jiiiiiin.apollo.log;
+package cn.jiiiiiin.component.apollo.log;
 
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.model.ConfigChangeEvent;

@@ -1,4 +1,4 @@
-package cn.jiiiiiin.filter;
+package cn.jiiiiiin.zuul.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.exception.ZuulException;

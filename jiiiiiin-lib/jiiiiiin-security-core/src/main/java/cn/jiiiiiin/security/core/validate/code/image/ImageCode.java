@@ -34,11 +34,6 @@ public class ImageCode extends ValidateCode {
         this.captcha = captcha;
     }
 
-    public ImageCode(String code, BufferedImage image, LocalDateTime expireTime) {
-        super(code, expireTime);
-        this.image = image;
-    }
-
     /**
      * @param code
      * @param image
@@ -46,15 +41,6 @@ public class ImageCode extends ValidateCode {
      */
     public ImageCode(String code, BufferedImage image, int expireIn) {
         super(code, expireIn);
-        this.image = image;
-    }
-
-
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public void setImage(BufferedImage image) {
         this.image = image;
     }
 }

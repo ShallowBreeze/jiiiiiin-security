@@ -50,7 +50,7 @@ public class ImageValidateCodeGenerator implements ValidateCodeGenerator {
             final String capText = captchaProducer.createText();
             final BufferedImage bi = captchaProducer.createImage(capText);
             imageCode = new ImageCode(capText, bi, expireIn);
-            log.info("图形验证码 {} 有效期 {}", capText, expireIn);
+            log.info("图形验证码：【 {} 】 有效期： 【 {} 】秒", capText, expireIn);
         } else {
             var width = ServletRequestUtils.getIntParameter(request.getRequest(), "width", Integer.parseInt(securityProperties.getValidate().getImageCode().getWidth()));
             var height = ServletRequestUtils.getIntParameter(request.getRequest(), "height", Integer.parseInt(securityProperties.getValidate().getImageCode().getHeight()));
@@ -67,7 +67,7 @@ public class ImageValidateCodeGenerator implements ValidateCodeGenerator {
             // 生成验证码
             final String capText = captcha.text();
             imageCode = new ImageCode(capText, captcha, expireIn);
-            log.info("图形验证码 {} 有效期 {}", capText, expireIn);
+            log.info("图形验证码：【 {} 】 有效期： 【 {} 】秒", capText, expireIn);
         }
         return imageCode;
     }

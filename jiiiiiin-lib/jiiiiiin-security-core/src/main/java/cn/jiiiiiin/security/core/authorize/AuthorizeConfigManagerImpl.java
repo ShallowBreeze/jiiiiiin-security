@@ -4,6 +4,7 @@
 package cn.jiiiiiin.security.core.authorize;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
@@ -48,6 +49,7 @@ import java.util.List;
  */
 @Component
 @AllArgsConstructor
+@Slf4j
 public class AuthorizeConfigManagerImpl implements AuthorizeConfigManager {
 
     /**
@@ -61,6 +63,7 @@ public class AuthorizeConfigManagerImpl implements AuthorizeConfigManager {
         String existAnyRequestConfigName = null;
 
         for (AuthorizeConfigProvider authorizeConfigProvider : authorizeConfigProviders) {
+            log.debug("AuthorizeConfigManagerImpl#config 安全模块配置 {}", authorizeConfigProvider.getClass().getName());
             boolean currentIsAnyRequestConfig = authorizeConfigProvider.config(config);
             if (existAnyRequestConfig && currentIsAnyRequestConfig) {
                 throw new RuntimeException("重复的anyRequest配置:" + existAnyRequestConfigName + ","

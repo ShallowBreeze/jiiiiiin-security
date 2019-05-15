@@ -9,6 +9,7 @@ import cn.jiiiiiin.security.core.validate.code.ValidateCodeRepository;
 import cn.jiiiiiin.security.core.validate.code.ValidateCodeType;
 import cn.jiiiiiin.security.core.validate.code.entity.ValidateCode;
 import lombok.AllArgsConstructor;
+import lombok.var;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,10 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class RedisValidateCodeRepository implements ValidateCodeRepository {
 
+    /**
+     * 失效延迟
+     */
+    private static final int DEF_DELAY_TIME = 10;
     private final RedisTemplate<String, Object> redisTemplate;
 
     /**
@@ -36,7 +41,7 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
      */
     @Override
     public void save(ServletWebRequest request, ValidateCode code, ValidateCodeType type) {
-        redisTemplate.opsForValue().set(buildKey(request, type), code, 30, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(buildKey(request, type), code, code.getOriginExpireSecondsTime() + DEF_DELAY_TIME, TimeUnit.SECONDS);
     }
 
     @Override
@@ -54,9 +59,13 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
     }
 
     private String buildKey(ServletWebRequest request, ValidateCodeType type) {
-        String deviceId = request.getHeader(SecurityConstants.DEFAULT_PARAMETER_NAME_DEVICEID);
+        var deviceId = request.getHeader(SecurityConstants.DEFAULT_PARAMETER_NAME_DEVICEID);
         if (StringUtils.isBlank(deviceId)) {
-            throw new ValidateCodeException("请在请求头中携带deviceId参数");
+            // 浏览器直接通过`image`标签获取图片不好设置header，故这里做了兼容
+            deviceId = request.getParameter(SecurityConstants.DEFAULT_PARAMETER_NAME_DEVICEID);
+            if (StringUtils.isBlank(deviceId)) {
+                throw new ValidateCodeException("请在请求头中携带deviceId参数");
+            }
         }
         return "code:" + type.toString().toLowerCase() + ":" + deviceId;
     }

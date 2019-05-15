@@ -87,6 +87,10 @@ export default {
   },
   // 在读取持久化数据失败时默认用户信息
   user: {
+    auth: {
+      Authorization: 'Basic cHdlYjpwd2Vi',
+      scope: 'all'
+    },
     info: {
       name: 'Ghost'
     }

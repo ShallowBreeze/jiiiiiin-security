@@ -3,7 +3,7 @@ module.exports = {
     // https://segmentfault.com/a/1190000016314976
     '/': {
       ws: false,
-      target: 'http://jiiiiiin-user-manager:9090',
+      target: 'http://jiiiiiin-gateway:8861',
       pathRewrite: {
         '^/': ''
       },

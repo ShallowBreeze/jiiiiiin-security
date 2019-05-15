@@ -30,6 +30,7 @@ public class OriginAuthorizeConfigProvider implements AuthorizeConfigProvider {
     public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         config
                 .antMatchers(
+                        "/js/**", "/css/**", "/img/**", "/images/**", "/fonts/**", "/**/favicon.ico",
                         SecurityConstants.DEFAULT_UNAUTHENTICATED_URL,
                         SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
                         SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
@@ -43,7 +44,7 @@ public class OriginAuthorizeConfigProvider implements AuthorizeConfigProvider {
                         securityProperties.getBrowser().getSession().getSessionInvalidUrl(),
                         // 默认spring security或者应用在直接响应401的状态时候回访问该端点
                         "/error"
-                        )
+                )
                 .permitAll();
 
         if (StringUtils.isNotBlank(securityProperties.getBrowser().getSignOutUrl())) {

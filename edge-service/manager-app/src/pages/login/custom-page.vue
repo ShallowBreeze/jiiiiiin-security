@@ -41,9 +41,10 @@
                     </template>
                   </el-input>
                 </el-form-item>
-                <el-form-item>
+                <!-- TODO 待开发 -->
+                <!-- <el-form-item>
                   <el-checkbox v-model="formLogin.rememberMe" name="remember-me" type="checkbox" value="true">记住我</el-checkbox>
-                </el-form-item>
+                </el-form-item> -->
                 <el-button size="default" native-type="submit" @click="submit" :disabled="submitBtnDisabled" type="primary" class="button-login">登录</el-button>
               </el-form>
             </el-card>
@@ -51,6 +52,7 @@
                     class="page-login--options"
                     flex="main:justify cross:center">
               <span @click="onForgetPwd"><d2-icon name="question-circle"/> 忘记密码</span>
+              <!-- TODO 待开发app模式下的授权登录 -->
               <!-- <span @click="onQQSignUp">QQ登录</span> -->
               <span @click="onSignUp">注册用户</span>
             </p>
@@ -83,12 +85,13 @@ export default {
       timeInterval: null,
       time: dayjs().format('HH:mm:ss'),
       submitBtnDisabled: false,
-      validateImgCodeUri: `${this.$vp.options.serverUrl}/code/image`,
+      validateImgCodeUri: `${this.$vp.options.serverUrl}/ac/code/image`,
       // 表单
       formLogin: {
         username: 'admin',
         password: 'admin',
-        rememberMe: true,
+        // TODO 待开发
+        rememberMe: false,
         code: ''
       },
       // 校验
@@ -118,7 +121,7 @@ export default {
     onQQSignUp() {
       // TODO this.$vp.pageHref的正则判断可能存在问题
       // this.$vp.pageHref(`${this.$vp.options.serverUrl}/auth/qq`)
-      window.location.href = `http://www.pinzhi365.com/qqLogin/callback.do`
+      // window.location.href = `http://www.pinzhi365.com/qqLogin/callback.do`
       // window.location.href = `${this.$vp.options.serverUrl}/qqLogin/callback.do`
     },
     onForgetPwd() {
@@ -132,7 +135,6 @@ export default {
     },
     onChangeValidateImgCode: function(e) {
       this.formLogin.code = ''
-      console.log('code::', `${this.validateImgCodeUri}?${new Date().getTime()}`)
       e.target.src = `${this.validateImgCodeUri}?${new Date().getTime()}`
     },
     /**
@@ -155,8 +157,9 @@ export default {
             vm: this,
             username: this.formLogin.username,
             password: this.formLogin.password,
-            imageCode: this.formLogin.code,
-            rememberMe: this.formLogin.rememberMe
+            // TODO 添加图形验证码后端校验
+            imageCode: this.formLogin.code
+            // rememberMe: this.formLogin.rememberMe
           }).then((res) => {
             // 修改用户登录状态
             this.$vp.modifyLoginState(true);

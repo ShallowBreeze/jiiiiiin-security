@@ -71,7 +71,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      * @param validateCode
      */
     private void save(ServletWebRequest request, C validateCode) {
-        val code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
+        // val code = new ValidateCode(validateCode.getCode(), validateCode.getOriginExpireSecondsTime());
         //  因为使用 token 模式进行认证是没有 session 的，故之前将  验证码存储在 session 中的做法就并不可行，故思路就会改成上面的方式：
         //
         //  1.在请求验证码的时候，传递一个`deviceId`标识客户端
@@ -80,7 +80,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
         //
         //  3.在校验的时候获取存储的数据进行校验
         // sessionStrategy.setAttribute(request, SESSION_KEY_VALIDATE_CODE, code);
-		validateCodeRepository.save(request, code, getValidateCodeType(request));
+		validateCodeRepository.save(request, validateCode, getValidateCodeType(request));
     }
 
     /**

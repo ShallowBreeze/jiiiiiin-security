@@ -10,6 +10,8 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jiiiiiin
@@ -24,6 +26,13 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @Component
 public class SecurityProperties {
+
+    /**
+     * 公共接口，会配置到SpringSecurity安全控制使用`permitAll`表达式
+     * 如：`securityProperties.getPublicApi().forEach(url -> config.antMatchers(url).permitAll());`
+     */
+    private List<String> publicApi = new ArrayList<>();
+
     /**
      * 浏览器环境配置
      */
