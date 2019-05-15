@@ -75,7 +75,7 @@
 
 <script>
 import dayjs from 'dayjs'
-import { mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import NProgress from 'nprogress'
 import { delEmptyChildren, parseAuthorizePaths, parseAuthorizeInterfaces, parseUserRoleIsSuperAdminStatus } from './util.login.js'
 
@@ -85,7 +85,7 @@ export default {
       timeInterval: null,
       time: dayjs().format('HH:mm:ss'),
       submitBtnDisabled: false,
-      validateImgCodeUri: `${this.$vp.options.serverUrl}/ac/code/image`,
+      validateImgCodeUri: '',
       // 表单
       formLogin: {
         username: 'admin',
@@ -108,6 +108,11 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState('d2admin', {
+      deviceId: state => state.user.deviceId
+    })
+  },
   mounted() {
     this.timeInterval = setInterval(() => {
       this.refreshTime()
@@ -117,8 +122,12 @@ export default {
     clearInterval(this.timeInterval)
   },
   methods: {
+    ...mapMutations({
+      setDeviceId: 'd2admin/user/setDeviceId'
+    }),
     ...mapActions('d2admin/account', ['login']),
     onQQSignUp() {
+      // TODO 修改为支持SPA模式的授权
       // TODO this.$vp.pageHref的正则判断可能存在问题
       // this.$vp.pageHref(`${this.$vp.options.serverUrl}/auth/qq`)
       // window.location.href = `http://www.pinzhi365.com/qqLogin/callback.do`
@@ -135,7 +144,7 @@ export default {
     },
     onChangeValidateImgCode: function(e) {
       this.formLogin.code = ''
-      e.target.src = `${this.validateImgCodeUri}?${new Date().getTime()}`
+      e.target.src = `${this.validateImgCodeUri}&${new Date().getTime()}`
     },
     /**
      * @description 接收选择一个用户快速登录的事件
@@ -163,6 +172,9 @@ export default {
           }).then((res) => {
             // 修改用户登录状态
             this.$vp.modifyLoginState(true);
+            // 修改用户`deviceId`为用户`username`
+            // -MNG标识内管用户
+            this.setDeviceId(`${res.principal.admin.username}-MNG`)
             // 解析服务端返回的登录用户数据，得到菜单、权限相关数据
             const menus = delEmptyChildren(res.principal.admin.menus);
             const authorizeResources = parseAuthorizePaths(res.principal.admin.authorizeResources);
@@ -198,6 +210,7 @@ export default {
   created() {
     // 防止多次请求导致的重复调用会话超时函数，重复请求当前页面，导致进度条不会消失的bug
     NProgress.done()
+    this.validateImgCodeUri = `${this.$vp.options.serverUrl}/ac/code/image?deviceId=${this.deviceId}`
   }
 }
 </script>

@@ -19,32 +19,14 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class ZuulAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
-    private final SecurityProperties securityProperties;
-
     @Override
     public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
-        securityProperties
-                .getPublicApi()
-                .forEach(url -> config.antMatchers(url).permitAll());
         config
-//                .antMatchers(
-//                        "/",
-//                        "/index",
-//                        "/api/ac/oauth/*"
-////                        "/api/user/*"
-////                        "/api/ac/testZuul"
-//                        // Druid监控的配置
-////                        "/druid", "/druid/*", "/druid/**",
-////                        // Spring Boot Admin监控配置
-////                        "/actuator/**",
-//////                        "/oauth/**",
-////                        // 用户注册需要放开
-////                        "/admin/regist"
-//                ).permitAll()
+//                .anyRequest()
+//                // 自定义权限表达式
+//                .access("@rbacService.hasPermission(request, authentication)");
                 .anyRequest()
                 .authenticated();
-                // TODO 添加自定义权限表达式
-                //.access("@rbacService.hasPermission(request, authentication)");
         return true;
     }
 

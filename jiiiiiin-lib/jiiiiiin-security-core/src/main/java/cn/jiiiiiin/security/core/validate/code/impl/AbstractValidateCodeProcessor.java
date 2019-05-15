@@ -71,7 +71,8 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      * @param validateCode
      */
     private void save(ServletWebRequest request, C validateCode) {
-        // val code = new ValidateCode(validateCode.getCode(), validateCode.getOriginExpireSecondsTime());
+        // 注意：这里需要重新构建一个支持redis存储的`ValidateCode`，因为`ImageCode#Captcha`这种字段无法被序列化，`Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class sun.lwawt.macosx.LWCToolkit$OSXPlatformFont and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: cn.jiiiiiin.security.core.validate.code.image.ImageCode["captcha"]->com.wf.captcha.GifCaptcha["font"]->java.awt.Font["peer"])`
+        val code = new ValidateCode(validateCode.getCode(), validateCode.getOriginExpireSecondsTime());
         //  因为使用 token 模式进行认证是没有 session 的，故之前将  验证码存储在 session 中的做法就并不可行，故思路就会改成上面的方式：
         //
         //  1.在请求验证码的时候，传递一个`deviceId`标识客户端
@@ -80,7 +81,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
         //
         //  3.在校验的时候获取存储的数据进行校验
         // sessionStrategy.setAttribute(request, SESSION_KEY_VALIDATE_CODE, code);
-		validateCodeRepository.save(request, validateCode, getValidateCodeType(request));
+		validateCodeRepository.save(request, code, getValidateCodeType(request));
     }
 
     /**

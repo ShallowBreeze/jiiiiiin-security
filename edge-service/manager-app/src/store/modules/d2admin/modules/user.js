@@ -1,11 +1,23 @@
 // 设置文件
 import setting from '@/setting.js'
+// import { uuidv4 } from 'node-uuid';
+const uuidv4 = require('uuid/v4')
 
 export default {
   namespaced: true,
   state: {
     // 用户信息
-    info: setting.user.info
+    info: setting.user.info,
+    // 用户设备信息
+    // https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+    // https://www.zhihu.com/question/51410927
+    // TODO 这里之后建议改为后台统一进行唯一id分配，并存储于一个id分配服务
+    deviceId: ''
+  },
+  mutations: {
+    setDeviceId(state, deviceId) {
+      state.deviceId = deviceId
+    }
   },
   actions: {
     /**
@@ -41,6 +53,8 @@ export default {
           defaultValue: setting.user.info,
           user: true
         }, { root: true })
+        state.deviceId = window.$vp.cacheLoadFromSessionStore('DEVICE_ID', uuidv4())
+        console.log('load deviceId' + state.deviceId)
         // end
         resolve()
       })

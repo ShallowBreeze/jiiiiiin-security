@@ -47,6 +47,10 @@ public class OriginAuthorizeConfigProvider implements AuthorizeConfigProvider {
                 )
                 .permitAll();
 
+        securityProperties
+                .getPublicApi()
+                .forEach(url -> config.antMatchers(url).permitAll());
+
         if (StringUtils.isNotBlank(securityProperties.getBrowser().getSignOutUrl())) {
             config.antMatchers(securityProperties.getBrowser().getSignOutUrl()).permitAll();
         }

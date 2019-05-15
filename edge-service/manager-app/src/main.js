@@ -88,6 +88,8 @@ new Vue({
     ])
   },
   created() {
+    window.$vp = this.$vp
+    console.log(1)
     // 处理路由 得到每一级的路由设置
     this.$store.commit('d2admin/page/init', frameInRoutes);
     const menus = this.$vp.cacheLoadFromSessionStore('menus');
@@ -102,7 +104,7 @@ new Vue({
     // 展示系统信息
     this.$store.commit('d2admin/releases/versionShow')
     // 用户登录后从数据库加载一系列的设置
-    this.$store.dispatch('d2admin/account/load')
+    this.$store.dispatch('d2admin/account/load', this.$vp)
     // 获取并记录用户 UA
     this.$store.commit('d2admin/ua/get')
     // 初始化全屏监听
