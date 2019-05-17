@@ -51,19 +51,19 @@ zuul:
   # 配置路由信息
   routes:
     # 微服务的自定义名称
-    manager-server:
-      # TODO 待修改将`manager-server`也注册到eureka上面
-      # 当前微服务的匹配前缀，对应微服务的`context-path`，进行url匹配
-      path: /mng/**
-      # 微服务对应`application.name`
-      # 去eureka server获取对应的注册信息发起负载均衡器调用
-      #      serviceId: manager-server
-      # 直接通过地址调用
-      url: http://localhost:9090
-      # 不过滤上下文，这里指的是对应微服务的对应微服务的`context-path`，如果微服务本身配置了`context-path`这里需要设置为false
-      strip-prefix: false
-      # 放开对于敏感头的过滤（支持cookie传递）
-      sensitiveHeaders:
+#    manager-server:
+#      # TODO 待修改将`manager-server`也注册到eureka上面
+#      # 当前微服务的匹配前缀，对应微服务的`context-path`，进行url匹配
+#      path: /mng/**
+#      # 微服务对应`application.name`
+#      # 去eureka server获取对应的注册信息发起负载均衡器调用
+#      #      serviceId: manager-server
+#      # 直接通过地址调用
+#      url: http://localhost:9090
+#      # 不过滤上下文，这里指的是对应微服务的对应微服务的`context-path`，如果微服务本身配置了`context-path`这里需要设置为false
+#      strip-prefix: false
+#      # 放开对于敏感头的过滤（支持cookie传递）
+#      sensitiveHeaders:
     auth-center-server:
       path: /ac/**
       serviceId: auth-center-server

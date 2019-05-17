@@ -38,10 +38,12 @@ const viewPlusOptions = {
     onSendAjaxReqHandle(config) {
       // 如登录获取`/oauth/token`交易就不需要配置
       const isToken = (config.headers || {}).isToken === false
-      let token = store.getters.d2admin.user.access_token
-      console.log('onSendAjaxReqHandle token', token)
-      if (token && !isToken) {
-        config.headers['Authorization'] = 'Bearer ' + token// token
+      if (!isToken) {
+        let token = store.getters['d2admin/user/access_token']
+        if (token) {
+          console.log('onSendAjaxReqHandle token', token)
+          config.headers['Authorization'] = 'Bearer ' + token// token
+        }
       }
       return config;
     },
@@ -74,10 +76,7 @@ const viewPlusOptions = {
           res = true;
           break;
         case 401:
-          // TODO 待测试
-          console.log('401 111 onSessionTimeOut', viewPlusOptions)
           this::viewPlusOptions.utilHttp.accessRules.onSessionTimeOut(response)
-          console.log('401 onSessionTimeOut')
           res = true;
           break;
       }
@@ -108,7 +107,6 @@ const viewPlusOptions = {
     accessRules: {
       sessionTimeOut: [-2],
       onSessionTimeOut(response) {
-        console.log('def onSessionTimeOut')
         this.toast('会话超时，请重新登录', {
           type: 'error'
         });

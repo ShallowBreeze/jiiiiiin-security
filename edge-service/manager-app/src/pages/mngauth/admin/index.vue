@@ -232,7 +232,7 @@ export default {
         if (valid) {
           const params = _.clone(this.form);
           delete params.roles;
-          this.$vp.ajaxPut('admin/pwd', {
+          this.$vp.ajaxPut('/user/admin/pwd', {
             params
           }).then(res => {
             this.qryData();
@@ -244,7 +244,7 @@ export default {
       });
     },
     _loadRecords(item, callback) {
-      this.$vp.ajaxGet(`admin/${item.id}`)
+      this.$vp.ajaxGet(`/user/admin/${item.id}`)
         .then(res => {
           // 解析得到roleIds
           const roleIds = []
@@ -266,11 +266,11 @@ export default {
       }
     },
     qryData() {
-      this.$vp.ajaxGet(`admin/${this.channel}/${this.page.current}/${this.page.size}`).then(res => { this.page = res })
-      this.$vp.ajaxGet(`role/list/${this.channel}`).then(res => { this.rolesOptions = res })
+      this.$vp.ajaxGet(`/user/admin/${this.channel}/${this.page.current}/${this.page.size}`).then(res => { this.page = res })
+      this.$vp.ajaxGet(`/user/role/list/${this.channel}`).then(res => { this.rolesOptions = res })
     },
     handleExpandChangge(row, expandedRows) {
-      this.$vp.ajaxGet(`admin/${row.id}`)
+      this.$vp.ajaxGet(`/user/admin/${row.id}`)
         .then(res => {
           // TODO 这里element-ui会报出，没有找到问题
           this._copy(row, res)
@@ -298,7 +298,7 @@ export default {
     onSearch() {
       this.$refs.ruleSearchForm.validate((valid) => {
         if (valid) {
-          this.$vp.ajaxPostJson(`admin/search/${this.channel}/${this.page.current}/${this.page.size}`, { params: this.searchForm }).then(res => { this.page = res })
+          this.$vp.ajaxPostJson(`/user/admin/search/${this.channel}/${this.page.current}/${this.page.size}`, { params: this.searchForm }).then(res => { this.page = res })
         }
       });
     },
@@ -320,7 +320,7 @@ export default {
       records.forEach(item => {
         ids.push(item.id)
       })
-      this.$vp.ajaxDel(`admin/dels/${ids}`).then(res => {
+      this.$vp.ajaxDel(`/user/admin/dels/${ids}`).then(res => {
         this.qryData();
         this.selectRows = []
       })
@@ -336,7 +336,7 @@ export default {
           delete params.roles
           if (this.formMode === 'add') {
             params.channel = this.channel
-            this.$vp.ajaxPostJson('admin', {
+            this.$vp.ajaxPostJson('/user/admin', {
               params
             }).then(res => {
               this.qryData()
@@ -346,7 +346,7 @@ export default {
           } else {
             // 普通修改不允许修改密码，受限于spring security使用的是单项加密，不能解密回显
             delete params.password
-            this.$vp.ajaxPut('admin', {
+            this.$vp.ajaxPut('/user/admin', {
               params
             }).then(res => {
               this.qryData()

@@ -14,7 +14,7 @@ export default {
     // TODO 这里之后建议改为后台统一进行唯一id分配，并存储于一个id分配服务
     deviceId: '',
     // 用户访问令牌相关信息
-    oauth2AccessToken: null
+    oauth2AccessToken: {}
   },
   getters: {
     access_token: state => {

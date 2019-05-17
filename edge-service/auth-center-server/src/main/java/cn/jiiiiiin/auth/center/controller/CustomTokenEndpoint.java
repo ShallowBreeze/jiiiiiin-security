@@ -17,12 +17,14 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
+import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Map;
 
@@ -37,6 +39,8 @@ import java.util.Map;
 public class CustomTokenEndpoint {
 
     private final TokenEndpoint tokenEndpoint;
+
+    private final ConsumerTokenServices tokenServices;
 
     @RequestMapping(value = "/oauth/token", method = RequestMethod.POST)
     public AuthUser postAccessToken(Principal principal, @RequestParam
@@ -70,5 +74,30 @@ public class CustomTokenEndpoint {
             rbacUserDetails.getAdmin().setPassword(null);
         }
         return authentication;
+    }
+
+    /**
+     * TODO 修改前端退出登录相关逻辑
+     * $http(req).then(
+     *         function(data){
+     *             $cookies.remove("access_token");
+     *             window.location.href="login";
+     *         },function(){
+     *             console.log("error");
+     *         }
+     *     );
+     *
+     * 使用 {@link ConsumerTokenServices#revokeToken(String tokenValue)} 方法，删除访问令牌。
+     * https://www.baeldung.com/logout-spring-security-oauth
+     * http://www.iocoder.cn/Spring-Security/OAuth2-learning/?vip
+     * https://github.com/geektime-geekbang/oauth2lab/blob/master/lab05/oauth-server/src/main/java/io/spring2go/config/RevokeTokenEndpoint.java
+     */
+    @RequestMapping(value = "/oauth/token", method = RequestMethod.DELETE)
+    public void revokeToken(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        if (authorization != null && authorization.contains("Bearer")) {
+            String tokenId = authorization.substring("Bearer".length() + 1);
+            tokenServices.revokeToken(tokenId);
+        }
     }
 }

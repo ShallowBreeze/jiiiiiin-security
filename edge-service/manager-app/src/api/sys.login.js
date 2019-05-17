@@ -20,9 +20,9 @@ export function AccountLogin($vp, params) {
     },
     axiosOptions: {
       headers: {
-        'Authorization': setting.user.auth.Authorization
+        isToken: false,
+        Authorization: setting.user.auth.Authorization
       }
-    },
-    needHandlerErr: false
+    }
   })
 }
