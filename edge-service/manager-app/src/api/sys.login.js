@@ -22,6 +22,7 @@ export function AccountLogin($vp, params) {
       headers: {
         'Authorization': setting.user.auth.Authorization
       }
-    }
+    },
+    needHandlerErr: false
   })
 }

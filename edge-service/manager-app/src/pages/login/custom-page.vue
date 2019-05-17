@@ -75,7 +75,7 @@
 
 <script>
 import dayjs from 'dayjs'
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import NProgress from 'nprogress'
 import { delEmptyChildren, parseAuthorizePaths, parseAuthorizeInterfaces, parseUserRoleIsSuperAdminStatus } from './util.login.js'
 
@@ -122,9 +122,6 @@ export default {
     clearInterval(this.timeInterval)
   },
   methods: {
-    ...mapMutations({
-      setDeviceId: 'd2admin/user/setDeviceId'
-    }),
     ...mapActions('d2admin/account', ['login']),
     onQQSignUp() {
       // TODO 修改为支持SPA模式的授权
@@ -170,21 +167,17 @@ export default {
             imageCode: this.formLogin.code
             // rememberMe: this.formLogin.rememberMe
           }).then((res) => {
+            let admin = res.admin
             // 修改用户登录状态
             this.$vp.modifyLoginState(true);
-            // 修改用户`deviceId`为用户`username`
-            // -MNG标识内管用户
-            this.setDeviceId(`${res.principal.admin.username}-MNG`)
             // 解析服务端返回的登录用户数据，得到菜单、权限相关数据
-            const menus = delEmptyChildren(res.principal.admin.menus);
-            const authorizeResources = parseAuthorizePaths(res.principal.admin.authorizeResources);
-            // console.log('resources', res.principal.admin.authorizeResources)
-            // console.log('authorizeResources', authorizeResources)
+            const menus = delEmptyChildren(admin.menus);
+            const authorizeResources = parseAuthorizePaths(admin.authorizeResources);
             this.$vp.rabcUpdateAuthorizedPaths(authorizeResources.paths);
             this.$vp.rabcUpdateAuthorizeResourceAlias(authorizeResources.alias);
-            const authorizeInterfaces = parseAuthorizeInterfaces(res.principal.admin.authorizeInterfaces);
+            const authorizeInterfaces = parseAuthorizeInterfaces(admin.authorizeInterfaces);
             this.$vp.rabcUpdateAuthorizeInterfaces(authorizeInterfaces);
-            const isSuperAdminStatus = parseUserRoleIsSuperAdminStatus(res.principal.admin.roles);
+            const isSuperAdminStatus = parseUserRoleIsSuperAdminStatus(admin.roles);
             this.$vp.rabcUpdateSuperAdminStatus(isSuperAdminStatus);
             // 设置顶栏菜单
             // this.$store.commit('d2admin/menu/headerSet', menus, { root: true });
@@ -199,6 +192,7 @@ export default {
             // 重定向对象不存在则返回顶层路径
             this.$router.replace(this.$route.query.redirect || '/')
           })
+
           this.$refs.codeImageDom.click()
         } else {
           // 登录表单校验失败

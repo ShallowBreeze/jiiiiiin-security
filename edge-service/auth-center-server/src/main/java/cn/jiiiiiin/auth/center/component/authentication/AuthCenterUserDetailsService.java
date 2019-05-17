@@ -64,6 +64,7 @@ public class AuthCenterUserDetailsService implements UserDetailsService, SocialU
                 // TODO 待测试
                 throw new AuthCenterException("不支持的渠道请求错误");
         }
+        UserDetailsHolder.setContext(userDetails);
         return userDetails;
     }
 

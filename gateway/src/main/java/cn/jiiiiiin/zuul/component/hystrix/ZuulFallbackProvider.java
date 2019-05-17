@@ -53,6 +53,7 @@ public class ZuulFallbackProvider implements FallbackProvider {
      */
     @Override
     public ClientHttpResponse fallbackResponse(String route, Throwable cause) {
+        log.debug("网关收到降级错误 fallbackResponse执行 route: {}", route);
         if (cause != null) {
             log.error("网关收到降级错误", cause);
         }
@@ -87,7 +88,7 @@ public class ZuulFallbackProvider implements FallbackProvider {
             @Override
             public InputStream getBody() throws IOException {
                 log.debug("网关服务降级执行");
-                return new ByteArrayInputStream(objectMapper.writeValueAsString(R.failed("服务不可用，请稍后再试")).getBytes());
+                return new ByteArrayInputStream(objectMapper.writeValueAsString(R.failed("访问的服务不可用，请稍后再试")).getBytes());
             }
 
             @Override

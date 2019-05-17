@@ -35,6 +35,16 @@ const viewPlusOptions = {
     dataKey: 'data',
     errInfoOutDataObj: true,
     defShowLoading: true,
+    onSendAjaxReqHandle(config) {
+      // 如登录获取`/oauth/token`交易就不需要配置
+      const isToken = (config.headers || {}).isToken === false
+      let token = store.getters.d2admin.user.access_token
+      console.log('onSendAjaxReqHandle token', token)
+      if (token && !isToken) {
+        config.headers['Authorization'] = 'Bearer ' + token// token
+      }
+      return config;
+    },
     onParseServerResp(response) {
       return response.data.code !== 0;
     },

@@ -28,6 +28,11 @@ public class OriginAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
     @Override
     public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
+
+        // 针对browser模块的安全控制
+        if (StringUtils.isNotBlank(securityProperties.getBrowser().getSignOutUrl())) {
+            config.antMatchers(securityProperties.getBrowser().getSignOutUrl()).permitAll();
+        }
         config
                 .antMatchers(
                         "/js/**", "/css/**", "/img/**", "/images/**", "/fonts/**", "/**/favicon.ico",
@@ -47,13 +52,11 @@ public class OriginAuthorizeConfigProvider implements AuthorizeConfigProvider {
                 )
                 .permitAll();
 
+        // 应用自身配置的公共接口配置
         securityProperties
                 .getPublicApi()
                 .forEach(url -> config.antMatchers(url).permitAll());
 
-        if (StringUtils.isNotBlank(securityProperties.getBrowser().getSignOutUrl())) {
-            config.antMatchers(securityProperties.getBrowser().getSignOutUrl()).permitAll();
-        }
         return false;
     }
 

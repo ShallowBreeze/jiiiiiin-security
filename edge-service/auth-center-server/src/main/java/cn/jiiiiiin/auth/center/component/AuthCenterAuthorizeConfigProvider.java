@@ -16,20 +16,6 @@ public class AuthCenterAuthorizeConfigProvider implements AuthorizeConfigProvide
 
     @Override
     public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
-        config
-//                .antMatchers(Swagger2Config.AUTH_WHITELIST).permitAll()
-                .antMatchers(
-                        "/js/**", "/css/**", "/img/**", "/images/**", "/fonts/**", "/**/favicon.ico",
-                        // Druid监控的配置
-                        "/",
-                        "/index",
-                        "/druid", "/druid/*", "/druid/**",
-                        // Spring Boot Admin监控配置
-                        "/actuator/**",
-                        "/testZuul",
-                        // 用户注册需要放开
-                        "/admin/regist"
-                ).permitAll();
         return false;
     }
 

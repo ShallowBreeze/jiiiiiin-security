@@ -32,13 +32,20 @@ export default {
           // 'remember-me': rememberMe
         })
           .then(async res => {
+            let admin = res.admin
             // 设置 cookie 一定要存 uuid
             // 整个系统依赖这两个数据进行校验和存储
             // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
-            util.cookies.set('uuid', `${res.principal.admin.username}-uuid`);
+            util.cookies.set('uuid', `${admin.username}-uuid`);
+
+            await dispatch('d2admin/user/updateDeviceId', `${admin.username}-MNG`, { root: true });
+
+            await dispatch('d2admin/user/updateOauth2AccessToken', res.oauth2AccessToken, { root: true });
+
             // 设置 vuex 用户信息
             await dispatch('d2admin/user/set', {
-              name: res.name
+              name: admin.username,
+              ...admin
             }, { root: true });
             // 用户登录后从持久化数据加载一系列的设置
             await dispatch('load');
@@ -46,7 +53,6 @@ export default {
             resolve(res)
           })
           .catch(err => {
-            console.log('err: ', err);
             reject(err);
           });
       });

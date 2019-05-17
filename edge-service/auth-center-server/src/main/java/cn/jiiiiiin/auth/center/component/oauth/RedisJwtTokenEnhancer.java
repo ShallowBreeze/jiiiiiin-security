@@ -3,10 +3,12 @@
  */
 package cn.jiiiiiin.auth.center.component.oauth;
 
+import cn.jiiiiiin.auth.center.component.authentication.OAuth2AuthenticationHolder;
 import cn.jiiiiiin.security.core.properties.OAuth2ClientProperties;
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
 import cn.jiiiiiin.user.dto.CommonUserDetails;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -32,6 +34,7 @@ import static cn.jiiiiiin.security.core.properties.OAuth2ClientProperties.DEFAUL
  */
 @AllArgsConstructor
 @Component("jwtTokenEnhancer")
+@Slf4j
 public class RedisJwtTokenEnhancer implements TokenEnhancer {
 
     /**
@@ -49,6 +52,7 @@ public class RedisJwtTokenEnhancer implements TokenEnhancer {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+        log.debug("RedisJwtTokenEnhancer#enhance authentication:{} accessToken:{}", authentication, accessToken);
         // 自定义token元信息
         final Map<String, Object> info = new HashMap<>();
         val principal = authentication.getUserAuthentication().getPrincipal();
@@ -64,6 +68,8 @@ public class RedisJwtTokenEnhancer implements TokenEnhancer {
 
         // 设置附加信息
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
+        // 缓存认证对象
+        OAuth2AuthenticationHolder.setContext(authentication);
         return accessToken;
     }
 
