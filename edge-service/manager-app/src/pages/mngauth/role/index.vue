@@ -231,7 +231,7 @@ export default {
     },
     _updateRoleRelationResourceRecords() {
       const params = _.clone(this.tableTreeForm);
-      this.$vp.ajaxPut('role', {
+      this.$vp.ajaxPut('/user/role', {
         params
       }).then(res => {
         this.$vp.toast('授权修改成功', { type: 'success' });
@@ -283,8 +283,8 @@ export default {
       }
     },
     qryData() {
-      this.$vp.ajaxGet(`resource/${this.channel}`).then(res => { this.resources = res })
-      this.$vp.ajaxGet(`role/eleui/${this.channel}/${this.page.current}/${this.page.size}`).then(res => { this.page = res })
+      this.$vp.ajaxGet(`/user/resource/${this.channel}`).then(res => { this.resources = res })
+      this.$vp.ajaxGet(`/user/role/eleui/${this.channel}/${this.page.current}/${this.page.size}`).then(res => { this.page = res })
       this.setInitAjaxNum(2)
     },
     handleExpandChangge(row, expandedRows) {
@@ -297,10 +297,10 @@ export default {
       this.prevExpandedRow = row
       this.$vp.ajaxAll([
         {
-          url: `resource/${this.channel}`,
+          url: `/user/resource/${this.channel}`,
           mode: 'GET'
         }, {
-          url: `role/${row.id}`,
+          url: `/user/role/${row.id}`,
           mode: 'GET'
         }
       ])
@@ -335,7 +335,7 @@ export default {
       this.$refs.ruleSearchForm.validate((valid) => {
         if (valid) {
           const params = this.searchForm
-          this.$vp.ajaxPostJson(`role/search/eleui/${this.channel}/${this.page.current}/${this.page.size}`, { params }).then(res => { this.page = res })
+          this.$vp.ajaxPostJson(`/user/role/search/eleui/${this.channel}/${this.page.current}/${this.page.size}`, { params }).then(res => { this.page = res })
         }
       });
     },
@@ -358,10 +358,10 @@ export default {
       if (!this._checkAdminRole(item)) {
         this.$vp.ajaxAll([
           {
-            url: `resource/${this.channel}`,
+            url: `/user/resource/${this.channel}`,
             mode: 'GET'
           }, {
-            url: `role/${item.id}`,
+            url: `/user/role/${item.id}`,
             mode: 'GET'
           }
         ])
@@ -380,7 +380,7 @@ export default {
     onDel() {
       const roles = _.clone(this.selectRows)
       if (_.filter(roles, item => item.authorityName === ADMIN_AUTHORITY_NAME).length !== 1) {
-        this.$vp.ajaxDel(`role`, {
+        this.$vp.ajaxDel(`/user/role`, {
           params: {
             roles
           }
@@ -402,7 +402,7 @@ export default {
           const params = _.clone(this.form);
           if (this.formMode === 'add') {
             params.channel = this.channel
-            this.$vp.ajaxPostJson('role', {
+            this.$vp.ajaxPostJson('/user/role', {
               params
             }).then(res => {
               this.qryData()
@@ -410,7 +410,7 @@ export default {
               this._submitFinally()
             });
           } else {
-            this.$vp.ajaxPut('role', {
+            this.$vp.ajaxPut('/user/role', {
               params
             }).then(res => {
               this.qryData()

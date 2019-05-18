@@ -391,7 +391,7 @@ export default {
   },
   methods: {
     onClickQryRelationInterfaceRecords(row) {
-      this.$vp.ajaxGet(`resource/qry/${row.id}`)
+      this.$vp.ajaxGet(`/user/resource/qry/${row.id}`)
         .then(res => {
           if (_.isNil(res.interfaces) || res.interfaces.length === 0) {
             this.$vp.toast('无关联记录', { type: 'warning' });
@@ -408,7 +408,7 @@ export default {
     // 只有更新node才不会为`undefined`
     generateInterfacesData() {
       this.interfacesData = []
-      this.$vp.ajaxGet(`interface/list/${this.channel}`).then(res => {
+      this.$vp.ajaxGet(`/user/interface/list/${this.channel}`).then(res => {
         res.forEach((item, index) => {
           this.interfacesData.push({
             key: item.id,
@@ -425,7 +425,7 @@ export default {
     onSearch() {
       this.$refs.ruleSearchForm.validate((valid) => {
         if (valid) {
-          this.$vp.ajaxGet(`resource/search/${this.searchForm.channel}/${this.searchForm.status}`).then(res => { this.data = res })
+          this.$vp.ajaxGet(`/user/resource/search/${this.searchForm.channel}/${this.searchForm.status}`).then(res => { this.data = res })
         }
       });
     },
@@ -434,10 +434,10 @@ export default {
         channel: '0',
         status: 'ENABLE'
       });
-      this.$vp.ajaxGet(`resource/${this.channel}`).then(res => { this.data = res })
+      this.$vp.ajaxGet(`/user/resource/${this.channel}`).then(res => { this.data = res })
     },
     onTableItemStatusChange(node) {
-      this.$vp.ajaxPut('resource', {
+      this.$vp.ajaxPut('/user/resource', {
         params: node
       }).then(res => {
         this.$vp.toast('修改成功', { type: 'success' })
@@ -503,7 +503,7 @@ export default {
       this._preHandlerAddOrUpdate('add', node)
     },
     onClickUpdate(node) {
-      this.$vp.ajaxGet(`resource/qry/${node.id}`)
+      this.$vp.ajaxGet(`/user/resource/qry/${node.id}`)
         .then(res => {
           if (!_.isNil(res.interfaces) || res.interfaces.length !== 0) {
             this.selectInterfaces = []
@@ -556,7 +556,7 @@ export default {
     },
     _updateParentChildrenNode(node) {
       this._findParentNode(node, this.data, null, (pnode, pnodeChildrenData, idx, node) => {
-        this.$vp.ajaxGet(`resource/${this.channel}/${pnode.id}`)
+        this.$vp.ajaxGet(`/user/resource/${this.channel}/${pnode.id}`)
           .then(res => {
             pnodeChildrenData.forEach((item, idx) => {
               this._copy(item, res[idx]);
@@ -583,13 +583,13 @@ export default {
             params.interfacesIds = this.selectInterfaces;
             if (this.formMode === 'add') {
               delete params.id;
-              this.$vp.ajaxPostJson('resource', {
+              this.$vp.ajaxPostJson('/user/resource', {
                 params
               }).then(res => {
                 this._onAddSuccessUpdateTreeData(res);
               });
             } else {
-              this.$vp.ajaxPut('resource', {
+              this.$vp.ajaxPut('/user/resource', {
                 params
               }).then(res => {
                 // 修改当前节点信息
@@ -631,7 +631,7 @@ export default {
       }
     },
     onClickDel(item, event) {
-      this.$vp.ajaxDel(`resource/${this.channel}/${item.id}`)
+      this.$vp.ajaxDel(`/user/resource/${this.channel}/${item.id}`)
         .then(res => {
           if (res) {
             this._findNodeParentChildren(item, this.data, (pnodeChildrenData, idx) => {
@@ -670,7 +670,7 @@ export default {
       status: 'ENABLE',
       type: 'MENU'
     }
-    this.$vp.ajaxGet(`resource/${this.channel}`).then(res => { this.data = res })
+    this.$vp.ajaxGet(`/user/resource/${this.channel}`).then(res => { this.data = res })
   }
 };
 </script>

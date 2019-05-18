@@ -81,9 +81,7 @@ export default {
         user: true
       }, { root: true })
       state.deviceId = await window.$vp.cacheLoadFromSessionStore('DEVICE_ID', uuidv4())
-      console.log('state.oauth2AccessToken1 ', state.oauth2AccessToken)
       state.oauth2AccessToken = await window.$vp.cacheLoadFromSessionStore('TOKEN_INFO', {})
-      console.log('state.oauth2AccessToken2 ', state.oauth2AccessToken)
     }
   }
 }

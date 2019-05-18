@@ -225,14 +225,14 @@ export default {
   },
   methods: {
     onTableItemStatusChange(item) {
-      this.$vp.ajaxPut('interface', {
+      this.$vp.ajaxPut('/user/interface', {
         params: item
       }).then(res => {
         this.$vp.toast('修改成功', { type: 'success' })
       });
     },
     _loadRecords(item, callback) {
-      this.$vp.ajaxGet(`interface/${item.id}`)
+      this.$vp.ajaxGet(`/user/interface/${item.id}`)
         .then(res => {
           this._copy(item, res)
           this.form = _.clone(item)
@@ -240,7 +240,7 @@ export default {
         })
     },
     qryData() {
-      this.$vp.ajaxGet(`interface/${this.channel}/${this.page.current}/${this.page.size}`).then(res => { this.page = res })
+      this.$vp.ajaxGet(`/user/interface/${this.channel}/${this.page.current}/${this.page.size}`).then(res => { this.page = res })
     },
     // 因为不能将一个普通json对象直接覆盖vue的响应式对象，故做此函数
     _copy(current, orig) {
@@ -261,7 +261,7 @@ export default {
     onSearch() {
       this.$refs.ruleSearchForm.validate((valid) => {
         if (valid) {
-          this.$vp.ajaxPostJson(`interface/search/${this.channel}/${this.page.current}/${this.page.size}`, { params: this.searchForm }).then(res => { this.page = res })
+          this.$vp.ajaxPostJson(`/user/interface/search/${this.channel}/${this.page.current}/${this.page.size}`, { params: this.searchForm }).then(res => { this.page = res })
         }
       });
     },
@@ -284,7 +284,7 @@ export default {
       records.forEach(item => {
         ids.push(item.id)
       })
-      this.$vp.ajaxDel(`interface/dels/${ids}`).then(res => {
+      this.$vp.ajaxDel(`/user/interface/dels/${ids}`).then(res => {
         this.qryData();
         this.selectRows = []
       })
@@ -299,7 +299,7 @@ export default {
           const params = _.clone(this.form);
           if (this.formMode === 'add') {
             params.channel = this.channel
-            this.$vp.ajaxPostJson('interface', {
+            this.$vp.ajaxPostJson('/user/interface', {
               params
             }).then(res => {
               this.qryData()
@@ -307,7 +307,7 @@ export default {
               this._submitFinally()
             });
           } else {
-            this.$vp.ajaxPut('interface', {
+            this.$vp.ajaxPut('/user/interface', {
               params
             }).then(res => {
               this.qryData()

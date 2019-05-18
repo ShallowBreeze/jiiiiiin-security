@@ -41,7 +41,6 @@ const viewPlusOptions = {
       if (!isToken) {
         let token = store.getters['d2admin/user/access_token']
         if (token) {
-          console.log('onSendAjaxReqHandle token', token)
           config.headers['Authorization'] = 'Bearer ' + token// token
         }
       }
