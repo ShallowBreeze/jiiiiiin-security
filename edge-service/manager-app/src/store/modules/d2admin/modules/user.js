@@ -72,19 +72,18 @@ export default {
      * @description 从数据库取用户数据
      * @param {Object} state vuex state
      */
-    load ({ state, dispatch }) {
-      return new Promise(async resolve => {
-        // store 赋值
-        state.info = await dispatch('d2admin/db/get', {
-          dbName: 'sys',
-          path: 'user.info',
-          defaultValue: setting.user.info,
-          user: true
-        }, { root: true })
-        state.deviceId = window.$vp.cacheLoadFromSessionStore('DEVICE_ID', uuidv4())
-        // end
-        resolve()
-      })
+    async load ({ state, dispatch }) {
+      // store 赋值
+      state.info = await dispatch('d2admin/db/get', {
+        dbName: 'sys',
+        path: 'user.info',
+        defaultValue: setting.user.info,
+        user: true
+      }, { root: true })
+      state.deviceId = await window.$vp.cacheLoadFromSessionStore('DEVICE_ID', uuidv4())
+      console.log('state.oauth2AccessToken1 ', state.oauth2AccessToken)
+      state.oauth2AccessToken = await window.$vp.cacheLoadFromSessionStore('TOKEN_INFO', {})
+      console.log('state.oauth2AccessToken2 ', state.oauth2AccessToken)
     }
   }
 }
