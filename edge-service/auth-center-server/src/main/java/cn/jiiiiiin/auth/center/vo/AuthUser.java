@@ -1,9 +1,7 @@
 package cn.jiiiiiin.auth.center.vo;
 
 import cn.jiiiiiin.user.entity.Admin;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.userdetails.UserDetails;

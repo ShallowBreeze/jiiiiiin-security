@@ -5,6 +5,7 @@ package cn.jiiiiiin.zuul.config.auth;
 
 import cn.jiiiiiin.security.app.component.authentication.AppOAuth2WebSecurityExpressionHandler;
 import cn.jiiiiiin.security.core.authorize.AuthorizeConfigManager;
+import cn.jiiiiiin.security.core.validate.code.ValidateCodeSecurityConfig;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -26,15 +27,20 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @EnableResourceServer
 @AllArgsConstructor
 @Slf4j
-public class AuthResourceServerConfig extends ResourceServerConfigurerAdapter {
+public class ZuulResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private final AuthorizeConfigManager authorizeConfigManager;
 
     private final AppOAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler;
 
+    private final ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
+                // 添加自定义验证码过滤器，校验session中的图形验证码
+                .apply(validateCodeSecurityConfig)
+                .and()
                 // 临时关闭防护
                 .csrf().disable()
                 // iframe 设置，以便swagger-ui页面能嵌入前端显示

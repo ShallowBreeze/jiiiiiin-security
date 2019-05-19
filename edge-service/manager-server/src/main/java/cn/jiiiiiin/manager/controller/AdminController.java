@@ -2,9 +2,9 @@ package cn.jiiiiiin.manager.controller;
 
 
 import cn.jiiiiiin.data.entity.BaseEntity;
-import cn.jiiiiiin.user.common.utils.View;
-import cn.jiiiiiin.user.common.validation.Groups;
-import cn.jiiiiiin.user.dto.AdminDto;
+import cn.jiiiiiin.mvc.common.utils.View;
+import cn.jiiiiiin.mvc.common.validation.Groups;
+import cn.jiiiiiin.user.vo.AdminDto;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -86,7 +86,7 @@ public class AdminController {
 //    private void _checkHasSelf(String[] ids) {
 //        val userDetails = (MngUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        if (ArrayUtils.contains(ids, String.valueOf(userDetails.getAdmin().getId()))) {
-//            throw new BusinessErrException("当前接口服务，不允许操作登录用户自己");
+//            throw new UserServiceException("当前接口服务，不允许操作登录用户自己");
 //        }
 //    }
 

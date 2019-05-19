@@ -1,7 +1,7 @@
 package cn.jiiiiiin.user.mapper;
 
 
-import cn.jiiiiiin.user.dto.AdminDto;
+import cn.jiiiiiin.user.vo.AdminDto;
 import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

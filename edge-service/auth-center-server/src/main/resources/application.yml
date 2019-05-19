@@ -97,12 +97,12 @@ jiiiiiin:
       clients:
         - clientId: pweb
           clientSecret: pweb
-    validate:
-      image-code:
-        type: EASYCAPTCHA_GIF_TYPE_NUM_AND_UPPER
-        width: 70
-        length: 2
-        interceptor-urls: ${server.context-path}/authentication/form,${server.context-path}/authentication/mobile
+#    validate:
+#      image-code:
+#        type: EASYCAPTCHA_GIF_TYPE_NUM_AND_UPPER
+#        width: 70
+#        length: 2
+#        interceptor-urls: ${server.context-path}/oauth/token,${server.context-path}/authentication/mobile
 
 management:
   endpoints:

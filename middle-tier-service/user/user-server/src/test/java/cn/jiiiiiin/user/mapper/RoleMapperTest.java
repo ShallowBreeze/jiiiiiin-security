@@ -1,7 +1,7 @@
 package cn.jiiiiiin.user.mapper;
 
 
-import cn.jiiiiiin.user.dto.RoleDto;
+import cn.jiiiiiin.user.vo.RoleVO;
 import cn.jiiiiiin.user.entity.Role;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -9,9 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +43,7 @@ public class RoleMapperTest {
 
     @Test
     public void selectPageDto() {
-        val res = roleMapper.selectPageDto(new Page<RoleDto>(1, 5), ChannelEnum.MNG, null);
+        val res = roleMapper.selectPageDto(new Page<RoleVO>(1, 5), ChannelEnum.MNG, null);
         assertNotNull(res);
         log.debug("selectPageDto {}", res);
     }

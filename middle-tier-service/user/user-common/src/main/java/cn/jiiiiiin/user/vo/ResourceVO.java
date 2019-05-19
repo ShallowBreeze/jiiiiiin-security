@@ -1,4 +1,4 @@
-package cn.jiiiiiin.user.dto;
+package cn.jiiiiiin.user.vo;
 
 import cn.jiiiiiin.user.entity.Resource;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class ResourceDto extends Resource {
+public class ResourceVO extends Resource {
 
     private static final long serialVersionUID = -1071063583966714325L;
     private Long[] interfacesIds;

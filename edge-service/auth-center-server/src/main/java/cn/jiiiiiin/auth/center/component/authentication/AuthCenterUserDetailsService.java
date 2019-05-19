@@ -4,7 +4,7 @@ import cn.jiiiiiin.auth.center.exception.AuthCenterException;
 import cn.jiiiiiin.auth.center.exception.AuthCenterUsernameNotFoundException;
 import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
 import cn.jiiiiiin.user.client.RemoteUserService;
-import cn.jiiiiiin.user.dto.Menu;
+import cn.jiiiiiin.user.vo.Menu;
 import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.entity.Interface;
 import cn.jiiiiiin.user.entity.Resource;

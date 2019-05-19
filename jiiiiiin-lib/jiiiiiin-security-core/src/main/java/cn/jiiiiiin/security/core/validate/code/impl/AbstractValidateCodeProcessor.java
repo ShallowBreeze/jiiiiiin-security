@@ -129,7 +129,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
         if (StringUtils.isBlank(validateCode)) {
             throw new ValidateCodeException("验证码不能为空");
         }
-        if (cacheRealValidateCode.isExpired()) {
+        if (ValidateCode.isExpired(cacheRealValidateCode.getExpireTime())) {
             validateCodeRepository.remove(request, codeType);
             throw new ValidateCodeException("验证码已经过期");
         }

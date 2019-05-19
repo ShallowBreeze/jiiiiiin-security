@@ -75,6 +75,8 @@ export default {
         // 修改用户登录状态
         this.modifyLoginState(false)
         dispatch('d2admin/page/closeAll', null, { root: true });
+        console.log('dispatch clearTokenInfo')
+        dispatch('d2admin/user/clearTokenInfo', null, { root: true });
       }
 
       // 判断是否需要确认
@@ -87,8 +89,10 @@ export default {
         })
           .then(() => {
             commit('d2admin/gray/set', false, { root: true })
-            vm.$vp.ajaxGet('/signOut')
+            // vm.$vp.ajaxGet('/signOut')
+            vm.$vp.ajaxDel('/ac/oauth/token')
               .finally(() => {
+                console.log('do logout')
                 vm.$vp::logout();
               });
           })

@@ -1,12 +1,12 @@
 package cn.jiiiiiin.user.service.impl;
 
-import cn.jiiiiiin.user.dto.ResourceDto;
+import cn.jiiiiiin.user.vo.ResourceVO;
 import cn.jiiiiiin.user.entity.Interface;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.entity.Role;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.enums.StatusEnum;
-import cn.jiiiiiin.user.common.exception.BusinessErrException;
+import cn.jiiiiiin.user.exception.UserServiceException;
 import cn.jiiiiiin.user.mapper.ResourceMapper;
 import cn.jiiiiiin.user.dict.AuthDict;
 import cn.jiiiiiin.user.service.IResourceService;
@@ -14,11 +14,11 @@ import cn.jiiiiiin.user.service.IRoleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.val;
 import lombok.var;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,13 +38,12 @@ import static cn.jiiiiiin.user.entity.Resource.IS_ROOT_MENU;
  * @since 2018-09-27
  */
 @Service
+@AllArgsConstructor
 public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> implements IResourceService {
 
-    @Autowired
-    private ResourceMapper resourceMapper;
+    private final ResourceMapper resourceMapper;
 
-    @Autowired
-    private IRoleService roleService;
+    private final IRoleService roleService;
 
     private List<Resource> _parseTreeNode(Long pid, List<Resource> nodes) {
         val menus = new ArrayList<Resource>();
@@ -73,17 +72,17 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
     @Transactional
     @Override
-    public Boolean saveAndSortNumAndRelationInterfaceRecords(ResourceDto resource) {
+    public Boolean saveAndSortNumAndRelationInterfaceRecords(ResourceVO resource) {
         // 检测是否存在重复的`name`|`alias`记录
         val existRecord = this.getOne(new QueryWrapper<Resource>().eq(Resource.CHANNEL, resource.getChannel()).eq(Resource.NAME, resource.getName()));
         if (existRecord != null) {
-            throw new BusinessErrException(String.format("资源名称已经存在于当前渠道【%s】，请检查", resource.getChannel()));
+            throw new UserServiceException(String.format("资源名称已经存在于当前渠道【%s】，请检查", resource.getChannel()));
         }
         if (!StringUtils.isBlank(resource.getAlias())) {
             // 检测是否存在重复的`alias`记录
             val existRecord2 = this.getOne(new QueryWrapper<Resource>().eq(Resource.CHANNEL, resource.getChannel()).eq(Resource.ALIAS, resource.getAlias()));
             if (existRecord2 != null) {
-                throw new BusinessErrException(String.format("资源别名已经存在于当前渠道【%s】，请检查", resource.getChannel()));
+                throw new UserServiceException(String.format("资源别名已经存在于当前渠道【%s】，请检查", resource.getChannel()));
             }
         }
         var res = false;
@@ -136,12 +135,12 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     }
 
     /**
-     * 注意：使用{@link ResourceDto#interfacesIds}作为资源的关联接口记录，而不是使用{@link Resource#interfaces}
+     * 注意：使用`ResourceVO#interfacesIds`作为资源的关联接口记录，而不是使用`Resource#interfaces`
      *
      * @param resource
      * @return
      */
-    private ResourceDto _parseInterfacesIds(@NonNull ResourceDto resource) {
+    private ResourceVO _parseInterfacesIds(@NonNull ResourceVO resource) {
         val itfIds = resource.getInterfacesIds();
         val newItf = new HashSet<Interface>();
         if (itfIds != null && itfIds.length > 0) {
@@ -155,23 +154,23 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
     @Transactional
     @Override
-    public Boolean updateAndSortNumAndRelationInterfaceRecords(ResourceDto resource) {
+    public Boolean updateAndSortNumAndRelationInterfaceRecords(ResourceVO resource) {
         val currentNode = resourceMapper.selectById(resource.getId());
         if (currentNode == null) {
-            throw new BusinessErrException(String.format("找不到待更新的资源记录【%s】", resource.getId()));
+            throw new UserServiceException(String.format("找不到待更新的资源记录【%s】", resource.getId()));
         }
         if (!resource.getName().equals(currentNode.getName())) {
             // 检测是否存在重复的`name`记录
             val existRecord = this.getOne(new QueryWrapper<Resource>().eq(Resource.CHANNEL, resource.getChannel()).eq(Resource.NAME, resource.getName()));
             if (existRecord != null) {
-                throw new BusinessErrException(String.format("资源名称已经存在于当前渠道【%s】，请检查", resource.getChannel()));
+                throw new UserServiceException(String.format("资源名称已经存在于当前渠道【%s】，请检查", resource.getChannel()));
             }
         }
         if (!StringUtils.isBlank(resource.getAlias()) && !resource.getAlias().equals(currentNode.getAlias())) {
             // 检测是否存在重复的`alias`记录
             val existRecord = this.getOne(new QueryWrapper<Resource>().eq(Resource.CHANNEL, resource.getChannel()).eq(Resource.ALIAS, resource.getAlias()));
             if (existRecord != null) {
-                throw new BusinessErrException(String.format("资源别名已经存在于当前渠道【%s】，请检查", resource.getChannel()));
+                throw new UserServiceException(String.format("资源别名已经存在于当前渠道【%s】，请检查", resource.getChannel()));
             }
         }
 
@@ -269,7 +268,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     }
 
     @Override
-    public ResourceDto getResourceAndRelationRecords(Long id) {
+    public ResourceVO getResourceAndRelationRecords(Long id) {
         return resourceMapper.selectResourceAndRelationRecords(id);
     }
 

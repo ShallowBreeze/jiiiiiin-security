@@ -90,10 +90,9 @@ public class TokenStoreConfig {
             // https://coding.imooc.com/learn/questiondetail/113508.html
             // 解决`hasPermission`表达式如果`principal`是一个字符串问题
             final DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
-            if (!securityProperties.getOauth2().isUseSimpleUserAuthenticationConverter()) {
-                // 这里会带来性能问题，故做了自定义，具体问题可以参考：https://juejin.im/post/5c9191785188252d7941f87c
-                defaultUserAuthenticationConverter.setUserDetailsService(userDetailsService);
-            }
+            // 这里会带来性能问题，故做了自定义，具体问题可以参考：https://juejin.im/post/5c9191785188252d7941f87c
+            // 建议重写`DefaultUserAuthenticationConverter`，目前解决方案`RedisUserAuthenticationConverter`
+            defaultUserAuthenticationConverter.setUserDetailsService(userDetailsService);
             defaultAccessTokenConverter.setUserTokenConverter(defaultUserAuthenticationConverter);
             val converter = new JwtAccessTokenConverter();
             converter.setAccessTokenConverter(defaultAccessTokenConverter);

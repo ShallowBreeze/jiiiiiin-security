@@ -80,7 +80,7 @@
       select count(id) from mng_resource where pids like CONCAT('%',#{pid}) and channel = #{channel};
     </select>
 
-    <resultMap id="selectResourceAndRelationRecordsResultMap" type="cn.jiiiiiin.user.dto.ResourceDto">
+    <resultMap id="selectResourceAndRelationRecordsResultMap" type="cn.jiiiiiin.user.vo.ResourceVO">
         <result column="id" property="id"/>
         <result column="pid" property="pid"/>
         <result column="pids" property="pids"/>

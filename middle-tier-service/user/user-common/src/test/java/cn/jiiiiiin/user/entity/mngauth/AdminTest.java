@@ -1,13 +1,5 @@
 package cn.jiiiiiin.user.entity.mngauth;
-import cn.jiiiiiin.user.common.utils.View;
-import cn.jiiiiiin.user.enums.ChannelEnum;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.sql.Timestamp;
 
 /**
  * https://www.baeldung.com/jackson-json-view-annotation

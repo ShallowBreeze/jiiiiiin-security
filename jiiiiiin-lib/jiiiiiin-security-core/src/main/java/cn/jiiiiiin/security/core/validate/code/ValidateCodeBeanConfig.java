@@ -1,12 +1,14 @@
 package cn.jiiiiiin.security.core.validate.code;
 
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
+import cn.jiiiiiin.security.core.validate.code.impl.DefaultValidateCodeFilterFailureHandler;
 import cn.jiiiiiin.security.core.validate.code.sms.DefaultSmsCodeSender;
 import cn.jiiiiiin.security.core.validate.code.image.ImageValidateCodeGenerator;
 import cn.jiiiiiin.security.core.validate.code.sms.SmsCodeSender;
 import com.google.code.kaptcha.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,6 +27,12 @@ public class ValidateCodeBeanConfig {
     private Producer captchaProducer;
 
     @Bean
+    @ConditionalOnMissingClass
+    public ValidateCodeFilterFailureHandler validateCodeFilterFailureHandler(){
+        return new DefaultValidateCodeFilterFailureHandler();
+    }
+
+    @Bean
     @ConditionalOnMissingBean(name = "imageValidateCodeGenerator")
     public ValidateCodeGenerator imageValidateCodeGenerator() {
         ImageValidateCodeGenerator imageValidateCodeGenerator;
@@ -41,8 +49,7 @@ public class ValidateCodeBeanConfig {
     @Bean
     @ConditionalOnMissingBean(name = "smsCodeSender")
     public SmsCodeSender smsCodeSender() {
-        final DefaultSmsCodeSender defaultSmsCodeSender = new DefaultSmsCodeSender();
-        return defaultSmsCodeSender;
+        return new DefaultSmsCodeSender();
     }
 
 

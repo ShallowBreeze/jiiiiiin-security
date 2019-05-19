@@ -1,7 +1,14 @@
 package cn.jiiiiiin.security.core.validate.code.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,6 +21,7 @@ import java.time.LocalDateTime;
  */
 @Setter
 @Getter
+@NoArgsConstructor
 public class ValidateCode implements Serializable {
 
     private static final long serialVersionUID = 3611750510059703824L;
@@ -26,11 +34,14 @@ public class ValidateCode implements Serializable {
     /**
      * 到期时间 单位秒
      */
-    private final int originExpireSecondsTime;
+    private int originExpireSecondsTime;
 
     /**
+     * https://blog.csdn.net/u011035407/article/details/77191115
      * 到期时间
      */
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime expireTime;
 
     /**
@@ -45,10 +56,13 @@ public class ValidateCode implements Serializable {
 
     /**
      * 判断验证码是否过期
+     * <p>
+     * 注：这里不能直接定义为属性，否则会出现`com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: `
+     * https://www.baeldung.com/jackson-deserialize-json-unknown-properties
      *
      * @return 返回true标明已经过期
      */
-    public boolean isExpired() {
+    public static boolean isExpired(LocalDateTime expireTime) {
         return LocalDateTime.now().isAfter(expireTime);
     }
 }

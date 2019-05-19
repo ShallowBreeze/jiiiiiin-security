@@ -3,7 +3,6 @@ package cn.jiiiiiin.user.client.component.converter;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.converter.GenericConverter;
 
 /**
  * TODO 当前类没有能正确的转型

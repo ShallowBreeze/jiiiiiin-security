@@ -7,7 +7,7 @@ export default {
   namespaced: true,
   state: {
     // 用户信息
-    info: setting.user.info,
+    info: setting.mvc.info,
     // 用户设备信息
     // https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
     // https://www.zhihu.com/question/51410927
@@ -40,6 +40,11 @@ export default {
     }
   },
   actions: {
+    async clearTokenInfo({ commit }, tokenInfo) {
+      commit('setOauth2AccessToken', {})
+      await window.$vp.cacheDeleteToSessionStore('TOKEN_INFO')
+      console.log('user clearTokenInfo', window.$vp.cacheLoadFromSessionStore('TOKEN_INFO', {}))
+    },
     async updateOauth2AccessToken({ commit }, tokenInfo) {
       commit('setOauth2AccessToken', tokenInfo)
       await window.$vp.cacheSaveToSessionStore('TOKEN_INFO', tokenInfo)
@@ -60,7 +65,7 @@ export default {
         // 持久化
         await dispatch('d2admin/db/set', {
           dbName: 'sys',
-          path: 'user.info',
+          path: 'mvc.info',
           value: info,
           user: true
         }, { root: true })
@@ -76,8 +81,8 @@ export default {
       // store 赋值
       state.info = await dispatch('d2admin/db/get', {
         dbName: 'sys',
-        path: 'user.info',
-        defaultValue: setting.user.info,
+        path: 'mvc.info',
+        defaultValue: setting.mvc.info,
         user: true
       }, { root: true })
       state.deviceId = await window.$vp.cacheLoadFromSessionStore('DEVICE_ID', uuidv4())

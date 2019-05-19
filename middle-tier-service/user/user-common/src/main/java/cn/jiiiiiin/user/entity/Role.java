@@ -1,9 +1,9 @@
 package cn.jiiiiiin.user.entity;
 
 import cn.jiiiiiin.data.entity.BaseEntity;
-import cn.jiiiiiin.user.common.exception.BusinessErrException;
-import cn.jiiiiiin.user.common.utils.View;
+import cn.jiiiiiin.mvc.common.utils.View;
 import cn.jiiiiiin.user.enums.ChannelEnum;
+import cn.jiiiiiin.user.exception.UserServiceException;
 import cn.jiiiiiin.user.validation.ChannelStyle;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -52,13 +52,13 @@ public class Role extends BaseEntity<Role> {
         if((role.getId() != null && role.getId().equals(ROLE_ADMIN_ID))
                 || "Admin".equals(role.getAuthorityName())
                 || "系统管理员".equals(role.getName())) {
-            throw new BusinessErrException(errMsg);
+            throw new UserServiceException(errMsg);
         }
     }
 
     public static void checkRootRole(@NonNull Collection<? extends Serializable> idList, @NonNull String errMsg){
         if(idList.stream().anyMatch(p -> p.equals(ROLE_ADMIN_ID))) {
-            throw new BusinessErrException(errMsg);
+            throw new UserServiceException(errMsg);
         }
     }
 

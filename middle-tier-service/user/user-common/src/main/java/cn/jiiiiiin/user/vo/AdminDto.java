@@ -1,7 +1,7 @@
-package cn.jiiiiiin.user.dto;
+package cn.jiiiiiin.user.vo;
 
-import cn.jiiiiiin.user.common.utils.View;
-import cn.jiiiiiin.user.common.validation.Groups;
+import cn.jiiiiiin.mvc.common.utils.View;
+import cn.jiiiiiin.mvc.common.validation.Groups;
 import cn.jiiiiiin.user.entity.Admin;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;

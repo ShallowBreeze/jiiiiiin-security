@@ -6,7 +6,7 @@ package cn.jiiiiiin.auth.center.component.oauth;
 import cn.jiiiiiin.auth.center.component.authentication.OAuth2AuthenticationHolder;
 import cn.jiiiiiin.security.core.properties.OAuth2ClientProperties;
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
-import cn.jiiiiiin.user.dto.CommonUserDetails;
+import cn.jiiiiiin.user.vo.CommonUserDetails;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

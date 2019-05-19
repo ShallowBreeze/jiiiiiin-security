@@ -1,6 +1,3 @@
-/**
- *
- */
 package cn.jiiiiiin.security.app.server;
 
 import cn.jiiiiiin.security.app.component.oauth2.AppWebResponseExceptionTranslator;

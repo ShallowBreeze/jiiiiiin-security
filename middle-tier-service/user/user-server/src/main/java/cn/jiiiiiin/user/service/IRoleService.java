@@ -1,6 +1,6 @@
 package cn.jiiiiiin.user.service;
 
-import cn.jiiiiiin.user.dto.RoleDto;
+import cn.jiiiiiin.user.vo.RoleVO;
 import cn.jiiiiiin.user.entity.Role;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -56,8 +56,8 @@ public interface IRoleService extends IService<Role> {
      * @param id
      * @return
      */
-    RoleDto getRoleAndRelationRecords(Long id);
+    RoleVO getRoleAndRelationRecords(Long id);
 
-    IPage<RoleDto> pageDto(Page<RoleDto> roleDtoPage, ChannelEnum channel, Role role);
+    IPage<RoleVO> pageDto(Page<RoleVO> roleDtoPage, ChannelEnum channel, Role role);
 
 }

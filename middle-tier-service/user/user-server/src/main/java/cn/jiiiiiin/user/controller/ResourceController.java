@@ -2,8 +2,8 @@ package cn.jiiiiiin.user.controller;
 
 
 import cn.jiiiiiin.data.entity.BaseEntity;
-import cn.jiiiiiin.user.common.utils.View;
-import cn.jiiiiiin.user.dto.ResourceDto;
+import cn.jiiiiiin.mvc.common.utils.View;
+import cn.jiiiiiin.user.vo.ResourceVO;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.enums.StatusEnum;
 import cn.jiiiiiin.user.enums.ChannelEnum;
@@ -25,8 +25,6 @@ import java.util.List;
  * <p>
  * 权限资源表 前端控制器
  * </p>
- *
- * TODO 增加校验器
  *
  * @author jiiiiiin
  * @since 2018-09-27
@@ -76,14 +74,14 @@ public class ResourceController extends BaseController {
     @ApiOperation(value="查询资源和其关联接口记录", notes = "查询资源（根据路径参数资源id）和其关联接口记录",httpMethod = "GET")
     @JsonView(View.DetailView.class)
     @GetMapping("qry/{id:\\d+}")
-    public ResourceDto qry(@PathVariable Long id) {
+    public ResourceVO qry(@PathVariable Long id) {
         return resourceService.getResourceAndRelationRecords(id);
     }
 
     @ApiOperation(value = "新增资源", notes = "新增资源和关联的接口记录", httpMethod = "POST")
     @JsonView(View.DetailView.class)
     @PostMapping
-    public Resource create(@RequestBody @Validated({Default.class}) ResourceDto resource) {
+    public Resource create(@RequestBody @Validated({Default.class}) ResourceVO resource) {
         resourceService.saveAndSortNumAndRelationInterfaceRecords(resource);
         // 方便vue响应式数据属性定义
         return resource.setChildren(new ArrayList<>());
@@ -91,7 +89,7 @@ public class ResourceController extends BaseController {
 
     @ApiOperation(value = "更新资源信息", notes = "更新资源和关联的接口记录", httpMethod = "PUT")
     @PutMapping
-    public Resource update(@RequestBody @Validated({BaseEntity.IDGroup.class, Default.class}) ResourceDto resource) {
+    public Resource update(@RequestBody @Validated({BaseEntity.IDGroup.class, Default.class}) ResourceVO resource) {
         resourceService.updateAndSortNumAndRelationInterfaceRecords(resource);
         return resource;
     }

@@ -1,6 +1,6 @@
 package cn.jiiiiiin.user.service;
 
-import cn.jiiiiiin.user.dto.ResourceDto;
+import cn.jiiiiiin.user.vo.ResourceVO;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.enums.StatusEnum;
@@ -24,7 +24,7 @@ public interface IResourceService extends IService<Resource> {
      * @param resource
      * @return
      */
-    Boolean saveAndSortNumAndRelationInterfaceRecords(ResourceDto resource);
+    Boolean saveAndSortNumAndRelationInterfaceRecords(ResourceVO resource);
 
     /**
      * 注意：
@@ -35,7 +35,7 @@ public interface IResourceService extends IService<Resource> {
      * @param resource
      * @return
      */
-    Boolean updateAndSortNumAndRelationInterfaceRecords(ResourceDto resource);
+    Boolean updateAndSortNumAndRelationInterfaceRecords(ResourceVO resource);
 
     /**
      * 通过父节点id获取其下的所有资源
@@ -71,5 +71,5 @@ public interface IResourceService extends IService<Resource> {
      * @param id
      * @return
      */
-    ResourceDto getResourceAndRelationRecords(Long id);
+    ResourceVO getResourceAndRelationRecords(Long id);
 }

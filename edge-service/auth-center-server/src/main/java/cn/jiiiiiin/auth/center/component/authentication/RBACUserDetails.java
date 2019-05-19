@@ -1,6 +1,5 @@
 package cn.jiiiiiin.auth.center.component.authentication;
 
-import cn.jiiiiiin.user.dto.AdminDto;
 import cn.jiiiiiin.user.entity.Admin;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

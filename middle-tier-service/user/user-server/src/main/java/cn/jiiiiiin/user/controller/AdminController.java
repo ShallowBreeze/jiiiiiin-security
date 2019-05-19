@@ -2,13 +2,13 @@ package cn.jiiiiiin.user.controller;
 
 
 import cn.jiiiiiin.data.entity.BaseEntity;
-import cn.jiiiiiin.user.common.annotation.IgnoreResponseAdvice;
-import cn.jiiiiiin.user.common.exception.BusinessErrException;
-import cn.jiiiiiin.user.common.utils.View;
-import cn.jiiiiiin.user.common.validation.Groups;
-import cn.jiiiiiin.user.dto.AdminDto;
+import cn.jiiiiiin.mvc.common.annotation.IgnoreResponseAdvice;
+import cn.jiiiiiin.mvc.common.utils.View;
+import cn.jiiiiiin.mvc.common.validation.Groups;
+import cn.jiiiiiin.user.vo.AdminDto;
 import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.enums.ChannelEnum;
+import cn.jiiiiiin.user.exception.UserServiceException;
 import cn.jiiiiiin.user.service.IAdminService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -104,7 +104,7 @@ public class AdminController extends BaseController {
         if (adminService.saveAdminAndRelationRecords(admin)) {
             return admin;
         } else {
-            throw new BusinessErrException("添加用户失败");
+            throw new UserServiceException("添加用户失败");
         }
     }
 
@@ -115,7 +115,7 @@ public class AdminController extends BaseController {
         if (adminService.updateAdminAndRelationRecords(admin)) {
             return admin;
         } else {
-            throw new BusinessErrException("修改用户记录失败");
+            throw new UserServiceException("修改用户记录失败");
         }
     }
 

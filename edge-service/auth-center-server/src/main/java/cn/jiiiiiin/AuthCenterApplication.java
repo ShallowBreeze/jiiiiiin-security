@@ -1,7 +1,7 @@
 package cn.jiiiiiin;
 
 import cn.jiiiiiin.security.core.properties.SecurityProperties;
-import cn.jiiiiiin.user.common.utils.SpringMVC;
+import cn.jiiiiiin.mvc.common.utils.SpringMVC;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

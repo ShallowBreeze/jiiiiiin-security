@@ -1,6 +1,6 @@
 package cn.jiiiiiin.user.mapper;
 
-import cn.jiiiiiin.user.dto.ResourceDto;
+import cn.jiiiiiin.user.vo.ResourceVO;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.enums.StatusEnum;
@@ -61,18 +61,18 @@ public interface ResourceMapper extends BaseMapper<Resource> {
     Boolean deleteRelationRoleRecords(Long id);
 
     /**
-     * 插入关联的接口记录{@link ResourceDto}
+     * 插入关联的接口记录{@link ResourceVO}
      * @param resource
      * @return
      */
-    Boolean insertRelationInterfaceRecords(ResourceDto resource);
+    Boolean insertRelationInterfaceRecords(ResourceVO resource);
 
     /**
      * 通过资源id查询自身和关联记录
      * @param id
      * @return
      */
-    ResourceDto selectResourceAndRelationRecords(Long id);
+    ResourceVO selectResourceAndRelationRecords(Long id);
 
     /**
      * 清理资源（id）所关联的接口记录

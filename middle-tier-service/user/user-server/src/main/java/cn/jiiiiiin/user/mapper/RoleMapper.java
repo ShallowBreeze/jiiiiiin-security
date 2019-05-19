@@ -1,7 +1,7 @@
 package cn.jiiiiiin.user.mapper;
 
 import cn.jiiiiiin.user.enums.ChannelEnum;
-import cn.jiiiiiin.user.dto.RoleDto;
+import cn.jiiiiiin.user.vo.RoleVO;
 import cn.jiiiiiin.user.entity.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -50,7 +50,7 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @param id
      * @return
      */
-    RoleDto selectRoleAndRelationRecords(Long id);
+    RoleVO selectRoleAndRelationRecords(Long id);
 
     /**
      * 检索对应角色（名称、标识、渠道）的分页数据
@@ -59,6 +59,6 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @param role
      * @return
      */
-    IPage<RoleDto> selectPageDto(Page<RoleDto> page, @Param("channel") ChannelEnum channel, @Param("role") Role role);
+    IPage<RoleVO> selectPageDto(Page<RoleVO> page, @Param("channel") ChannelEnum channel, @Param("role") Role role);
 
 }

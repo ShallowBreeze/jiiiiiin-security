@@ -1,4 +1,4 @@
-package cn.jiiiiiin.user.dto;
+package cn.jiiiiiin.user.vo;
 
 import cn.jiiiiiin.user.entity.Resource;
 import io.swagger.annotations.ApiModelProperty;

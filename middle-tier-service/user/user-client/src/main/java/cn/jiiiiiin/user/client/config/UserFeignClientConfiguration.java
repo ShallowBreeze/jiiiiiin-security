@@ -1,19 +1,9 @@
 package cn.jiiiiiin.user.client.config;
 
-import cn.jiiiiiin.user.client.component.converter.ChannelEnumConverter;
-import feign.Contract;
 import feign.Logger;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.AnnotatedParameterProcessor;
-import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.format.support.FormattingConversionService;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 解决feign传递枚举值的问题

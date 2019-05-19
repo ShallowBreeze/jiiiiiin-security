@@ -43,7 +43,7 @@
         </foreach>
     </delete>
 
-    <resultMap id="selectRoleAndRelationRecordsResultMap" type="cn.jiiiiiin.user.dto.RoleDto">
+    <resultMap id="selectRoleAndRelationRecordsResultMap" type="cn.jiiiiiin.user.vo.RoleVO">
         <result column="r_id" property="id" />
         <result column="r_name" property="name" />
         <result column="authority_name" property="authorityName" />
@@ -72,7 +72,7 @@
         WHERE r.id = #{id}
     </select>
 
-    <select id="selectPageDto" resultType="cn.jiiiiiin.user.dto.RoleDto">
+    <select id="selectPageDto" resultType="cn.jiiiiiin.user.vo.RoleVO">
       select * from mng_role where channel = #{channel}
         <if test="role!= null and role.name != null">
             and name like CONCAT('%',#{role.name},'%')

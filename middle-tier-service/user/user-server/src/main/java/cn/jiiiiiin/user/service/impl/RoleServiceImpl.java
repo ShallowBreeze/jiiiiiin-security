@@ -1,21 +1,21 @@
 package cn.jiiiiiin.user.service.impl;
 
-import cn.jiiiiiin.user.common.exception.BusinessErrException;
-import cn.jiiiiiin.user.dto.RoleDto;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.entity.Role;
 import cn.jiiiiiin.user.enums.ChannelEnum;
+import cn.jiiiiiin.user.exception.UserServiceException;
 import cn.jiiiiiin.user.mapper.ResourceMapper;
 import cn.jiiiiiin.user.mapper.RoleMapper;
 import cn.jiiiiiin.user.service.IRoleService;
+import cn.jiiiiiin.user.vo.RoleVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,16 +33,15 @@ import java.util.stream.Collectors;
  * @since 2018-09-27
  */
 @Service
+@AllArgsConstructor
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
 
-    @Autowired
-    private RoleMapper roleMapper;
+    private final RoleMapper roleMapper;
 
-    @Autowired
-    private ResourceMapper resourceMapper;
+    private final ResourceMapper resourceMapper;
 
     @Override
-    public IPage<RoleDto> pageDto(Page<RoleDto> roleDtoPage, ChannelEnum channel, Role role) {
+    public IPage<RoleVO> pageDto(Page<RoleVO> roleDtoPage, ChannelEnum channel, Role role) {
         return roleMapper.selectPageDto(roleDtoPage, channel, role);
     }
 
@@ -58,26 +57,26 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 
     private void _saveCheckRoleUniqueness(Role role) {
         if (null != roleMapper.selectOne(new QueryWrapper<Role>().eq(Role.AUTHORITY_NAME, role.getAuthorityName()))) {
-            throw new BusinessErrException(String.format("系统已经存在角色标识为【%s】的记录", role.getAuthorityName()));
+            throw new UserServiceException(String.format("系统已经存在角色标识为【%s】的记录", role.getAuthorityName()));
         }
         if (null != roleMapper.selectOne(new QueryWrapper<Role>().eq(Role.NAME, role.getName()))) {
-            throw new BusinessErrException(String.format("系统已经存在角色名字为【%s】的记录", role.getAuthorityName()));
+            throw new UserServiceException(String.format("系统已经存在角色名字为【%s】的记录", role.getAuthorityName()));
         }
     }
 
     private void _updateCheckRoleUniqueness(Role role) {
         val currentRecord = roleMapper.selectById(role);
         if (currentRecord == null){
-            throw new BusinessErrException(String.format("系统不存在角色标识为【%s】的记录", role.getAuthorityName()));
+            throw new UserServiceException(String.format("系统不存在角色标识为【%s】的记录", role.getAuthorityName()));
         }
         if (!currentRecord.getAuthorityName().equals(role.getAuthorityName())) {
             if (null != roleMapper.selectOne(new QueryWrapper<Role>().eq(Role.AUTHORITY_NAME, role.getAuthorityName()))) {
-                throw new BusinessErrException(String.format("系统已经存在角色标识为【%s】的记录", role.getAuthorityName()));
+                throw new UserServiceException(String.format("系统已经存在角色标识为【%s】的记录", role.getAuthorityName()));
             }
         }
         if (!currentRecord.getName().equals(role.getName())) {
             if (null != roleMapper.selectOne(new QueryWrapper<Role>().eq(Role.NAME, role.getName()))) {
-                throw new BusinessErrException(String.format("系统已经存在角色名字为【%s】的记录", role.getAuthorityName()));
+                throw new UserServiceException(String.format("系统已经存在角色名字为【%s】的记录", role.getAuthorityName()));
             }
         }
 
@@ -118,7 +117,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     }
 
     @Override
-    public RoleDto getRoleAndRelationRecords(Long id) {
+    public RoleVO getRoleAndRelationRecords(Long id) {
         val role = roleMapper.selectRoleAndRelationRecords(id);
         // 设置前端element-ui tree展开属性数据
         val arr = new ArrayList<String>(role.getResources().size());

@@ -33,7 +33,6 @@ import java.util.Set;
  */
 @Component
 @Slf4j
-@ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", havingValue = "true", matchIfMissing = true)
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
     /**
@@ -41,10 +40,10 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      */
     private final SecurityProperties securityProperties;
 
-    /**
-     * 验证码校验失败处理器
-     */
-    private final AuthenticationFailureHandler authenticationFailureHandler;
+//    /**
+//     * 验证码校验失败处理器
+//     */
+//    private final AuthenticationFailureHandler authenticationFailureHandler;
 
     /**
      * 系统中的校验码处理器
@@ -63,9 +62,11 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      */
     private Map<String, ValidateCodeType> interceptorUrlsMap = new HashMap<>();
 
-    public ValidateCodeFilter(SecurityProperties securityProperties, AuthenticationFailureHandler authenticationFailureHandler, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
+    private final ValidateCodeFilterFailureHandler validateCodeFilterFailureHandler;
+
+    public ValidateCodeFilter(SecurityProperties securityProperties, ValidateCodeFilterFailureHandler validateCodeFilterFailureHandler, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
         this.securityProperties = securityProperties;
-        this.authenticationFailureHandler = authenticationFailureHandler;
+        this.validateCodeFilterFailureHandler = validateCodeFilterFailureHandler;
         this.validateCodeProcessorHolder = validateCodeProcessorHolder;
     }
 
@@ -123,7 +124,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
             } catch (ValidateCodeException exception) {
                 logger.error("验证码校验失败", exception);
                 // 统一身份认证异常处理
-                authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
+                validateCodeFilterFailureHandler.onValidateFailure(request, response, exception);
                 return;
             }
         }
@@ -143,6 +144,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
             for (String url : urls) {
                 if (pathMatcher.match(url, request.getRequestURI())) {
                     result = interceptorUrlsMap.get(url);
+                    break;
                 }
             }
         }

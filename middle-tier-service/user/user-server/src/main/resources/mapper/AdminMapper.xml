@@ -99,7 +99,7 @@
         </if>
     </select>
 
-    <select id="selectPageAdminDto" resultType="cn.jiiiiiin.user.dto.AdminDto">
+    <select id="selectPageAdminDto" resultType="cn.jiiiiiin.user.vo.AdminDto">
         select
         <include refid="Comm_Column_List"/>,
 --         UNIX_TIMESTAMP(create_time) as createTimestamp,
@@ -116,7 +116,7 @@
         </if>
     </select>
 
-    <resultMap id="selectRoleRecordsByIdResultMap" type="cn.jiiiiiin.user.dto.AdminDto">
+    <resultMap id="selectRoleRecordsByIdResultMap" type="cn.jiiiiiin.user.vo.AdminDto">
         <result column="id" property="id"/>
         <result column="create_time" property="createTime"/>
         <result column="username" property="username"/>

@@ -41,6 +41,7 @@ import org.springframework.social.security.SpringSocialConfigurer;
 public class AppSecurityBeanConfig {
 
     @Bean
+    @ConditionalOnMissingBean(AuthenticationSuccessHandler.class)
     @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", havingValue = "true", matchIfMissing = true)
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return new AppAuthenticationSuccessHandler();
@@ -53,8 +54,11 @@ public class AppSecurityBeanConfig {
         return new AppAuthenticationFailureHandler();
     }
 
+    /**
+     * 默认的资源服务必须要配合一个`AuthorizationServer`，即两者需要在一起使用，因为如`SmsCodeAuthenticationSecurityConfig`授权需要获取`authenticationSuccessHandler`等组件
+     */
     @EnableResourceServer
-    @ConditionalOnMissingBean(ResourceServerConfigurerAdapter.class)
+    @ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", havingValue = "true", matchIfMissing = true)
     public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
 
         @Autowired(required = false)

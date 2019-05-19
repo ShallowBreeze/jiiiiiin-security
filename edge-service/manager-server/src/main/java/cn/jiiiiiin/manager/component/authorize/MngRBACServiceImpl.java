@@ -5,7 +5,7 @@ package cn.jiiiiiin.manager.component.authorize;
 
 import cn.jiiiiiin.security.rbac.component.dict.RbacDict;
 import cn.jiiiiiin.security.rbac.component.service.RBACService;
-import cn.jiiiiiin.user.dto.CommonUserDetails;
+import cn.jiiiiiin.user.vo.CommonUserDetails;
 import cn.jiiiiiin.user.entity.Interface;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.entity.Role;

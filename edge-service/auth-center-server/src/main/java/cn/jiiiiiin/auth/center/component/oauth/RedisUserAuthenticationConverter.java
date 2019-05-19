@@ -1,6 +1,6 @@
 package cn.jiiiiiin.auth.center.component.oauth;
 
-import cn.jiiiiiin.user.dto.CommonUserDetails;
+import cn.jiiiiiin.user.vo.CommonUserDetails;
 import cn.jiiiiiin.user.entity.Admin;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

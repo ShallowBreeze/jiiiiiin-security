@@ -16,7 +16,9 @@ public class AuthCenterAuthorizeConfigProvider implements AuthorizeConfigProvide
 
     @Override
     public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
-        return false;
+        // 注意：认证服务器不做权限校验，由zuul网关在前面卡住权限问题
+        config.anyRequest().permitAll();
+        return true;
     }
 
 }

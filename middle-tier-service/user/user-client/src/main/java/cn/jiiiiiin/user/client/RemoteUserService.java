@@ -2,20 +2,14 @@ package cn.jiiiiiin.user.client;
 
 import cn.jiiiiiin.user.UserDict;
 import cn.jiiiiiin.user.client.config.UserFeignClientConfiguration;
-import cn.jiiiiiin.user.common.annotation.IgnoreResponseAdvice;
 import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.enums.ChannelEnum;
-import cn.jiiiiiin.user.exception.UserServiceException;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import static cn.jiiiiiin.user.UserDict.formatServiceFallbackMsg;
 
 /**
  * @author jiiiiiin

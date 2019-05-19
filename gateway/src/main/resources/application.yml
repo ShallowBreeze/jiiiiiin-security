@@ -38,6 +38,12 @@ jiiiiiin:
       clients:
         - clientId: pweb
           clientSecret: pweb
+    validate:
+      image-code:
+        type: EASYCAPTCHA_GIF_TYPE_NUM_AND_UPPER
+        width: 70
+        length: 2
+        interceptor-urls: /api/ac/oauth/token,/api/ac/authentication/mobile
 
 # 参考：http://blog.didispace.com/springcloud5/
 zuul:
@@ -139,6 +145,7 @@ spring:
       filter-order: 3
   jackson:
     default-property-inclusion: non_null
+    write-dates-as-timestamps: false
   thymeleaf:
     cache: false
     # 避免Thymeleaf对html语法检查过严 https://www.jianshu.com/p/b361a6acbe0cz

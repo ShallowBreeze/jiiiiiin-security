@@ -44,11 +44,9 @@ public class OAuth2Properties {
     private String jwtSigningKey = "jiiiiiin";
 
     /**
-     * 是否启用默认的`org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter`
+     * 是否启用App模块默认的授权服务器
      */
     private boolean enableAuthorizationServer = true;
-
-    private boolean useSimpleUserAuthenticationConverter = true;
 
     /**
      * 客户端配置

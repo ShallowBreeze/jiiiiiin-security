@@ -21,13 +21,12 @@ import javax.servlet.Filter;
  */
 @Component("validateCodeSecurityConfig")
 @AllArgsConstructor
-@ConditionalOnProperty(prefix = "jiiiiiin.security.oauth2", name = "enableAuthorizationServer", havingValue = "true", matchIfMissing = true)
 public class ValidateCodeSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
     /**
      * @see ValidateCodeFilter
      */
-    private final Filter validateCodeFilter;
+    private final ValidateCodeFilter validateCodeFilter;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {

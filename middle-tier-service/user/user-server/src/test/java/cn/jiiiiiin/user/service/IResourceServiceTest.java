@@ -1,6 +1,6 @@
 package cn.jiiiiiin.user.service;
 
-import cn.jiiiiiin.user.dto.ResourceDto;
+import cn.jiiiiiin.user.vo.ResourceVO;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class IResourceServiceTest {
                 .setNum(1)
                 .setLevels(2)
                 .setName("测试排序");
-        val res = resourceService.saveAndSortNumAndRelationInterfaceRecords((ResourceDto) newResource);
+        val res = resourceService.saveAndSortNumAndRelationInterfaceRecords((ResourceVO) newResource);
         Assert.assertTrue(res);
     }
 

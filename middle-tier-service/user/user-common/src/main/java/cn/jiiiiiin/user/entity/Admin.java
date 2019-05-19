@@ -1,9 +1,9 @@
 package cn.jiiiiiin.user.entity;
 
 import cn.jiiiiiin.data.entity.BaseEntity;
-import cn.jiiiiiin.user.common.utils.View;
-import cn.jiiiiiin.user.common.validation.Groups;
-import cn.jiiiiiin.user.dto.Menu;
+import cn.jiiiiiin.mvc.common.utils.View;
+import cn.jiiiiiin.mvc.common.validation.Groups;
+import cn.jiiiiiin.user.vo.Menu;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.validation.ChannelStyle;
 import com.baomidou.mybatisplus.annotation.TableField;

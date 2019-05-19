@@ -64,7 +64,7 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
             // 浏览器直接通过`image`标签获取图片不好设置header，故这里做了兼容
             deviceId = request.getParameter(SecurityConstants.DEFAULT_PARAMETER_NAME_DEVICEID);
             if (StringUtils.isBlank(deviceId)) {
-                throw new ValidateCodeException("请在请求头中携带deviceId参数");
+                throw new ValidateCodeException("验证码校验失败，请在请求头中携带deviceId参数");
             }
         }
         return "code:" + type.toString().toLowerCase() + ":" + deviceId;

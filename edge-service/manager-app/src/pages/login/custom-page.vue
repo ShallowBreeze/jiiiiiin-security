@@ -204,7 +204,7 @@ export default {
   created() {
     // 防止多次请求导致的重复调用会话超时函数，重复请求当前页面，导致进度条不会消失的bug
     NProgress.done()
-    this.validateImgCodeUri = `${this.$vp.options.serverUrl}/ac/code/image?deviceId=${this.deviceId}`
+    this.validateImgCodeUri = `${this.$vp.options.serverUrl.replace('/api', '')}/code/image?deviceId=${this.deviceId}`
   }
 }
 </script>

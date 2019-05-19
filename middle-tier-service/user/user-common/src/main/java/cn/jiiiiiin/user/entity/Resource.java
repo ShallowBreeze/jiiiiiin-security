@@ -1,7 +1,7 @@
 package cn.jiiiiiin.user.entity;
 
 import cn.jiiiiiin.data.entity.BaseEntity;
-import cn.jiiiiiin.user.common.utils.View;
+import cn.jiiiiiin.mvc.common.utils.View;
 import cn.jiiiiiin.user.enums.ChannelEnum;
 import cn.jiiiiiin.user.enums.StatusEnum;
 import cn.jiiiiiin.user.enums.ResourceTypeEnum;

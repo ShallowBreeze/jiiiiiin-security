@@ -1,8 +1,8 @@
 package cn.jiiiiiin.user.mapper;
 
 
-import cn.jiiiiiin.user.dto.Menu;
-import cn.jiiiiiin.user.dto.ResourceDto;
+import cn.jiiiiiin.user.vo.Menu;
+import cn.jiiiiiin.user.vo.ResourceVO;
 import cn.jiiiiiin.user.entity.Interface;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.entity.Role;
@@ -13,9 +13,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -187,8 +185,8 @@ public class ResourceMapperTest {
         val interfaces = new HashSet<Interface>();
         interfaces.add((Interface) new Interface().setId(1071771910230102017L));
         interfaces.add((Interface) new Interface().setId(1071944020369932289L));
-        val resourceDto = new ResourceDto().setInterfaces(interfaces).setId(1062518178556526593L);
-        val res = resourceMapper.insertRelationInterfaceRecords((ResourceDto) resourceDto);
+        val resourceDto = new ResourceVO().setInterfaces(interfaces).setId(1062518178556526593L);
+        val res = resourceMapper.insertRelationInterfaceRecords((ResourceVO) resourceDto);
         assertTrue(res);
     }
 

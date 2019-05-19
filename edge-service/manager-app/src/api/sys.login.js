@@ -1,4 +1,5 @@
 import setting from '@/setting'
+import store from '@/store'
 // 基于browser模块session方式的登录
 // export function AccountLogin($vp, params) {
 //   return $vp.ajaxPost('/authentication/form', {
@@ -15,13 +16,14 @@ export function AccountLogin($vp, params) {
   return $vp.ajaxPost('/ac/oauth/token', {
     params: {
       grant_type: 'password',
-      scope: setting.user.auth.scope,
+      scope: setting.mvc.auth.scope,
       ...params
     },
     axiosOptions: {
       headers: {
         isToken: false,
-        Authorization: setting.user.auth.Authorization
+        Authorization: setting.mvc.auth.Authorization,
+        deviceId: store.state.d2admin.mvc.deviceId
       }
     }
   })

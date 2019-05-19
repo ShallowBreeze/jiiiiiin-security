@@ -1,4 +1,4 @@
-package cn.jiiiiiin.user.dto;
+package cn.jiiiiiin.user.vo;
 
 import cn.jiiiiiin.user.entity.Admin;
 import lombok.EqualsAndHashCode;

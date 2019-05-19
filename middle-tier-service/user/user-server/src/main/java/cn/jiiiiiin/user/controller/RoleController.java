@@ -2,8 +2,8 @@ package cn.jiiiiiin.user.controller;
 
 
 import cn.jiiiiiin.data.entity.BaseEntity;
-import cn.jiiiiiin.user.common.utils.View;
-import cn.jiiiiiin.user.dto.RoleDto;
+import cn.jiiiiiin.mvc.common.utils.View;
+import cn.jiiiiiin.user.vo.RoleVO;
 import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.entity.Role;
@@ -15,12 +15,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,10 +41,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/role")
 @Api
+@AllArgsConstructor
 public class RoleController extends BaseController {
 
-    @Autowired
-    private IRoleService roleService;
+    private final IRoleService roleService;
 
     @ApiOperation(value = "角色记录列表查询", notes = "查询对应渠道所有角色记录", httpMethod = "GET")
     @JsonView(View.SimpleView.class)
@@ -70,21 +70,21 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "角色记录（适配eleui）分页查询", notes = "分页查询对应渠道角色记录，适配前端element-ui数据格式要求，提供展开功能所属数据而定义", httpMethod = "GET")
     @JsonView(View.SimpleView.class)
     @GetMapping("eleui/{channel:[0]}/{current:\\d+}/{size:\\d+}")
-    public IPage<RoleDto> eleuiTableList(@PathVariable ChannelEnum channel, @PathVariable Long current, @PathVariable Long size) {
+    public IPage<RoleVO> eleuiTableList(@PathVariable ChannelEnum channel, @PathVariable Long current, @PathVariable Long size) {
         return roleService.pageDto(new Page<>(current, size), channel, null);
     }
 
     @ApiOperation(value = "角色记录（适配eleui）分页检索", notes = "分页检索对应渠道角色记录，适配前端element-ui数据格式要求，提供展开功能所属数据而定义", httpMethod = "GET")
     @JsonView(View.SimpleView.class)
     @PostMapping("search/eleui/{channel:[0]}/{current:\\d+}/{size:\\d+}")
-    public IPage<RoleDto> eleuiTableSearch(@PathVariable ChannelEnum channel, @PathVariable Long current, @PathVariable Long size, @RequestBody Role role) {
+    public IPage<RoleVO> eleuiTableSearch(@PathVariable ChannelEnum channel, @PathVariable Long current, @PathVariable Long size, @RequestBody Role role) {
         return roleService.pageDto(new Page<>(current, size), channel, role);
     }
 
     @ApiOperation(value = "角色记录查询", notes = "根据路径参数角色id查询其详细数据", httpMethod = "GET")
     @JsonView(View.DetailView.class)
     @GetMapping("{id:\\d+}")
-    public RoleDto getRoleAndRelationRecords(@PathVariable Long id) {
+    public RoleVO getRoleAndRelationRecords(@PathVariable Long id) {
         return roleService.getRoleAndRelationRecords(id);
     }
 

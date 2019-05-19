@@ -44,6 +44,12 @@
             <artifactId>spring-tx</artifactId>
             <version>5.1.5.RELEASE</version>
         </dependency>
+
+<!--        http://blog.didispace.com/Spring-Boot-And-Feign-Use-localdate/-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
