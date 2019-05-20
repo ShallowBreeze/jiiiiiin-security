@@ -1,10 +1,7 @@
 package cn.jiiiiiin.user.vo;
 
 import cn.jiiiiiin.user.entity.Admin;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.social.security.SocialUserDetails;
@@ -20,6 +17,7 @@ import java.util.stream.Collectors;
 @Setter
 @EqualsAndHashCode(of = "admin")
 @NoArgsConstructor
+@ToString
 public class CommonUserDetails implements SocialUserDetails {
 
     private static final long serialVersionUID = -8362660409491439833L;

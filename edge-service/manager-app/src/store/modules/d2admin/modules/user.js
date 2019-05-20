@@ -3,11 +3,13 @@ import setting from '@/setting.js'
 // import { uuidv4 } from 'node-uuid';
 const uuidv4 = require('uuid/v4')
 
+console.log('setting', setting)
+
 export default {
   namespaced: true,
   state: {
     // 用户信息
-    info: setting.mvc.info,
+    info: setting.user.info,
     // 用户设备信息
     // https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
     // https://www.zhihu.com/question/51410927
@@ -19,6 +21,9 @@ export default {
   getters: {
     access_token: state => {
       return state.oauth2AccessToken.access_token
+    },
+    cache_principal: state => {
+      return state.oauth2AccessToken.cache_principal
     }
   },
   mutations: {
@@ -65,7 +70,7 @@ export default {
         // 持久化
         await dispatch('d2admin/db/set', {
           dbName: 'sys',
-          path: 'mvc.info',
+          path: 'user.info',
           value: info,
           user: true
         }, { root: true })
@@ -81,8 +86,8 @@ export default {
       // store 赋值
       state.info = await dispatch('d2admin/db/get', {
         dbName: 'sys',
-        path: 'mvc.info',
-        defaultValue: setting.mvc.info,
+        path: 'user.info',
+        defaultValue: setting.user.info,
         user: true
       }, { root: true })
       state.deviceId = await window.$vp.cacheLoadFromSessionStore('DEVICE_ID', uuidv4())

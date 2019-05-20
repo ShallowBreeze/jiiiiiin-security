@@ -43,6 +43,7 @@ jiiiiiin:
         type: EASYCAPTCHA_GIF_TYPE_NUM_AND_UPPER
         width: 70
         length: 2
+        # TODO 待增强支持method指定
         interceptor-urls: /api/ac/oauth/token,/api/ac/authentication/mobile
 
 # 参考：http://blog.didispace.com/springcloud5/

@@ -7,6 +7,9 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+/**
+ * @author jiiiiiin
+ */
 @Configuration
 @EnableWebSecurity
 public class AppSpringSecurityBaseConfig extends WebSecurityConfigurerAdapter {

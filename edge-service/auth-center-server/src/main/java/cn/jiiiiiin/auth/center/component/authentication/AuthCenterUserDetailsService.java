@@ -4,6 +4,7 @@ import cn.jiiiiiin.auth.center.exception.AuthCenterException;
 import cn.jiiiiiin.auth.center.exception.AuthCenterUsernameNotFoundException;
 import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
 import cn.jiiiiiin.user.client.RemoteUserService;
+import cn.jiiiiiin.user.vo.CommonUserDetails;
 import cn.jiiiiiin.user.vo.Menu;
 import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.entity.Interface;
@@ -78,7 +79,7 @@ public class AuthCenterUserDetailsService implements UserDetailsService, SocialU
             val modelMapper = new ModelMapper();
             val admin = modelMapper.map(optionalAdmin, Admin.class);
             _parserResource(admin);
-            return new RBACUserDetails(optionalAdmin);
+            return new CommonUserDetails(optionalAdmin);
         }
     }
 

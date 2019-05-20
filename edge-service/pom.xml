@@ -14,6 +14,7 @@
     <modules>
         <module>auth-center-server</module>
         <module>manager-server</module>
+        <module>auth-center-common</module>
     </modules>
 
 </project>

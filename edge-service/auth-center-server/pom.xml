@@ -33,20 +33,26 @@
 <!--            <artifactId>mysql-connector-java</artifactId>-->
 <!--        </dependency>-->
 
-        <dependency>
-            <groupId>cn.jiiiiiin.security</groupId>
-            <artifactId>jiiiiiin-mvc</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.jiiiiiin.security</groupId>-->
+<!--            <artifactId>jiiiiiin-mvc</artifactId>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>cn.jiiiiiin.security</groupId>-->
+<!--            <artifactId>user-client</artifactId>-->
+<!--            <version>${jiiiiiin-security-version}</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>cn.jiiiiiin.security</groupId>-->
+<!--            <artifactId>jiiiiiin-security-app</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>cn.jiiiiiin.security</groupId>
-            <artifactId>user-client</artifactId>
-            <version>${jiiiiiin-security-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.jiiiiiin.security</groupId>
-            <artifactId>jiiiiiin-security-app</artifactId>
+            <artifactId>auth-center-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <!--处理文件工具类库-->

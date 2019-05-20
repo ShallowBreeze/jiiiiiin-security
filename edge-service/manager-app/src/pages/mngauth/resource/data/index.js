@@ -430,7 +430,7 @@ export default [
       'unlock-alt',
       'unsorted',
       'upload',
-      'mvc',
+      'user',
       'user-circle',
       'user-circle-o',
       'user-o',

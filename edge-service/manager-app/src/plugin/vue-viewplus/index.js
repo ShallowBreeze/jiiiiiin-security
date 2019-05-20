@@ -40,8 +40,10 @@ const viewPlusOptions = {
       const isToken = (config.headers || {}).isToken === false
       if (!isToken) {
         let token = store.getters['d2admin/user/access_token']
-        if (token) {
-          config.headers['Authorization'] = 'Bearer ' + token// token
+        let principal = store.getters['d2admin/user/cache_principal']
+        if (token && principal) {
+          config.headers['Authorization'] = `Bearer ${token}`
+          config.headers['cache_principal'] = principal
         }
       }
       return config;

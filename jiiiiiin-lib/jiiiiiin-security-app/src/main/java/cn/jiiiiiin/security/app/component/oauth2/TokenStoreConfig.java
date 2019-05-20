@@ -91,7 +91,7 @@ public class TokenStoreConfig {
             // 解决`hasPermission`表达式如果`principal`是一个字符串问题
             final DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
             // 这里会带来性能问题，故做了自定义，具体问题可以参考：https://juejin.im/post/5c9191785188252d7941f87c
-            // 建议重写`DefaultUserAuthenticationConverter`，目前解决方案`RedisUserAuthenticationConverter`
+            // 建议重写`DefaultUserAuthenticationConverter`，目前解决方案需要在资源服务器配置`RedisUserAuthenticationConverter`
             defaultUserAuthenticationConverter.setUserDetailsService(userDetailsService);
             defaultAccessTokenConverter.setUserTokenConverter(defaultUserAuthenticationConverter);
             val converter = new JwtAccessTokenConverter();

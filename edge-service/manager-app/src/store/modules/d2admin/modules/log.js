@@ -44,7 +44,7 @@ export default {
         // vue 实例
         vm: '',
         // 当前用户信息
-        user: rootState.d2admin.mvc.info,
+        user: rootState.d2admin.user.info,
         // 当前用户的 uuid
         uuid: util.cookies.get('uuid'),
         // 当前地址

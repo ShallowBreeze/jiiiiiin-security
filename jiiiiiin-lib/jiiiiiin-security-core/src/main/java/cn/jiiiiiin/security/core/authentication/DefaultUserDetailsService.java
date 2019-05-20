@@ -20,12 +20,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 @Slf4j
 public class DefaultUserDetailsService implements UserDetailsService {
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.security.core.userdetails.UserDetailsService#
-     * loadUserByUsername(java.lang.String)
-     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.warn("请配置 UserDetailsService 接口的实现.");

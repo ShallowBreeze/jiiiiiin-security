@@ -1,7 +1,4 @@
-/**
- *
- */
-package cn.jiiiiiin.auth.center.component.oauth;
+package cn.jiiiiiin.auth.center.component.oauth2;
 
 import cn.jiiiiiin.auth.center.component.authentication.OAuth2AuthenticationHolder;
 import cn.jiiiiiin.security.core.properties.OAuth2ClientProperties;
@@ -29,6 +26,8 @@ import static cn.jiiiiiin.security.core.properties.OAuth2ClientProperties.DEFAUL
  *
  * 提供给 {@link cn.jiiiiiin.security.app.server.AppAuthorizationServerConfig}进配置，通过组件名
  *
+ * 注意：增强的只是在`/oauth/token`响应的内容中，而并不是直接增强到`access_token`中
+ *
  * @author zhailiang
  * @author jiiiiiin
  */
@@ -41,7 +40,7 @@ public class RedisJwtTokenEnhancer implements TokenEnhancer {
      * token增强存储认证服务器认证之后的{@link org.springframework.security.core.userdetails.UserDetails}的key
      */
     public static final String CACHE_PRINCIPAL = "cache_principal";
-    private static final String TOKENENHANCER = "TokenEnhancer-userDetails-";
+    private static final String TOKENENHANCER = "tokenenhancer-userdetails-";
     /**
      * 默认延迟清理附加时间（秒）
      */
@@ -64,6 +63,7 @@ public class RedisJwtTokenEnhancer implements TokenEnhancer {
             // 找到对应的client信息，以配置的token失效时间+延迟 来设置这里存储的过期时间
             redisTemplate.opsForValue().set(key, userDetails.getAdmin(), accessTokenValiditySeconds, TimeUnit.SECONDS);
             info.put(CACHE_PRINCIPAL, key);
+            log.debug("缓存认证用户信息到redis cache info: {}", info);
         }
 
         // 设置附加信息

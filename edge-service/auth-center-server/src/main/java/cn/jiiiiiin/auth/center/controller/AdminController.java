@@ -1,23 +1,23 @@
-package cn.jiiiiiin.manager.controller;
+package cn.jiiiiiin.auth.center.controller;
 
 
 import cn.jiiiiiin.data.entity.BaseEntity;
 import cn.jiiiiiin.mvc.common.utils.View;
 import cn.jiiiiiin.mvc.common.validation.Groups;
+import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.vo.AdminDto;
+import cn.jiiiiiin.user.vo.CommonUserDetails;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -29,38 +29,41 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2018-09-27
  */
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/user")
 @Api
 @AllArgsConstructor
 @Slf4j
 public class AdminController {
 
-    private final SimpleGrantedAuthority adminGrantedAuthority;
+//    private final SimpleGrantedAuthority adminGrantedAuthority;
 
-    // TODO 放在具体的边界服务去定义
-//    /**
-//     * 获取当前登录的管理员信息
-//     */
-//    @ApiOperation(value = "登录用户自身记录查询", httpMethod = "GET")
-//    @JsonView(View.DetailView.class)
-//    @GetMapping("me")
-////    public AdminDto me(@AuthenticationPrincipal UserDetails user) {
-//    // 使用app模块 jwt生成的就不是一个可以被注入的`@AuthenticationPrincipal`
-//    public AdminDto me(Authentication authentication) {
-//        MngUserDetails mngUserDetails = (MngUserDetails) authentication.getPrincipal();
-//        return mngUserDetails.getAdmin();
-//    }
-
-    @ApiOperation(value = "更新用户密码", notes = "只能在用户拥有系统管理员角色权限的状态下使用该接口", httpMethod = "PUT")
-    @PutMapping("/pwd")
-    @JsonView(View.SecurityView.class)
-    public AdminDto updatePwd(@RequestBody @Validated({BaseEntity.IDGroup.class, Groups.Security.class}) AdminDto admin, @AuthenticationPrincipal UserDetails user) {
-        if (user.getAuthorities().stream().anyMatch(p -> p.equals(adminGrantedAuthority))) {
-            // TODO 调用`user-server`服务
-            //adminService.updatePwd(admin);
-        }
-        return admin;
+    /**
+     * 获取当前登录的管理员信息
+     * <p>
+     * 注意：
+     * browser模块可以直接注入： public AdminDto me(@AuthenticationPrincipal UserDetails user) {
+     * <p>
+     * app模块 jwt生成的就不是一个可以被注入的`@AuthenticationPrincipal`
+     */
+    @ApiOperation(value = "登录用户记录查询", httpMethod = "GET")
+    @JsonView(View.DetailView.class)
+    @GetMapping("me")
+    public Admin me(Authentication authentication) {
+        log.debug("登录用户记录查询 {}", authentication);
+        CommonUserDetails mngUserDetails = (CommonUserDetails) authentication.getPrincipal();
+        return mngUserDetails.getAdmin();
     }
+
+//    @ApiOperation(value = "更新用户密码", notes = "只能在用户拥有系统管理员角色权限的状态下使用该接口", httpMethod = "PUT")
+//    @PutMapping("/pwd")
+//    @JsonView(View.SecurityView.class)
+//    public AdminDto updatePwd(@RequestBody @Validated({BaseEntity.IDGroup.class, Groups.Security.class}) AdminDto admin, @AuthenticationPrincipal UserDetails user) {
+//        if (user.getAuthorities().stream().anyMatch(p -> p.equals(adminGrantedAuthority))) {
+//            // TODO 调用`user-server`服务
+//            //adminService.updatePwd(admin);
+//        }
+//        return admin;
+//    }
 
 //    @ApiOperation(value = "批量删除用户记录", notes = "根据路径参数解析待删除的用户记录id集合，登录用户自身不能删除自己的记录", httpMethod = "DELETE")
 //    @DeleteMapping("dels/{ids:^[\\d,]+$}")

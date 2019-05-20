@@ -16,14 +16,14 @@ export function AccountLogin($vp, params) {
   return $vp.ajaxPost('/ac/oauth/token', {
     params: {
       grant_type: 'password',
-      scope: setting.mvc.auth.scope,
+      scope: setting.user.auth.scope,
       ...params
     },
     axiosOptions: {
       headers: {
         isToken: false,
-        Authorization: setting.mvc.auth.Authorization,
-        deviceId: store.state.d2admin.mvc.deviceId
+        Authorization: setting.user.auth.Authorization,
+        deviceId: store.state.d2admin.user.deviceId
       }
     }
   })

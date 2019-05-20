@@ -120,6 +120,7 @@ public class AppAuthorizationServerConfig extends AuthorizationServerConfigurerA
                     // 3.设置token签名器
                     .accessTokenConverter(jwtAccessTokenConverter);
         }
+        // 自定义登录或者鉴权失败时的返回信息
         // 自定义oauth2异常信息 https://my.oschina.net/merryyou/blog/1819572
         endpoints.exceptionTranslator(new AppWebResponseExceptionTranslator());
         log.debug("默认授权服务启动");
