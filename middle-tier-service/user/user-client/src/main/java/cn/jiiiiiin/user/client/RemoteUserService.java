@@ -27,6 +27,13 @@ public interface RemoteUserService {
     @GetMapping("/admin/{channel}/{username}")
     Admin signInByUsernameOrPhoneNumb(@PathVariable ChannelEnum channel, @PathVariable String username);
 
+    /**
+     * {@link RemoteUserService#signInByUsernameOrPhoneNumb(ChannelEnum, String)}
+     * 但不包含资源信息
+     */
+    @GetMapping("/user/{channel}/{username}")
+    Admin signInByUsernameOrPhoneNumbSimple(@PathVariable ChannelEnum channel, @PathVariable String username);
+
     @Component
     @Slf4j
     class FeignClientFallBack implements FallbackFactory<RemoteUserService> {
@@ -39,6 +46,12 @@ public interface RemoteUserService {
                 @Override
                 public Admin signInByUsernameOrPhoneNumb(ChannelEnum channel, String username) {
                     log.error(UserDict.SERVICE_NAME + "#signInByUsernameOrPhoneNumb降级方法被执行");
+                    return null;
+                }
+
+                @Override
+                public Admin signInByUsernameOrPhoneNumbSimple(ChannelEnum channel, String username) {
+                    log.error(UserDict.SERVICE_NAME + "#signInByUsernameOrPhoneNumbSimple降级方法被执行");
                     return null;
                 }
             };

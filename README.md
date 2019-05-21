@@ -47,7 +47,6 @@
 │   ├── jiiiiiin-hystrix-tuibine Hystrix Turbine聚合服务(通用服务)
 ├── edge-service 边界服务(pom)
 │   ├── auth-center-server 统一用户认证中心应用
-│   ├── manager-server 内管后端应用(TODO 待删除)
 │   ├── manager-app 内管前端应用（vue项目，依赖d2-admin模块（1.6.9最新））
 ├── middle-tier-service 后端服务(pom)
 │   └── user 用户服务(pom)
@@ -138,6 +137,103 @@
 | --------------------------------------- | ------------------------------------------------------------ |
 | 自定义properties配置`jiiiiiin.security` | [SecurityProperties.java](https://github.com/Jiiiiiin/jiiiiiin-security/blob/feature/springcloud/jiiiiiin-lib/jiiiiiin-security-core/src/main/java/cn/jiiiiiin/security/core/properties/SecurityProperties.java#L26) 目前提供了针对公共接口、浏览器安全、验证码、OAuth2等相关配置 |
 | 可覆盖的Bean配置                        | 待整理~~                                                     |
+
+# 设计
+
+### 安全设计
+
+![js-oauth](https://ws1.sinaimg.cn/large/006tNc79gy1g38p0fwv1cj30tr0kp76m.jpg)
+
+上图简要描述了整个系统的安全相关设计，我们可以从上往下看：
+
++ 客户端应用发送身份认证请求
+
++ 请求通过网关直接发送到身份认证中心(OAUTH-CENTER-SERVER)
+
++ 身份认证中心通过FeignClient传递用户名或手机号到用户服务
+
++ 用户服务到数据库查询当前认证用户信息(基础信息、角色信息、资源信息、可访问接口信息)，查询到之后返回给身份认证中心
+
++ 身份认证中心得到用户信息组装成一个认证通过的Authentication标识认证完成，**并在此阶段将认证用户对象缓存到redis数据库**，**这样的好处是，分离的资源和认证服务器后续都通过它来共享当前认证用户信息**，**避免SpringSecurity OAuth的[性能问题**](https://juejin.im/post/5c9191785188252d7941f87c)
+
++ 并返回给客户端应用两个重要信息：TOKEN信息对象(包含访问令牌、刷新令牌和自建的身份认证对象存储在缓存数据库中的key `cache_principal`)和用户数据：
+
+  类似：
+
+  ```json
+  {
+      "code": 0,
+      "data": {
+          "admin": {
+              "id": "1",
+              "channel": "MNG",
+              "username": "admin",
+              "phone": "15399999999",
+              "email": "15399999999@163.com",
+              "roles": [
+                  {
+                      "id": "1061277220292595713",
+                      "name": "系统管理员",
+                      "authorityName": "ADMIN"
+                  }
+              ],
+              "authorizeInterfaces": [
+                  {
+                      "name": "批量删除用户记录",
+                      "url": "admin/dels/*",
+                      "method": "DELETE"
+                  }
+                  //...
+              ],
+              "menus": [
+                  {
+                      "path": "/index",
+                      "title": "首页",
+                      "icon": "home",
+                      "num": 1
+                  },
+                  {
+                      "path": "/mngauth",
+                      "title": "权限管理",
+                      "icon": "cog",
+                      "num": 2,
+                      "children": [
+                          {
+                              "path": "/mngauth/admin",
+                              "title": "用户管理",
+                              "icon": "users",
+                              "num": 1
+                          }
+                          //...
+                      ]
+                  }
+              ]
+          },
+          "oauth2AccessToken": {
+              "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTg0MTA3MzksInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiI3NjA5YzU0Yi04NjJkLTRjNGMtYTVhNi0zNTBkYmJmZTgxN2MiLCJjbGllbnRfaWQiOiJwd2ViIiwic2NvcGUiOlsiYWxsIl19.1yKeKlHKzIo4cv1HY8ZqLbLP8LCeCJ5xkdFCL2MGSuE",
+              "token_type": "bearer",
+              "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbImFsbCJdLCJhdGkiOiI3NjA5YzU0Yi04NjJkLTRjNGMtYTVhNi0zNTBkYmJmZTgxN2MiLCJleHAiOjE1NjA5OTU1MzksImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iXSwianRpIjoiMTU5OGJlZDYtMGZhMi00MDMwLWFhOWMtOGQxZWUzZDIwNzRkIiwiY2xpZW50X2lkIjoicHdlYiJ9.Zg39bkwSjT78HN3YN7_8F92URRicHp7D8oRVDnf5yX8",
+              "expires_in": 7199,
+              "scope": "all",
+              "cache_principal": "tokenenhancer-userdetails-1"
+          }
+      },
+      "msg": "执行成功"
+  }
+  
+  ```
+
+  
+
++ 客户端应用，如前端内管应用 manager-app就会通过用户权限信息初始化[前端rbac模块]、缓存用户基础信息、缓存token信息（特别注意`cache_principal`）
+
++ 到此认证完成，客户端应用在请求其他服务，如用户服务的修改当前用户密码接口，那么就需要在请求头携带两个重要信息：`Authorization`和`cache_principal`
+
++ 网关内部的资源服务器通过`Authorization`验证token有效性，针对鉴权，我们有两种思路：
+
+  + 第一种情况，针对内管这类权限灵活运用，如需要RBAC权限处理，我们直接走`.access("@rbacService.hasPermission(request, authentication)")`自定义权限校验器来进行投票
+  + 第二种情况，如果针对一般应用，如用户直接使用的商城这类应用，一般对于权限这块只会要求验证用户是否登录、或者是否是某个角色，那么我们就不会走)`自定义权限校验器
+  + **这两种情况，就会影响到我们资源服务器在进行`Authentication`对象组装的时候，我们是否还需要去读用户缓存认证信息，即如果是第一种情况，因为权限要素过多我们必须要去缓存数据库重新加载一次，但是如果是第二种情况，我们直接通过JWT 访问令牌解析到的数据已经能够满足认证和鉴权需求就没必要再去加载一次，那反过来想想，我们在认证的时候也可以通过客户端应用渠道标识，来判断是否需要将认证信息缓存到redis**
 
 
 

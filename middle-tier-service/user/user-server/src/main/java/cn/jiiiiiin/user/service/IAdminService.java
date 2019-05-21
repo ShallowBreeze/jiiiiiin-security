@@ -41,6 +41,14 @@ public interface IAdminService extends IService<Admin> {
     Admin signInByUsernameOrPhoneNumb(String username, ChannelEnum channel);
 
     /**
+     * {@link IAdminService#signInByUsernameOrPhoneNumb(String, ChannelEnum)}
+     * @param channel
+     * @param username
+     * @return
+     */
+    Admin signInByUsernameOrPhoneNumbSimple(ChannelEnum channel, String username);
+
+    /**
      * spring 事务：
      * https://www.ibm.com/developerworks/cn/java/j-master-spring-transactional-use/index.html
      * http://blog.didispace.com/springboottransactional/

@@ -65,11 +65,17 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         if (res.getRoles().stream().anyMatch(p -> p.getId().equals(Role.ROLE_ADMIN_ID))) {
             // 系统管理员拥有所有访问控制权限和菜单资源
             val adminRole = res.getRoles().stream().filter(p -> p.getId().equals(Role.ROLE_ADMIN_ID)).findFirst().get();
-            val resources = resourceMapper.selectList(new QueryWrapper<Resource>().eq(Resource.CHANNEL, channel).eq(Resource.STATUS, StatusEnum.ENABLE).orderByAsc(Resource.LEVELS, Resource.NUM));
+            val resources = resourceMapper
+                    .selectList(new QueryWrapper<Resource>()
+                            .eq(Resource.CHANNEL, channel)
+                            .eq(Resource.STATUS, StatusEnum.ENABLE)
+                            .orderByAsc(Resource.LEVELS, Resource.NUM));
             // 查询资源关联的接口
-            resources.forEach(resource -> resource.setInterfaces(interfaceMapper.selectByResourceId(resource.getId())));
+            resources
+                    .forEach(resource -> resource.setInterfaces(interfaceMapper.selectByResourceId(resource.getId())));
             adminRole.setResources(resources);
         } else {
+            // 注意：建议控制只分配一个用户一个权限，不要做成一对多了
             res.getRoles().forEach(role -> {
                 val resources = resourceMapper.selectByRoleId(role.getId(), channel);
                 // 查询资源关联的接口
@@ -84,6 +90,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public Admin signInByUsernameOrPhoneNumb(String username, ChannelEnum channel) {
         val res = adminMapper.signInByUsernameOrPhoneNumb(username, channel);
         return handlerSignUser(username, channel, res);
+    }
+
+    @Override
+    public Admin signInByUsernameOrPhoneNumbSimple(ChannelEnum channel, String username) {
+        return adminMapper.signInByUsernameOrPhoneNumb(username, channel);
     }
 
     @Transactional(rollbackFor = Exception.class)

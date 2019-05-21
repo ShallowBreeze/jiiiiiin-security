@@ -1,14 +1,14 @@
 /**
  *
  */
-package cn.jiiiiiin.manager.component.authorize;
+package cn.jiiiiiin.zuul.component;
 
 import cn.jiiiiiin.security.rbac.component.dict.RbacDict;
 import cn.jiiiiiin.security.rbac.component.service.RBACService;
-import cn.jiiiiiin.user.vo.CommonUserDetails;
 import cn.jiiiiiin.user.entity.Interface;
 import cn.jiiiiiin.user.entity.Resource;
 import cn.jiiiiiin.user.entity.Role;
+import cn.jiiiiiin.user.vo.CommonUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import lombok.var;
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 @Component("rbacService")
-public class MngRBACServiceImpl implements RBACService {
+public class RBACServiceImpl implements RBACService {
 
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 

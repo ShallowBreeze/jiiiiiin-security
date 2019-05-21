@@ -21,15 +21,15 @@ public class ZuulAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
     @Override
     public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
-        config
+//        config
                 // TODO 待整合Swagger2到网关
                 // .antMatchers(Swagger2Config.AUTH_WHITELIST).permitAll()
 //                .anyRequest()
 //                // 自定义权限表达式
 //                .access("@rbacService.hasPermission(request, authentication)");
-                .anyRequest()
-                .authenticated();
-        return true;
+//                .anyRequest()
+//                .authenticated();
+        return false;
     }
 
 }

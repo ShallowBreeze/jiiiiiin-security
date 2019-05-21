@@ -2,6 +2,7 @@ package cn.jiiiiiin.auth.center.component.authentication;
 
 import cn.jiiiiiin.auth.center.exception.AuthCenterException;
 import cn.jiiiiiin.auth.center.exception.AuthCenterUsernameNotFoundException;
+import cn.jiiiiiin.mvc.common.utils.SpringMVC;
 import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
 import cn.jiiiiiin.user.client.RemoteUserService;
 import cn.jiiiiiin.user.vo.CommonUserDetails;
@@ -38,6 +39,7 @@ import java.util.HashSet;
 @AllArgsConstructor
 public class AuthCenterUserDetailsService implements UserDetailsService, SocialUserDetailsService {
 
+    private static final String CHANNEL = "channel";
     private final RemoteUserService remoteUserService;
 
     @Override
@@ -53,17 +55,15 @@ public class AuthCenterUserDetailsService implements UserDetailsService, SocialU
     }
 
     private SocialUserDetails _getUserDetails(String username) {
+        Integer channel = Integer.valueOf(SpringMVC.getRequest().getHeader(CHANNEL));
         // TODO 根据channel去获取登录用户的权限信息
         // TODO 改造思路，在前端传过来的`username`参数上拼接渠道标识符
-        ChannelEnum channelEnum = ChannelEnum.MNG;
         SocialUserDetails userDetails = null;
-        switch (channelEnum) {
-            case MNG:
-                userDetails = getChannelUserInfo(username);
-                break;
-            default:
-                // TODO 待测试
-                throw new AuthCenterException("不支持的渠道请求错误");
+        if (channel.equals(ChannelEnum.MNG.getValue())) {
+            userDetails = getChannelUserInfo(username);
+            // 注：添加新的渠道需要在这里进行配置
+        } else {
+            throw new AuthCenterException("不支持的渠道请求错误");
         }
         UserDetailsHolder.setContext(userDetails);
         return userDetails;
