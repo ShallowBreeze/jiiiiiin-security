@@ -140,6 +140,15 @@
 
 # 设计
 
+### 总体设计
+
+![](https://ws3.sinaimg.cn/large/006tKfTcgy1g0dsh2fztyj318q0lkaek.jpg)
+
+预期实践架构(来自[微服务架构实战160讲](https://time.geekbang.org/course/intro/84))
+
++ 目前为了快速实现应用，调用链监控采用的是Zipkin
++ 指标监控用的是Spring Boot Admin
+
 ### 安全设计
 
 ![js-oauth](https://ws1.sinaimg.cn/large/006tNc79gy1g38p0fwv1cj30tr0kp76m.jpg)
@@ -225,7 +234,7 @@
 
   
 
-+ 客户端应用，如前端内管应用 manager-app就会通过用户权限信息初始化[前端rbac模块]、缓存用户基础信息、缓存token信息（特别注意`cache_principal`）
++ 客户端应用，如前端内管应用 manager-app就会通过用户权限信息初始化[前端rbac模块](https://github.com/Jiiiiiin/vue-viewplus#特性)、缓存用户基础信息、缓存token信息（特别注意`cache_principal`）
 
 + 到此认证完成，客户端应用在请求其他服务，如用户服务的修改当前用户密码接口，那么就需要在请求头携带两个重要信息：`Authorization`和`cache_principal`
 
@@ -242,10 +251,6 @@
 + SpringCloud
 
 **近期维护：新增[feature/springcloud](https://github.com/Jiiiiiin/jiiiiiin-security/tree/feature/springcloud)分支，将会在该分支尝试spring-cloud探索，目前基于第一代spring-cloud基础组件，核心为Netfix套件，进行一个初探**
-
-![](https://ws3.sinaimg.cn/large/006tKfTcgy1g0dsh2fztyj318q0lkaek.jpg)
-
-预期实践架构(来自[微服务架构实战160讲](https://time.geekbang.org/course/intro/84))
 
 | 功能 | 完成状态 | 简介 |
 | ------ | ------ | ------ |
