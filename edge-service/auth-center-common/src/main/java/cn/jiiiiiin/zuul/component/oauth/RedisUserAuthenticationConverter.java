@@ -1,6 +1,6 @@
 package cn.jiiiiiin.zuul.component.oauth;
 
-import cn.jiiiiiin.mvc.common.utils.SpringMVC;
+import cn.jiiiiiin.mvc.common.utils.MVCUtil;
 import cn.jiiiiiin.user.entity.Admin;
 import cn.jiiiiiin.user.vo.CommonUserDetails;
 import lombok.AllArgsConstructor;
@@ -39,9 +39,9 @@ public class RedisUserAuthenticationConverter extends DefaultUserAuthenticationC
     @Override
     public Authentication extractAuthentication(Map<String, ?> map) {
         log.debug("extractAuthentication map: {}", map);
-        val req = SpringMVC.getRequest();
+        val req = MVCUtil.getRequest();
         if (req != null) {
-            val key = SpringMVC.getRequest().getHeader(CACHE_PRINCIPAL);
+            val key = MVCUtil.getRequest().getHeader(CACHE_PRINCIPAL);
             if (StringUtils.isNotEmpty(key)) {
                 Admin adminDto = (Admin) redisTemplate.opsForValue().get(key);
                 CommonUserDetails mngUserDetails = new CommonUserDetails(adminDto);

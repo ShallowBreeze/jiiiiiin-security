@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author zhailiang
  */
+@SuppressWarnings("ALL")
 @Slf4j
 @Component("rbacService")
 public class RBACServiceImpl implements RBACService {

@@ -28,7 +28,8 @@ const viewPlusOptions = {
   utilHttp: {
     baseURL: mixinConfig.serverUrl,
     headers: {
-      Accept: 'application/json'
+      Accept: 'application/json',
+      channel: '0'
     },
     // 适配后端`com.baomidou.mybatisplus.extension.api.R`接口
     msgKey: 'msg',
@@ -65,7 +66,7 @@ const viewPlusOptions = {
       return `${errMsg} [服务端]`;
     },
     onReqErrParseHttpStatusCode(status, response) {
-      console.log('onReqErrParseHttpStatusCode', status)
+      console.log('测试 onReqErrParseHttpStatusCode', status)
       let res = false;
       switch (status) {
         case 403:

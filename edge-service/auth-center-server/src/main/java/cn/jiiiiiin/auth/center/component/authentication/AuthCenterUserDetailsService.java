@@ -2,7 +2,7 @@ package cn.jiiiiiin.auth.center.component.authentication;
 
 import cn.jiiiiiin.auth.center.exception.AuthCenterException;
 import cn.jiiiiiin.auth.center.exception.AuthCenterUsernameNotFoundException;
-import cn.jiiiiiin.mvc.common.utils.SpringMVC;
+import cn.jiiiiiin.mvc.common.utils.MVCUtil;
 import cn.jiiiiiin.security.core.authentication.AuthenticationBeanConfig;
 import cn.jiiiiiin.user.client.RemoteUserService;
 import cn.jiiiiiin.user.vo.CommonUserDetails;
@@ -55,7 +55,7 @@ public class AuthCenterUserDetailsService implements UserDetailsService, SocialU
     }
 
     private SocialUserDetails _getUserDetails(String username) {
-        Integer channel = Integer.valueOf(SpringMVC.getRequest().getHeader(CHANNEL));
+        Integer channel = Integer.valueOf(MVCUtil.getRequest().getHeader(CHANNEL));
         // TODO 根据channel去获取登录用户的权限信息
         // TODO 改造思路，在前端传过来的`username`参数上拼接渠道标识符
         SocialUserDetails userDetails = null;

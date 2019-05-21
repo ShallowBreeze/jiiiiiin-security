@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author jiiiiiin
  */
-public class SpringMVC {
+public class MVCUtil {
 
     /**
      * 一般启动
